@@ -109,7 +109,7 @@
       height: window.innerWidth < 620 ? 480 : 540, showComposer: true,
       fishCount: 100, sharks: [{kind: 'hammerhead', size: 1}, {kind: 'classic', size: .8}],
       onSubmit: () => {
-        el('idea-feedback').textContent = '想法已留在本次演示中。试着继续想一想：谁会用它？怎样操作？做到什么就算成功？';
+        document.dispatchEvent(new Event('open-wecom-consultation'));
       },
     });
     const root = ocean.root;
@@ -118,7 +118,7 @@
     input.placeholder = '比如，做一个会游动的海洋世界…';
     input.setAttribute('aria-label', '写下你的作品想法');
     root.querySelector('.ao-send').setAttribute('aria-label', '发送作品想法');
-    root.querySelector('.ao-hint').textContent = '互动演示';
+    root.querySelector('.ao-hint').textContent = '发送后添加企微咨询';
     root.querySelector('.ao-history-wrap').hidden = true;
     root.querySelector('.ao-add').hidden = true;
     root.querySelector('.ao-voice').hidden = true;
@@ -126,13 +126,7 @@
     const style = document.createElement('style');
     style.textContent = '.ao-scene{--ao-bg:#f6f7fa}.ao-title{font-family:inherit;font-size:clamp(26px,4vw,42px)}.ao-composer{max-width:540px}.ao-form{background:#fffffff0}.ao-canvas{touch-action:pan-y}';
     root.append(style);
-    let paused = false;
-    el('ocean-pause').addEventListener('click', (event) => {
-      paused = !paused;
-      ocean.update({paused});
-      event.currentTarget.textContent = paused ? '播放动效' : '暂停动效';
-      event.currentTarget.setAttribute('aria-pressed', String(paused));
-    });
+
   }
 
   function initBrandIntro() {
@@ -321,6 +315,11 @@
       button.addEventListener('click', () => open(button.dataset.lightbox));
     });
     document.querySelector('[data-program="community"]')?.addEventListener('click', () => open('wecom', true));
+    document.addEventListener('open-wecom-consultation', () => {
+      open('wecom');
+      el('qr-lightbox-title').textContent = '添加企业微信，聊聊你的作品想法';
+      note.textContent = '长按保存或扫码添加，将你的想法发给老师，了解课程详情。';
+    });
     el('qr-close').addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) dialog.close();

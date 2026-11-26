@@ -60,3 +60,6 @@
 发布结果：远端main提交23ca66e04e946dff8f63decf83f6bad154973814，Pages第5次部署成功（42秒）。正式预览链接 https://swording-k.github.io/shaonian-makers-site/?v=23ca66e-final 。本地源码7560d04。仍保持远端生成HTML与本地源码历史独立，勿强推。
 
 2026-11-26 整站流转研究：用户要求当前正式版先这样，在分支先研究LeiBox、Dissolve及整站流转资源并沟通后再做UI。已从main e5092f9新建本地design/site-flow-research。新增docs/SITE-FLOW-RESEARCH.md，含资源取舍、课程与活动详情、图集、企微、外链返回和状态恢复路径、技术对照、内容字段及分期验收。真实浏览器读Dissolve主页和SweepTransition，区分Pro组件与免费目录。已读Swup官方Demo/滚动恢复/脚本重挂载，Barba hooks和Chrome跨文档View Transitions。建议首轮正常多页链接加原生共享封面过渡，保留Swup备选。尚未实现新UI或发布。本轮中途exec/browser断开，环境恢复后已完成本地文件保存。下一步按方案先做一条活动卡片→详情→放大照片→返回的完整样张。
+2026-11-26 正式版交互小修：按用户新要求切回main，移除鲨鱼场景右下角暂停按钮与其监听/CSS。保留组件原有键盘空格与减少动态支持。输入作品想法后发送，派发站内事件并复用现有企微二维码dialog，标题为「添加企业微信，聊聊你的作品想法」，提示加企微后把想法发给老师。现有下载/长按图片入口继续有效。输入文本没有发到后台或企业微信，界面明确引导添加后发送给老师。用户正在寻找首页背景参考，本轮先完成咨询闭环。构建、JS语法和diff检查通过。研究方案仍保存在design/site-flow-research分支。
+验证补记：实际浏览器390/1440输入并点击发送均打开企微dialog，关闭后再试可重复打开，右下角按钮不存在，无横向溢出；社群第三项的弹窗标题仍正确。远端main上传提交bcb311cdefff023863a532874b19613016e21847，等待Pages发布验证。
+发布确认：Pages run 45815324602 成功，43秒。公网 https://swording-k.github.io/shaonian-makers-site/?v=bcb311c 已实际输入并发送，确认企微咨询弹窗打开且暂停按钮已移除。

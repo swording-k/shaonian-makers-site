@@ -1366,7 +1366,6 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 .ocean-heading p { color:var(--muted); font-size:17px; line-height:1.8; }
 #idea-ocean { min-height:480px; overflow:hidden; border-radius:12px; }
 .ocean-bottom { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-top:16px; font-size:14px; color:var(--muted); }
-#ocean-pause { flex-shrink:0; font:inherit; color:var(--ink); background:transparent; border:1px solid #cbd0d9; padding:10px 16px; border-radius:30px; cursor:pointer; }
 #brand-intro { position:fixed; inset:0; z-index:1000; background:#123da6; }
 #brand-intro[hidden] { display:none; }
 #brand-intro-scene { position:absolute; inset:0; }
