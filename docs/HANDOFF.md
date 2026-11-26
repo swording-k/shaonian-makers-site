@@ -54,3 +54,6 @@
 发布补记：正式远端 main 提交 bd8bf41d85eb0235017d7a528b46cf24b007c850 已上传。Pages 公网已验证出现 qr-download，链接 https://swording-k.github.io/shaonian-makers-site/?v=bd8bf41b 。本地源码提交 c40ba8f，远端为生成页面，继续避免强推本地历史覆盖远端。
 
 2026-11-26 修复截图反馈：用户截图显示提出问题粒子区几乎空白，之前仅检查尺寸未覆盖真实呈现。已在本地main移除该组件挂载与加载，改用原生HTML的「我想做一个赛车游戏 → 谁来玩/怎么玩/怎样算赢 → 选好车手，跑完赛道，比一比谁更快」逐步显现动效，和中栏需求及右栏实际赛车图统一。同高240px视觉区与标题基线规则保留，静态/减少动态时全部信息可读。生成preview/index.html与site-demo.html，构建、JS语法和diff检查通过。尝试真实浏览器截图时工具返回 user rejected MCP tool call，未取得截图，未发布这次修复。下次先查看三栏截图和390/768/1440，再上传preview/index.html到远端main并确认公网。线上仍为bd8bf41，不能将本次修复说成已上线。
+
+2026-11-26 用户明确要求使用LeiBox完整鲨鱼场景取代原三栏，并加入输入框、蓝色棱纹开场。已下载实时库ascii-sharks与blue-fluted-glass的vanilla完整源码到site/components，保留内嵌MIT/OFL/ISC与参考声明。通过node:module.stripTypeScriptTypes生成原生IIFE bundle（node site/build-motion.mjs，需要支持该API的Node）；生成文件位于site/public/components。鲨鱼上游 https://github.com/stackedlol/ascii-sharks MIT；蓝色背景为LeiBox独立WebGL重建，原始设计授权未核实，来源 https://x.com/sashabirukoff/status/2113002960892649916/video/1 ，原站logo已移除换原波浪图片与少年创想家文字。未使用Deep Agent整套权限/模型选择控件，当前直接使用鲨鱼组件原生输入框，隐藏无后端用途的附件和语音，发送仅本页内存保存且有明确互动演示标注。
+本轮已用实际浏览器截图检查整个大场景，390/768/1440无横向溢出，测试输入发送反馈、暂停、1.4秒开场自动退场和品牌出现。首次开场同标签页会话只展示一次，减少动态偏好跳过。鲨鱼组件自动停止离屏动画。手机真机微信未验证。构建、JS语法和diff检查通过，准备上传preview/index.html至远端main。

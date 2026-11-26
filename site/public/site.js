@@ -102,41 +102,56 @@
     });
   }
 
-  /* A readable question becomes a brief before the agent starts. */
   function initCapabilityScenes() {
-    const question = el('cap-question-flow');
-    if (question && window.gsap && window.ScrollTrigger && !reduceMotion.matches) {
-      window.gsap.timeline({
-        repeat: -1, repeatDelay: 2,
-        scrollTrigger: {trigger: question, start: 'top bottom', end: 'bottom top',
-          toggleActions: 'play pause resume pause'},
-      })
-        .fromTo(question.querySelector('.question-seed'), {y: 8, opacity: .5},
-          {y: 0, opacity: 1, duration: .5})
-        .fromTo(question.querySelectorAll('.question-branches span'), {y: -6, opacity: .3},
-          {y: 0, opacity: 1, stagger: .3, duration: .4})
-        .fromTo(question.querySelector('.question-goal'), {y: 8, opacity: .35},
-          {y: 0, opacity: 1, duration: .6})
-        .to({}, {duration: 2});
-    }
-    const flow = el('agent-flow');
-    const { gsap, ScrollTrigger } = window;
-    if (flow && gsap && ScrollTrigger && !reduceMotion.matches) {
-      const steps = flow.querySelectorAll('.agent-steps span');
-      const result = flow.querySelector('.agent-result');
-      gsap.timeline({
-        repeat: -1, repeatDelay: 1.5,
-        scrollTrigger: {trigger: flow, start: 'top bottom', end: 'bottom top',
-          toggleActions: 'play pause resume pause'},
-      })
-        .fromTo(flow.querySelector('.agent-request'), {opacity: .45, y: 6},
-          {opacity: 1, y: 0, duration: .45})
-        .fromTo(steps, {opacity: .25, color: '#737987'},
-          {opacity: 1, color: '#2445a6', duration: .6, stagger: .75})
-        .fromTo(result, {opacity: 0, y: 5},
-          {opacity: 1, y: 0, duration: .45})
-        .to({}, {duration: 1.2});
-    }
+    const host = el('idea-ocean');
+    if (!host || !window.AsciiSharks) return;
+    const ocean = window.AsciiSharks.mount(host, {
+      height: window.innerWidth < 620 ? 480 : 540, showComposer: true,
+      fishCount: 100, sharks: [{kind: 'hammerhead', size: 1}, {kind: 'classic', size: .8}],
+      onSubmit: () => {
+        el('idea-feedback').textContent = '想法已留在本次演示中。试着继续想一想：谁会用它？怎样操作？做到什么就算成功？';
+      },
+    });
+    const root = ocean.root;
+    root.querySelector('.ao-title').textContent = '你想做出什么？';
+    const input = root.querySelector('.ao-input');
+    input.placeholder = '比如，做一个会游动的海洋世界…';
+    input.setAttribute('aria-label', '写下你的作品想法');
+    root.querySelector('.ao-send').setAttribute('aria-label', '发送作品想法');
+    root.querySelector('.ao-hint').textContent = '互动演示';
+    root.querySelector('.ao-history-wrap').hidden = true;
+    root.querySelector('.ao-add').hidden = true;
+    root.querySelector('.ao-voice').hidden = true;
+    root.querySelector('canvas').setAttribute('aria-label', '字符鲨鱼与鱼群。移动指针或轻点水面可与鱼群互动，空格暂停。');
+    const style = document.createElement('style');
+    style.textContent = '.ao-scene{--ao-bg:#f6f7fa}.ao-title{font-family:inherit;font-size:clamp(26px,4vw,42px)}.ao-composer{max-width:540px}.ao-form{background:#fffffff0}.ao-canvas{touch-action:pan-y}';
+    root.append(style);
+    let paused = false;
+    el('ocean-pause').addEventListener('click', (event) => {
+      paused = !paused;
+      ocean.update({paused});
+      event.currentTarget.textContent = paused ? '播放动效' : '暂停动效';
+      event.currentTarget.setAttribute('aria-pressed', String(paused));
+    });
+  }
+
+  function initBrandIntro() {
+    const intro = el('brand-intro');
+    let seen = false;
+    try { seen = sessionStorage.getItem('makers-intro') === 'seen'; } catch {}
+    if (!intro || seen || reduceMotion.matches || !window.BlueFlutedGlass) return;
+    intro.hidden = false;
+    const scene = window.BlueFlutedGlass.mount(el('brand-intro-scene'), {height: window.innerHeight});
+    scene.root.querySelector('.bfg-logo')?.remove();
+    let timer;
+    const close = () => {
+      clearTimeout(timer);
+      intro.hidden = true;
+      scene.destroy();
+      try { sessionStorage.setItem('makers-intro', 'seen'); } catch {}
+    };
+    el('intro-skip').addEventListener('click', close, {once: true});
+    timer = setTimeout(close, 1400);
   }
 
   /* Events: blog-style cards; the first camp links to its activity video. */
@@ -386,6 +401,7 @@
   initHeroCardSwap();
   initPrograms();
   initCapabilityScenes();
+  initBrandIntro();
   initIntro();
   initEventFilter();
   initQrLightbox();

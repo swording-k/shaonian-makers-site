@@ -1358,3 +1358,18 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 .question-branches::before { content:""; position:absolute; top:-14px; left:15%; right:15%; height:12px; border-top:1px solid #a9b7db; border-left:1px solid #a9b7db; border-right:1px solid #a9b7db; }
 .question-branches span { flex:1; text-align:center; padding:9px 2px; background:#e9eef9; color:#2445a6; border-radius:4px; }
 .question-goal { color:var(--ink); padding-left:12px; border-left:3px solid #2445a6; line-height:1.6; }
+
+
+.ocean-chapter { padding-block:80px; }
+.ocean-heading { display:flex; justify-content:space-between; align-items:end; gap:32px; margin-bottom:32px; }
+.ocean-heading h2 { font-size:clamp(30px,4.2vw,58px); line-height:1.25; letter-spacing:-.04em; }
+.ocean-heading p { color:var(--muted); font-size:17px; line-height:1.8; }
+#idea-ocean { min-height:480px; overflow:hidden; border-radius:12px; }
+.ocean-bottom { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-top:16px; font-size:14px; color:var(--muted); }
+#ocean-pause { flex-shrink:0; font:inherit; color:var(--ink); background:transparent; border:1px solid #cbd0d9; padding:10px 16px; border-radius:30px; cursor:pointer; }
+#brand-intro { position:fixed; inset:0; z-index:1000; background:#123da6; }
+#brand-intro[hidden] { display:none; }
+#brand-intro-scene { position:absolute; inset:0; }
+.intro-brand { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; gap:16px; color:white; font-size:clamp(30px,6vw,64px); font-weight:750; pointer-events:none; }
+#intro-skip { position:absolute; right:24px; bottom:24px; background:#ffffffdd; padding:12px 24px; border:0; border-radius:30px; color:#12346a; cursor:pointer; }
+@media(max-width:620px) { .ocean-heading{display:block}.ocean-heading p{margin-top:16px}.ocean-chapter{padding-block:48px}.ocean-bottom{align-items:start} }
