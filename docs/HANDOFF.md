@@ -49,3 +49,5 @@
 ## README 与公网版本核对
 
 仓库 API 再次确认 main 只有旧 index.html，尚无 README。已在本地新增 README.md，写清公司项目预览地址、账号根站与自定义域名绑定方式。尝试创建线上 README 返回 403 Resource not accessible by integration。当前 GitHub 连接器可读不可写，Magpie Browser 未连接。用户说已登录上传，但当前线上仓库内容尚无变化，应以实际构建和站点结果为准。
+
+2026-11-26 正式版小修：按用户要求暂停 design/motion-refinement，切回本地 main 的正式版源码。首页保持原 CardSwap 翻页。提出问题组件移除整套 1200px 演示界面的缩放布局，只将粒子画布以 240px（手机220px）居中展示。课程行改为按钮，其他课程暂不跳转，第三项打开原企微名片弹窗并说明了解和加入社群。企微/视频号原有弹窗共用下载按钮，允许图片原生长按与缩放。已在390/768/1440验证弹窗、无横向溢出和画布宽度；浏览器实际触发下载并确认文件名。手机Safari和微信长按保存菜单需真机验收。构建及JS语法检查通过。待将 preview/index.html 上传远端main并确认Pages。

@@ -1342,3 +1342,11 @@ h2,
   .cap-item { grid-template-rows: 210px auto 1fr; }
   .cap-visual, .cap-mount { height: 210px; }
 }
+
+/* Course rows are selectable controls; the community opens its contact image. */
+button.program-row { width:100%; border:0; background:transparent; font:inherit; text-align:left; cursor:pointer; }
+button.program-row:hover, button.program-row.is-active { background:var(--surface); }
+#qr-dialog { cursor:auto; overflow-y:auto; }
+#qr-lightbox-title { font-size:1.2rem; margin:0 0 12px; }
+#qr-dialog img { max-height:55dvh; touch-action:pan-x pan-y pinch-zoom; -webkit-touch-callout:default; user-select:auto; }
+#qr-download { margin:12px auto 0; min-height:44px; }

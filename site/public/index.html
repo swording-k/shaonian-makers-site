@@ -105,7 +105,7 @@
         <div class="program-list" id="program-list" data-ui>
           <span class="list-indicator" aria-hidden="true"></span>
 
-          <a class="program-row is-active" href="#events" data-program="day-camp">
+          <button type="button" class="program-row is-active" data-program="day-camp">
             <div class="row-main">
               <strong class="row-title">线下一日营</strong>
               <span class="row-desc">99 元体验课 · 用一天做出一个小作品</span>
@@ -114,9 +114,9 @@
               <span class="row-status">近期开营</span>
               <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-          </a>
+          </button>
 
-          <a class="program-row" href="#events" data-program="ai-course">
+          <button type="button" class="program-row" data-program="ai-course">
             <div class="row-main">
               <strong class="row-title">少年创想家·青少年AI实战成长营</strong>
               <span class="row-desc">课程设计敬请期待</span>
@@ -125,20 +125,20 @@
               <span class="row-status">筹备中</span>
               <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-          </a>
+          </button>
 
-          <a class="program-row" href="#contact" data-program="community">
+          <button type="button" class="program-row" data-program="community">
             <div class="row-main">
               <strong class="row-title">AI 高效育儿俱乐部·线上社群</strong>
-              <span class="row-desc">知识文档与课程分享 · 敬请期待</span>
+              <span class="row-desc">添加企业微信，了解并加入社群</span>
             </div>
             <span class="row-side">
               <span class="row-status">持续招募</span>
               <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-          </a>
+          </button>
 
-          <a class="program-row" href="#events" data-program="online-coaching">
+          <button type="button" class="program-row" data-program="online-coaching">
             <div class="row-main">
               <strong class="row-title">长期线上营</strong>
               <span class="row-desc">长期项目 · 敬请期待</span>
@@ -147,7 +147,7 @@
               <span class="row-status">待推进</span>
               <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-          </a>
+          </button>
         </div>
 
         <div class="program-stage" id="program-stage" data-ui>
@@ -294,8 +294,10 @@
 
   <dialog id="qr-dialog" aria-label="二维码大图">
     <button type="button" class="lightbox-close" id="qr-close" aria-label="关闭大图">关闭</button>
+    <h2 id="qr-lightbox-title">添加企业微信</h2>
     <img id="qr-lightbox-img" src="./assets/wecom-card.jpg" alt="二维码大图" width="471" height="1024">
-    <p class="lightbox-note" id="qr-lightbox-note">长按或使用微信扫一扫</p>
+    <p class="lightbox-note" id="qr-lightbox-note">长按图片保存到相册，或扫码添加</p>
+    <a id="qr-download" class="btn-primary" href="./assets/wecom-card.jpg" download="少年创想家-企业微信.jpg">下载二维码图片</a>
   </dialog>
 
 </body>

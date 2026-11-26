@@ -74,7 +74,7 @@
     window.addEventListener('resize', () => positionIndicator(rows.find((row) => row.classList.contains('is-active'))));
 
     rows.forEach((row) => {
-      row.addEventListener('pointerenter', () => {
+      const select = () => {
         const id = row.dataset.program;
         if (id === active) return;
         active = id;
@@ -95,7 +95,10 @@
             window.gsap.to(stage, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' });
           },
         });
-      });
+      };
+      row.addEventListener('pointerenter', select);
+      row.addEventListener('focus', select);
+      row.addEventListener('click', select);
     });
   }
 
@@ -106,6 +109,19 @@
     const controller = window[mount].mount(host, options);
     const body = controller.root.querySelector('.motion-body');
     if (body?.firstElementChild) body.firstElementChild.style.background = 'transparent';
+    if (hostId === 'cap-question-flow') {
+      const style = document.createElement('style');
+      style.textContent = `
+        .motion-frame { width:100%!important; height:240px!important; transform:none!important; overflow:hidden!important; }
+        .motion-body,.thinking-demo { width:100%!important; height:100%!important; min-height:0!important; padding:0!important; margin:0!important; transform:none!important; }
+        .thinking-demo > :not(.tp-process), .tp-thinking { display:none!important; }
+        .tp-process { position:relative!important; margin:0!important; width:100%!important; height:100%!important; min-height:0!important; max-height:none!important; opacity:1!important; }
+        .tp-visual { position:absolute!important; width:240px!important; height:228px!important; top:50%!important; left:50%!important; transform:translate(-50%,-50%)!important; }
+        .tp-canvas { width:240px!important; height:228px!important; }
+        @media(max-width:620px) { .motion-frame { height:210px!important; } .tp-visual,.tp-canvas {width:220px!important; height:208px!important;} }
+      `;
+      controller.root.append(style);
+    }
   }
 
   function initCapabilityScenes() {
@@ -282,17 +298,23 @@
       wecom: { note: '长按或使用微信扫一扫添加企业微信', alt: '少年创想家企业微信名片大图' },
       channels: { note: '长按或使用微信扫一扫关注视频号', alt: '老师视频号名片大图' },
     };
+    const open = (key, community = false) => {
+      const source = sources[key];
+      const thumbnail = document.querySelector('.qr-thumb[data-lightbox="' + key + '"] img');
+      if (!source || !thumbnail) return;
+      image.src = thumbnail.currentSrc || thumbnail.src;
+      image.alt = source.alt;
+      el('qr-lightbox-title').textContent = community
+        ? '添加企微，了解并加入社群' : key === 'wecom' ? '添加企业微信' : '关注视频号';
+      note.textContent = '长按图片可保存到相册或识别二维码；也可点击下方下载图片。';
+      el('qr-download').href = image.src;
+      el('qr-download').download = key === 'wecom' ? '少年创想家-企业微信.jpg' : '少年创想家-视频号.jpg';
+      dialog.showModal();
+    };
     document.querySelectorAll('.qr-thumb').forEach((button) => {
-      button.addEventListener('click', () => {
-        const source = sources[button.dataset.lightbox];
-        const thumbnail = button.querySelector('img');
-        if (!source || !thumbnail) return;
-        image.src = thumbnail.currentSrc || thumbnail.src;
-        image.alt = source.alt;
-        note.textContent = source.note;
-        dialog.showModal();
-      });
+      button.addEventListener('click', () => open(button.dataset.lightbox));
     });
+    document.querySelector('[data-program="community"]')?.addEventListener('click', () => open('wecom', true));
     el('qr-close').addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) dialog.close();
