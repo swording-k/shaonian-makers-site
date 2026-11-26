@@ -14,7 +14,7 @@
       try {
         const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const returning = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
-        if (!reduced && !returning && sessionStorage.getItem('makers-intro') !== 'seen') {
+        if (!reduced && !returning) {
           document.documentElement.classList.add('intro-pending');
           window.makersIntroFallback = setTimeout(() => {
             document.documentElement.classList.remove('intro-pending');
