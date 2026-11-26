@@ -1355,6 +1355,22 @@ h2,
   .cap-visual, .cap-mount { height: 210px; }
 }
 
+/* Motion exploration: the work surface has a quiet, spatial backdrop. */
+.hero-chapter { position: relative; isolation: isolate; overflow: clip; }
+.hero-chapter::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 45%;
+  z-index: -1;
+  opacity: .45;
+  background: radial-gradient(ellipse at 75% 40%, #dbe8ff 0, transparent 66%);
+  pointer-events: none;
+}
+.hero-stage { transform-origin: 50% 70%; }
+@media (prefers-reduced-motion: reduce) {
+  .ink-line { opacity: 1; }
+}
+
 </style>
   
   
@@ -2200,6 +2216,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.\r
     gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+      const hero = document.querySelector('.hero-chapter');
+      gsap.to('.hero-stage', {
+        y: -36, rotation: -1, ease: 'none',
+        scrollTrigger: {trigger: hero, start: 'top top', end: 'bottom top', scrub: .5},
+      });
+      const lines = document.querySelectorAll('.ink-line');
+      gsap.fromTo(lines, {opacity: .22, y: 12}, {
+        opacity: 1, y: 0, stagger: .32, ease: 'none',
+        scrollTrigger: {trigger: '#ink-statement', start: 'top 80%', end: 'bottom 45%', scrub: .35},
+      });
 
       const reveals = [
         ['.program-list .program-row', '.program-list', 0.06],
