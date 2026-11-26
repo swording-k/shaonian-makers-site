@@ -26,6 +26,6 @@ GitHub 依据访问的域名及仓库的 Custom domain 设置选择站点。CNAM
 
 main 分支根目录由 GitHub Pages 发布。开发源码在本地项目 site/public/。运行 node site/build-demo.mjs 后，使用 preview/index.html 更新本仓库的 index.html，并同步 event-demo.html 等所需页面。保留域名配置文件 CNAME。
 
-本次核对时线上仍是最初静态版，最新版三栏对齐、产品更名和动效尚待成功发布。GitHub 连接器写入曾返回 403，需要有仓库写入权限的授权或浏览器登录完成上传。
+2026-11-26 已通过浏览器上传新版首页、活动示例页和 README。主分支由 GitHub Pages 自动构建。design/motion-refinement 分支用于后续动效实验。
 
 正式活动数据与飞书的自动连接尚待部署和联调。
