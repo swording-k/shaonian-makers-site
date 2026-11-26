@@ -129,23 +129,86 @@
 
   }
 
-  function initBrandIntro() {
+  async function initBrandIntro() {
     const intro = el('brand-intro');
-    let seen = false;
-    try { seen = sessionStorage.getItem('makers-intro') === 'seen'; } catch {}
-    if (!intro || seen || reduceMotion.matches || !window.BlueFlutedGlass) return;
-    intro.hidden = false;
-    const scene = window.BlueFlutedGlass.mount(el('brand-intro-scene'), {height: window.innerHeight});
-    scene.root.querySelector('.bfg-logo')?.remove();
+    const page = document.documentElement;
+    if (!intro || !page.classList.contains('intro-pending')) return;
+    let scene;
+    let finished = false;
     let timer;
-    const close = () => {
+    const close = async () => {
+      if (finished) return;
+      finished = true;
       clearTimeout(timer);
+      clearTimeout(window.makersIntroFallback);
+      // Release the headline as the blue surface fades away.
+      page.classList.remove('intro-pending');
+      if (!reduceMotion.matches) {
+        await intro.animate([{opacity: 1}, {opacity: 0}], {
+          duration: 700, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards',
+        }).finished;
+      }
       intro.hidden = true;
-      scene.destroy();
+      scene?.destroy();
       try { sessionStorage.setItem('makers-intro', 'seen'); } catch {}
     };
+    intro.hidden = false;
     el('intro-skip').addEventListener('click', close, {once: true});
-    timer = setTimeout(close, 1400);
+    const onEscape = (event) => { if (event.key === 'Escape') close(); };
+    document.addEventListener('keydown', onEscape);
+    try {
+      if (window.BlueFlutedGlass) {
+        scene = window.BlueFlutedGlass.mount(el('brand-intro-scene'), {height: innerHeight});
+        scene.root.querySelector('.bfg-logo')?.remove();
+      }
+      const assets = [...document.querySelectorAll('.hero-stage img, .intro-brand img')];
+      const ready = Promise.allSettled([
+        document.fonts.ready, ...assets.map((img) => img.decode()),
+      ]);
+      // The timeout bounds waiting for unavailable images; it is not a loading claim.
+      await Promise.race([ready, new Promise(resolve => setTimeout(resolve, 1600))]);
+      if (!finished) timer = setTimeout(close, 900);
+    } catch { close(); }
+    setTimeout(() => document.removeEventListener('keydown', onEscape), 6000);
+  }
+
+  function initHeroWave() {
+    const canvas = el('hero-wave');
+    if (!canvas) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    let width = 0, height = 0, progress = 0;
+    const draw = () => {
+      context.clearRect(0, 0, width, height);
+      context.lineWidth = 1;
+      for (let line = 0; line < 16; line++) {
+        context.beginPath();
+        context.strokeStyle = 'rgba(36,69,166,' + (.045 + line * .002) + ')';
+        for (let x = 0; x <= width; x += 8) {
+          const y = height * .57 + Math.sin(x / (width * .25) + progress * 1.4 + line * .12) * height * .2 + line * 11;
+          if (x === 0) context.moveTo(x, y); else context.lineTo(x, y);
+        }
+        context.stroke();
+      }
+    };
+    const resize = () => {
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      const density = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = width * density;
+      canvas.height = height * density;
+      context.setTransform(density, 0, 0, density, 0, 0);
+      draw();
+    };
+    new ResizeObserver(resize).observe(canvas);
+    resize();
+    if (!reduceMotion.matches && window.gsap && window.ScrollTrigger) {
+      window.gsap.to({value: 0}, {
+        value: 1, ease: 'none',
+        onUpdate() { progress = this.targets()[0].value; draw(); },
+        scrollTrigger: {trigger: '.hero-chapter', start: 'top top', end: 'bottom top', scrub: .6},
+      });
+    }
   }
 
   /* Events: blog-style cards; the first camp links to its activity video. */
@@ -370,6 +433,15 @@
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
 
+      gsap.to('.hero-stage', {
+        y: -32, rotation: -1, ease: 'none',
+        scrollTrigger: {trigger: '.hero-chapter', start: 'top top', end: 'bottom top', scrub: .5},
+      });
+      gsap.fromTo('.ink-line', {opacity: .3, y: 10}, {
+        opacity: 1, y: 0, stagger: .22, ease: 'none',
+        scrollTrigger: {trigger: '.ink-statement', start: 'top 85%', end: 'bottom 55%', scrub: .4},
+      });
+
       const reveals = [
         ['.program-list .program-row', '.program-list', 0.06],
         ['.cap-item', '.capability-strip', 0.09],
@@ -387,21 +459,12 @@
     });
   }
 
-  function initIntro() {
-    const { gsap } = window;
-    if (!gsap || reduceMotion.matches) return;
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
-      gsap.from('.site-header', { y: -14, opacity: 0, duration: 0.55, ease: 'power2.out' });
-      gsap.from('.hero-english', { opacity: 0, y: 16, duration: 0.7, delay: 0.55, ease: 'power3.out', clearProps: 'all' });
-      gsap.from('.hero-stage', { opacity: 0, y: 30, rotate: 1.6, duration: 0.95, delay: 0.4, ease: 'power3.out', clearProps: 'all' });
-    });
-  }
 
   initHeroCardSwap();
   initPrograms();
   initCapabilityScenes();
   initBrandIntro();
-  initIntro();
+  initHeroWave();
   initEventFilter();
   initQrLightbox();
   initCopyButton();
