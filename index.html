@@ -1423,8 +1423,7 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 .hero-grid { min-height:400px; align-items:center; pointer-events:none; }
 .hero-copy,.hero-stage { pointer-events:auto; }
 .hero-copy { padding-block:18px; background:none; }
-.hero-title { font-size:clamp(52px,6vw,86px); text-shadow:0 0 18px rgba(247,250,255,.96), 0 1px 2px rgba(247,250,255,.92); }
-.hero-english, .hero-lead { text-shadow:0 0 14px rgba(247,250,255,.96), 0 1px 1px rgba(247,250,255,.9); }
+.hero-title { font-size:clamp(52px,6vw,86px); }
 .hero-lead { font-size:18px; max-width:33ch; }
 .hero-stage { background:radial-gradient(ellipse,#f7faffdc 20%,#f7faff00 70%); }
 .capability-chapter { padding-block:80px; }
@@ -1448,7 +1447,7 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 }
 
 .hero-sticky { position:relative; }
-.chapter-seam { height:132px; margin-bottom:-1px; color:#f4f7fd; pointer-events:none; filter:drop-shadow(0 -14px 18px rgba(37,99,235,.16)); }
+.chapter-seam { height:clamp(150px,14vw,220px); margin-bottom:-1px; color:#e7edfd; pointer-events:none; filter:drop-shadow(0 -18px 26px rgba(37,99,235,.24)); }
 .chapter-seam svg { display:block; width:100%; height:100%; }
 #seam-fill { fill:currentColor; }
 #seam-thread { fill:none; stroke:#1d4ed8; stroke-width:3; }
@@ -1537,9 +1536,9 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
     <!-- Manifesto: split statement -->
     <section class="manifesto-chapter" id="manifesto" aria-label="课程理念">
       <div class="chapter-seam" aria-hidden="true">
-        <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
-          <path id="seam-fill" d="M0.0 102.6L40.0 109.3L80.0 114.8L120.0 118.9L160.0 121.5L200.0 122.6L240.0 122.5L280.0 121.4L320.0 119.5L360.0 117.4L400.0 115.1L440.0 113.1L480.0 111.4L520.0 110.0L560.0 108.8L600.0 107.7L640.0 106.5L680.0 104.9L720.0 102.6L760.0 99.6L800.0 95.6L840.0 90.9L880.0 85.5L920.0 79.7L960.0 74.0L1000.0 68.7L1040.0 64.4L1080.0 61.4L1120.0 60.0L1160.0 60.5L1200.0 62.9L1240.0 67.1L1280.0 72.8L1320.0 79.7L1360.0 87.4L1400.0 95.2L1440.0 102.6 L1440 180 L0 180 Z"></path>
-          <path id="seam-thread" fill="none" d="M0.0 102.6L40.0 109.3L80.0 114.8L120.0 118.9L160.0 121.5L200.0 122.6L240.0 122.5L280.0 121.4L320.0 119.5L360.0 117.4L400.0 115.1L440.0 113.1L480.0 111.4L520.0 110.0L560.0 108.8L600.0 107.7L640.0 106.5L680.0 104.9L720.0 102.6L760.0 99.6L800.0 95.6L840.0 90.9L880.0 85.5L920.0 79.7L960.0 74.0L1000.0 68.7L1040.0 64.4L1080.0 61.4L1120.0 60.0L1160.0 60.5L1200.0 62.9L1240.0 67.1L1280.0 72.8L1320.0 79.7L1360.0 87.4L1400.0 95.2L1440.0 102.6"></path>
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none">
+          <path id="seam-fill" d="M0.0 110.0L40.0 118.8L80.0 125.4L120.0 129.3L160.0 130.4L200.0 129.0L240.0 125.7L280.0 121.0L320.0 115.8L360.0 110.6L400.0 106.0L440.0 102.5L480.0 100.4L520.0 99.7L560.0 100.5L600.0 102.7L640.0 106.0L680.0 110.0L720.0 110.0L760.0 106.4L800.0 101.9L840.0 96.8L880.0 91.5L920.0 86.5L960.0 82.3L1000.0 79.3L1040.0 77.8L1080.0 78.0L1120.0 79.9L1160.0 83.2L1200.0 87.6L1240.0 92.8L1280.0 98.5L1320.0 104.3L1360.0 110.0L1400.0 110.0L1440.0 110.0 L1440 220 L0 220 Z"></path>
+          <path id="seam-thread" fill="none" d="M0.0 110.0L40.0 118.8L80.0 125.4L120.0 129.3L160.0 130.4L200.0 129.0L240.0 125.7L280.0 121.0L320.0 115.8L360.0 110.6L400.0 106.0L440.0 102.5L480.0 100.4L520.0 99.7L560.0 100.5L600.0 102.7L640.0 106.0L680.0 110.0L720.0 110.0L760.0 106.4L800.0 101.9L840.0 96.8L880.0 91.5L920.0 86.5L960.0 82.3L1000.0 79.3L1040.0 77.8L1080.0 78.0L1120.0 79.9L1160.0 83.2L1200.0 87.6L1240.0 92.8L1280.0 98.5L1320.0 104.3L1360.0 110.0L1400.0 110.0L1440.0 110.0"></path>
         </svg>
       </div>
       <div class="manifesto-sheet">
@@ -19828,11 +19827,11 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-      const seamState = {amplitude: 28};
+      const seamState = {amplitude: 46};
       const drawSeam = (amplitude) => {
         const width = 1440;
-        const height = 180;
-        const mid = 96;
+        const height = 220;
+        const mid = 110;
         const steps = 36;
         let line = '';
         for (let step = 0; step <= steps; step += 1) {
@@ -19849,12 +19848,16 @@ svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
       };
       drawSeam(seamState.amplitude);
       gsap.to(seamState, {
-        amplitude: 72, ease: 'none', onUpdate: () => drawSeam(seamState.amplitude),
+        amplitude: 92, ease: 'none', onUpdate: () => drawSeam(seamState.amplitude),
         scrollTrigger: {trigger: '#manifesto', start: 'top bottom', end: 'top 42%', scrub: .45},
       });
-      gsap.fromTo('.manifesto-sheet', {y: 42}, {
+      gsap.fromTo('.manifesto-sheet', {y: 36}, {
         y: 0, ease: 'none',
-        scrollTrigger: {trigger: '#manifesto', start: 'top 92%', end: 'top 48%', scrub: .45},
+        scrollTrigger: {trigger: '#manifesto', start: 'top 96%', end: 'top 40%', scrub: .45},
+      });
+      gsap.to('.hero-grid', {
+        opacity: 0, y: -46, scale: .97, ease: 'none',
+        scrollTrigger: {trigger: '#manifesto', start: 'top 88%', end: 'top 42%', scrub: .45},
       });
       gsap.to('.hero-stage', {
         y: -32, rotation: -1, ease: 'none',
