@@ -422,11 +422,11 @@
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-      const seamState = {amplitude: 28};
+      const seamState = {amplitude: 46};
       const drawSeam = (amplitude) => {
         const width = 1440;
-        const height = 180;
-        const mid = 96;
+        const height = 220;
+        const mid = 110;
         const steps = 36;
         let line = '';
         for (let step = 0; step <= steps; step += 1) {
@@ -443,12 +443,16 @@
       };
       drawSeam(seamState.amplitude);
       gsap.to(seamState, {
-        amplitude: 72, ease: 'none', onUpdate: () => drawSeam(seamState.amplitude),
+        amplitude: 92, ease: 'none', onUpdate: () => drawSeam(seamState.amplitude),
         scrollTrigger: {trigger: '#manifesto', start: 'top bottom', end: 'top 42%', scrub: .45},
       });
-      gsap.fromTo('.manifesto-sheet', {y: 42}, {
+      gsap.fromTo('.manifesto-sheet', {y: 36}, {
         y: 0, ease: 'none',
-        scrollTrigger: {trigger: '#manifesto', start: 'top 92%', end: 'top 48%', scrub: .45},
+        scrollTrigger: {trigger: '#manifesto', start: 'top 96%', end: 'top 40%', scrub: .45},
+      });
+      gsap.to('.hero-grid', {
+        opacity: 0, y: -46, scale: .97, ease: 'none',
+        scrollTrigger: {trigger: '#manifesto', start: 'top 88%', end: 'top 42%', scrub: .45},
       });
       gsap.to('.hero-stage', {
         y: -32, rotation: -1, ease: 'none',
