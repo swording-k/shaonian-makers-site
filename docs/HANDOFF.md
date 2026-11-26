@@ -76,3 +76,11 @@ GitHub Pages 设置中已绑定 youngmakers.com.cn。腾讯云 DNSPod 为该域�
 已从LeiBox下载deep-agent-composer和reasoning-effort-slider实时vanilla包检查，原包依赖完整React生态，进一步下载库提供的独立HTML（自带全部依赖）。保存未改源码site/components/deep-agent/original-standalone.html，从共享原始renderer导出两个mount入口到一个本地bundle（保留所有原始声明），site/build-motion.mjs可重建。无外部CDN依赖。下方输入框发送给出需求细化提示，思考强度可拖动/键盘切换并更新解释，成果展示实际单词卡截图。隐藏不适用于官网的权限/附件/上下文控件。不是远程Agent执行。
 验证：390/768/1440无横向溢出，首屏发送打开企微，下方输入发送/slider End键均成功；桌面三栏标题基线一致。手机测得输入框y475，文案底445，作品y675，无重叠。实际截图看过桌面首屏和三栏、手机首屏；滑动后有浅波浪clip-path；重载+滚动无pageerror。构建、源码语法、生成bundle语法、diff检查通过。手机真机未验。开场交接沿用前轮分支修复。接下来上传该分支预览。
 分支发布确认：远端design/site-flow-research生成页面提交315a93e3c2ef5ab0037cf841405da7a19a495228。预览 https://raw.githack.com/swording-k/shaonian-makers-site/315a93e3c2ef5ab0037cf841405da7a19a495228/index.html ，首次可需点Open the page。本地源码98c3cc6。公网390宽实际测试发送打开企微、slider键盘Home更新解释、无横向溢出。
+
+## 2026-11-26 深夜：衔接动效与鲨鱼可见性
+
+用户反馈：首屏翻到理念段没有动效感、鲨鱼游到大字底下会消失、要求先推当前版再做修改、记录用过的动效库、作品图用卡丁车。
+- 先把上一轮未提交的正式版改动（hero sticky、波浪接缝、做出真作品换卡丁车图）提交 0b04e3c 推送 origin/source，并发布 Pages main（0e0d051）。
+- 随后修改：移除 hero-title/英文/lead 的白色 text-shadow 光晕（鲨鱼游到大字底下不再被遮没）；接缝加高到 clamp(150px,14vw,220px)、颜色改 #e7edfd 与理念段顶部渐变同色、SVG viewBox 改 1440x220；GSAP 驱动波浪振幅 46→92、理念段入场 y36、hero-grid 随覆盖淡出上移缩小（scrub .45）。动效库记录新建 docs/MOTION-LIBS.md。
+- 修改提交 aa52e0f 推送 origin/source，Pages 发布提交 67abd74。site-demo.html 与 preview/index.html 已重新生成，node --check 通过。本地无 playwright/puppeteer，本轮未做浏览器截图验证，390/768/1440 与真机待下次验证。
+- 待验证：Pages 构建结果与公网实际效果（衔接动效、鲨鱼可见性、横向溢出）。
