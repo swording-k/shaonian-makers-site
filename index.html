@@ -14,7 +14,7 @@
       try {
         const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const returning = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
-        if (!reduced && !returning && sessionStorage.getItem('makers-intro') !== 'seen') {
+        if (!reduced && !returning) {
           document.documentElement.classList.add('intro-pending');
           window.makersIntroFallback = setTimeout(() => {
             document.documentElement.classList.remove('intro-pending');
@@ -1457,6 +1457,7 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
   .hero-chapter { height:calc(100svh - 72px + 72vh); min-height:0; padding:0; overflow:visible; }
   .hero-sticky { position:sticky; top:72px; height:calc(100svh - 72px); overflow:hidden; padding:42px 0 24px; }
   .manifesto-chapter { margin-top:-72vh; }
+  .manifesto-sheet { min-height:72vh; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; }
 }
 
 </style>
