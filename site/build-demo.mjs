@@ -39,7 +39,7 @@ async function buildPage(sourceName, scriptPaths, outputs) {
 
 await buildPage(
   'index.html',
-  ['assets/gsap.min.js', 'assets/ScrollTrigger.min.js', 'components/card-swap/card-swap.min.js', 'components/thinking-particles/thinking-particles.min.js', 'site.js'],
+  ['assets/gsap.min.js', 'assets/ScrollTrigger.min.js', 'components/card-swap/card-swap.min.js', 'site.js'],
   ['../../preview/index.html', '../../site-demo.html'],
 );
 await buildPage(

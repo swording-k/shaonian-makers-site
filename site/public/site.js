@@ -102,32 +102,23 @@
     });
   }
 
-  /* Three illustrations with a reason to exist. */
-  function mountScene(hostId, mount, options) {
-    const host = el(hostId);
-    if (!host || !window[mount]?.mount) return;
-    const controller = window[mount].mount(host, options);
-    const body = controller.root.querySelector('.motion-body');
-    if (body?.firstElementChild) body.firstElementChild.style.background = 'transparent';
-    if (hostId === 'cap-question-flow') {
-      const style = document.createElement('style');
-      style.textContent = `
-        .motion-frame { width:100%!important; height:240px!important; transform:none!important; overflow:hidden!important; }
-        .motion-body,.thinking-demo { width:100%!important; height:100%!important; min-height:0!important; padding:0!important; margin:0!important; transform:none!important; }
-        .thinking-demo > :not(.tp-process), .tp-thinking { display:none!important; }
-        .tp-process { position:relative!important; margin:0!important; width:100%!important; height:100%!important; min-height:0!important; max-height:none!important; opacity:1!important; }
-        .tp-visual { position:absolute!important; width:240px!important; height:228px!important; top:50%!important; left:50%!important; transform:translate(-50%,-50%)!important; }
-        .tp-canvas { width:240px!important; height:228px!important; }
-        @media(max-width:620px) { .motion-frame { height:210px!important; } .tp-visual,.tp-canvas {width:220px!important; height:208px!important;} }
-      `;
-      controller.root.append(style);
-    }
-  }
-
+  /* A readable question becomes a brief before the agent starts. */
   function initCapabilityScenes() {
-    // 提出真问题：思考步骤粒子，想法在思考中聚拢成形。
-    mountScene('cap-question-flow', 'ThinkingParticles', { height: 240 });
-    // 指挥智能体：真实的状态粒子球，跟随指针变化。
+    const question = el('cap-question-flow');
+    if (question && window.gsap && window.ScrollTrigger && !reduceMotion.matches) {
+      window.gsap.timeline({
+        repeat: -1, repeatDelay: 2,
+        scrollTrigger: {trigger: question, start: 'top bottom', end: 'bottom top',
+          toggleActions: 'play pause resume pause'},
+      })
+        .fromTo(question.querySelector('.question-seed'), {y: 8, opacity: .5},
+          {y: 0, opacity: 1, duration: .5})
+        .fromTo(question.querySelectorAll('.question-branches span'), {y: -6, opacity: .3},
+          {y: 0, opacity: 1, stagger: .3, duration: .4})
+        .fromTo(question.querySelector('.question-goal'), {y: 8, opacity: .35},
+          {y: 0, opacity: 1, duration: .6})
+        .to({}, {duration: 2});
+    }
     const flow = el('agent-flow');
     const { gsap, ScrollTrigger } = window;
     if (flow && gsap && ScrollTrigger && !reduceMotion.matches) {

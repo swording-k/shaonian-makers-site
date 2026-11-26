@@ -1350,3 +1350,11 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 #qr-lightbox-title { font-size:1.2rem; margin:0 0 12px; }
 #qr-dialog img { max-height:55dvh; touch-action:pan-x pan-y pinch-zoom; -webkit-touch-callout:default; user-select:auto; }
 #qr-download { margin:12px auto 0; min-height:44px; }
+
+/* The full brief occupies the same 240px illustration stage as its neighbours. */
+.question-flow { width:100%; max-width:360px; display:grid; gap:28px; padding:12px 8px; font-size:14px; }
+.question-seed { color:var(--ink); font-weight:650; }
+.question-branches { display:flex; justify-content:space-between; gap:10px; position:relative; }
+.question-branches::before { content:""; position:absolute; top:-14px; left:15%; right:15%; height:12px; border-top:1px solid #a9b7db; border-left:1px solid #a9b7db; border-right:1px solid #a9b7db; }
+.question-branches span { flex:1; text-align:center; padding:9px 2px; background:#e9eef9; color:#2445a6; border-radius:4px; }
+.question-goal { color:var(--ink); padding-left:12px; border-left:3px solid #2445a6; line-height:1.6; }

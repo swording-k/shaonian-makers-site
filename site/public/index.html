@@ -13,7 +13,6 @@
   <script defer src="./assets/gsap.min.js"></script>
   <script defer src="./assets/ScrollTrigger.min.js"></script>
   <script defer src="./components/card-swap/card-swap.min.js"></script>
-  <script defer src="./components/thinking-particles/thinking-particles.min.js"></script>
   <script defer src="./site.js"></script>
 </head>
 <body>
@@ -164,7 +163,11 @@
         <div class="capability-strip">
           <div class="cap-item">
             <div class="cap-visual" data-ui aria-hidden="true">
-              <div class="cap-mount" id="cap-question-flow"></div>
+              <div class="question-flow" id="cap-question-flow">
+                <span class="question-seed">“我想做一个赛车游戏”</span>
+                <div class="question-branches"><span>谁来玩？</span><span>怎么玩？</span><span>怎样算赢？</span></div>
+                <div class="question-goal">选好车手，跑完赛道，比一比谁更快。</div>
+              </div>
             </div>
             <h3>提出真问题</h3>
             <p>从孩子自己的好奇心出发，学会把模糊念头拆成清晰目标。</p>
@@ -173,7 +176,7 @@
           <div class="cap-item">
             <div class="cap-visual" data-ui aria-hidden="true">
               <div class="agent-flow" id="agent-flow">
-                <span class="agent-request">“做一个帮我记单词的小工具”</span>
+                <span class="agent-request">“让玩家选车手，再开始比赛”</span>
                 <div class="agent-steps"><span>拆解要求</span><span>生成代码</span><span>运行检查</span></div>
                 <div class="agent-result"><span class="agent-status">按要求逐步执行</span><span class="agent-cursor" aria-hidden="true"></span></div>
               </div>
