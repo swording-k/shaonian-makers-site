@@ -58,3 +58,5 @@
 2026-11-26 用户明确要求使用LeiBox完整鲨鱼场景取代原三栏，并加入输入框、蓝色棱纹开场。已下载实时库ascii-sharks与blue-fluted-glass的vanilla完整源码到site/components，保留内嵌MIT/OFL/ISC与参考声明。通过node:module.stripTypeScriptTypes生成原生IIFE bundle（node site/build-motion.mjs，需要支持该API的Node）；生成文件位于site/public/components。鲨鱼上游 https://github.com/stackedlol/ascii-sharks MIT；蓝色背景为LeiBox独立WebGL重建，原始设计授权未核实，来源 https://x.com/sashabirukoff/status/2113002960892649916/video/1 ，原站logo已移除换原波浪图片与少年创想家文字。未使用Deep Agent整套权限/模型选择控件，当前直接使用鲨鱼组件原生输入框，隐藏无后端用途的附件和语音，发送仅本页内存保存且有明确互动演示标注。
 本轮已用实际浏览器截图检查整个大场景，390/768/1440无横向溢出，测试输入发送反馈、暂停、1.4秒开场自动退场和品牌出现。首次开场同标签页会话只展示一次，减少动态偏好跳过。鲨鱼组件自动停止离屏动画。手机真机微信未验证。构建、JS语法和diff检查通过，准备上传preview/index.html至远端main。
 发布结果：远端main提交23ca66e04e946dff8f63decf83f6bad154973814，Pages第5次部署成功（42秒）。正式预览链接 https://swording-k.github.io/shaonian-makers-site/?v=23ca66e-final 。本地源码7560d04。仍保持远端生成HTML与本地源码历史独立，勿强推。
+
+2026-11-26 正式版交互小修：按用户新要求切回main，移除鲨鱼场景右下角暂停按钮与其监听/CSS。保留组件原有键盘空格与减少动态支持。输入作品想法后发送，派发站内事件并复用现有企微二维码dialog，标题为「添加企业微信，聊聊你的作品想法」，提示加企微后把想法发给老师。现有下载/长按图片入口继续有效。输入文本没有发到后台或企业微信，界面明确引导添加后发送给老师。用户正在寻找首页背景参考，本轮先完成咨询闭环。构建、JS语法和diff检查通过。研究方案仍保存在design/site-flow-research分支。
