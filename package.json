@@ -1,0 +1,6 @@
+{
+  "name": "shaonian-makers-site",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node site/build.mjs" }
+}

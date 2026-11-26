@@ -1,0 +1,6 @@
+.DS_Store
+dist/
+site-demo.html
+.env
+.env.*
+!.env.example

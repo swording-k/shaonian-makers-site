@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="少年创想家，面向青少年的 AI 智能体实践课程。">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f7f8fa">
+  <title>少年创想家｜把点子做出来</title>
+  <link rel="icon" href="./assets/brand-wave.png">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="./site.css">
+  <script defer src="./assets/gsap.min.js"></script>
+  <script defer src="./assets/ScrollTrigger.min.js"></script>
+  <script defer src="./components/card-swap/card-swap.min.js"></script>
+  <script defer src="./components/thinking-particles/thinking-particles.min.js"></script>
+  <script defer src="./site.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到内容</a>
+
+  <header class="site-header" id="site-header">
+    <div class="header-inner frame">
+      <a class="brand" href="#top"><img class="brand-mark" src="./assets/brand-wave.png" width="26" height="25" alt="">少年创想家</a>
+      <nav class="main-nav" aria-label="主导航">
+        <a href="#top" aria-current="location">首页</a>
+        <a href="#programs">课程</a>
+        <a href="#events">活动与作品</a>
+        <a href="#contact">联系与合作</a>
+      </nav>
+      <a class="header-cta" href="#programs">
+        <span>了解课程</span>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    <div class="scroll-progress" aria-hidden="true"><span id="scroll-bar"></span></div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: big type + live wall -->
+    <section class="hero-chapter" id="top" aria-labelledby="hero-title">
+      <div class="hero-grid frame">
+        <div class="hero-copy">
+          <h1 id="hero-title" class="hero-title lines">
+            <span class="line"><span data-line style="--i:0">把点子，</span></span>
+            <span class="line"><span data-line style="--i:1">做出来<span class="accent-dot">。</span></span></span>
+          </h1>
+          <p class="hero-english" lang="en" data-load style="--d:180ms">Make something real.</p>
+          <p class="hero-lead" data-load style="--d:260ms">
+            少年创想家 · 面向青少年的 AI 智能体实践课。孩子自己提出想法，指挥智能体协作，亲手做出能运行、能演示的数字作品。
+          </p>
+          <div class="hero-actions" data-load style="--d:420ms">
+            <a class="btn-primary" href="#programs">
+              <span>了解课程</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 3V13M8 13L4 9M8 13L12 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a class="btn-link" href="#events">
+              <span>查看活动安排</span>
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-stage" data-load style="--d:340ms" data-ui>
+          <div class="hero-card-swap" id="hero-card-swap" aria-label="学员作品示意，可点击或拖动切换">
+            <figure class="hero-photo">
+              <img src="./assets/kart-hero.jpg" width="1280" height="853" alt="像素迷宫数字作品示意图" fetchpriority="high">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manifesto: split statement -->
+    <section class="manifesto-chapter" id="manifesto" aria-label="课程理念">
+      <div class="frame manifesto-inner">
+        <div class="split-object-row" aria-hidden="false">
+          <span class="split-word split-left">把想法</span>
+          <span class="split-dot" aria-hidden="true"></span>
+          <span class="split-word split-right">做成真的</span>
+        </div>
+        <div class="ink-statement" id="ink-statement">
+          <p class="ink-line">不背概念，不套模板。</p>
+          <p class="ink-line">从孩子自己的一个好奇心出发，</p>
+          <p class="ink-line">经历拆解、协作、调试与演示，</p>
+          <p class="ink-line">把脑海里的点子变成真正能跑起来的作品。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs: index list + detail card -->
+    <section class="programs-chapter" id="programs" aria-labelledby="program-title">
+      <div class="frame">
+        <div class="section-head">
+          <h2 id="program-title">我们的课程</h2>
+          <p class="section-lead">从一次线下体验，到一个长期陪伴的社群。课程排期以各期招募为准。</p>
+        </div>
+
+        <div class="program-list" id="program-list" data-ui>
+          <span class="list-indicator" aria-hidden="true"></span>
+
+          <a class="program-row is-active" href="#events" data-program="day-camp">
+            <div class="row-main">
+              <strong class="row-title">线下一日营</strong>
+              <span class="row-desc">99 元体验课 · 用一天做出一个小作品</span>
+            </div>
+            <span class="row-side">
+              <span class="row-status">近期开营</span>
+              <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+
+          <a class="program-row" href="#events" data-program="ai-course">
+            <div class="row-main">
+              <strong class="row-title">少年创想家·青少年AI实战成长营</strong>
+              <span class="row-desc">课程设计敬请期待</span>
+            </div>
+            <span class="row-side">
+              <span class="row-status">筹备中</span>
+              <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+
+          <a class="program-row" href="#contact" data-program="community">
+            <div class="row-main">
+              <strong class="row-title">AI 高效育儿俱乐部·线上社群</strong>
+              <span class="row-desc">知识文档与课程分享 · 敬请期待</span>
+            </div>
+            <span class="row-side">
+              <span class="row-status">持续招募</span>
+              <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+
+          <a class="program-row" href="#events" data-program="online-coaching">
+            <div class="row-main">
+              <strong class="row-title">长期线上营</strong>
+              <span class="row-desc">长期项目 · 敬请期待</span>
+            </div>
+            <span class="row-side">
+              <span class="row-status">待推进</span>
+              <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="program-stage" id="program-stage" data-ui>
+          <h3 class="stage-heading" id="stage-heading">99 元体验课，用一天做出一个小作品。</h3>
+          <p class="stage-copy" id="stage-copy">孩子从自己的点子出发，把要求讲给智能体，再亲手检验做出来的效果。</p>
+          <p class="stage-note" id="stage-note">具体排期与报名链接即将公布。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capability: three purpose-built motion illustrations -->
+    <section class="capability-chapter" aria-label="孩子在这里学到什么">
+      <div class="frame">
+        <div class="capability-strip">
+          <div class="cap-item">
+            <div class="cap-visual" data-ui aria-hidden="true">
+              <div class="cap-mount" id="cap-question-flow"></div>
+            </div>
+            <h3>提出真问题</h3>
+            <p>从孩子自己的好奇心出发，学会把模糊念头拆成清晰目标。</p>
+          </div>
+
+          <div class="cap-item">
+            <div class="cap-visual" data-ui aria-hidden="true">
+              <div class="agent-flow" id="agent-flow">
+                <span class="agent-request">“做一个帮我记单词的小工具”</span>
+                <div class="agent-steps"><span>拆解要求</span><span>生成代码</span><span>运行检查</span></div>
+                <div class="agent-result"><span class="agent-status">按要求逐步执行</span><span class="agent-cursor" aria-hidden="true"></span></div>
+              </div>
+            </div>
+            <h3>指挥智能体</h3>
+            <p>把要求讲给 AI 智能体，观察结果、发现偏差并亲手修正。</p>
+          </div>
+
+          <div class="cap-item">
+            <div class="cap-visual cap-play">
+              <img src="./assets/work-racer.jpg" width="1024" height="560" alt="学生第一次学习时制作的赛车选择游戏画面" loading="lazy">
+            </div>
+            <h3>做出真作品</h3>
+            <p>不止停留在对话里，而是做出能运行、能给同伴试玩的成品。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events & works -->
+    <section class="events-chapter" id="events" aria-labelledby="event-title">
+      <div class="frame">
+        <div class="events-header">
+          <div>
+            <h2 id="event-title">活动与作品</h2>
+            <p id="event-source" class="event-source" aria-live="polite">活动表正在接入，近期安排以正式发布为准。</p>
+          </div>
+          <div class="event-filter" role="tablist" aria-label="活动筛选" data-ui>
+            <span class="filter-pill" aria-hidden="true"></span>
+            <button type="button" class="filter-btn is-active" role="tab" aria-selected="true" data-filter="all">全部</button>
+            <button type="button" class="filter-btn" role="tab" aria-selected="false" data-filter="upcoming">近期活动</button>
+            <button type="button" class="filter-btn" role="tab" aria-selected="false" data-filter="past">往期回顾</button>
+          </div>
+        </div>
+
+        <div class="event-groups" id="event-groups">
+          <div class="event-column" data-group="upcoming">
+            <div class="column-head">
+              <h3>近期活动</h3>
+              <span class="column-note">开营排期与报名入口</span>
+            </div>
+            <div id="upcoming" class="event-list"></div>
+          </div>
+
+          <div class="event-column" data-group="past">
+            <div class="column-head">
+              <h3>往期回顾</h3>
+              <span class="column-note">现场记录与学员作品</span>
+            </div>
+            <div id="past" class="event-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-chapter" id="contact" aria-labelledby="contact-title">
+      <div class="frame">
+        <div class="contact-top">
+          <h2 id="contact-title">联系与合作</h2>
+          <button type="button" class="copy-pill" id="copy-link-btn" data-ui>
+            <span class="copy-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.8" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M10.5 5.5V3.8C10.5 3.08 9.92 2.5 9.2 2.5H3.8C3.08 2.5 2.5 3.08 2.5 3.8V9.2C2.5 9.92 3.08 10.5 3.8 10.5H5.5" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span class="copy-label">复制本页链接</span>
+          </button>
+        </div>
+
+        <div class="contact-options">
+          <div class="contact-card">
+            <h3>课程咨询</h3>
+            <p>了解课程安排、适合的年龄和报名方式。</p>
+          </div>
+        </div>
+
+        <div class="qr-row">
+          <div class="qr-card" data-ui>
+            <button type="button" class="qr-thumb" data-lightbox="wecom" aria-haspopup="dialog" aria-label="点击放大企业微信二维码">
+              <img src="./assets/wecom-card.jpg" width="236" height="512" alt="少年创想家企业微信名片，含二维码，点击放大" loading="lazy">
+              <span class="qr-hint">点击放大扫码</span>
+            </button>
+            <div class="qr-copy">
+              <h3>企业微信</h3>
+              <p>扫码添加团队，咨询课程与报名。</p>
+            </div>
+          </div>
+
+          <div class="qr-card" data-ui>
+            <button type="button" class="qr-thumb" data-lightbox="channels" aria-haspopup="dialog" aria-label="点击放大视频号二维码">
+              <img src="./assets/shipinhao-card.jpg" width="358" height="480" alt="老师视频号名片，含二维码，点击放大" loading="lazy">
+              <span class="qr-hint">点击放大扫码</span>
+            </button>
+            <div class="qr-copy">
+              <h3>老师视频号</h3>
+              <p>扫码关注，看课程与活动动态。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="frame footer-inner">
+      <a class="brand" href="#top"><img class="brand-mark" src="./assets/brand-wave.png" width="24" height="23" alt="">少年创想家</a>
+      <span class="footer-note">青少年 AI 智能体实践课程</span>
+      <a class="back-top" href="#top">
+        <span>回到顶部</span>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <dialog id="qr-dialog" aria-label="二维码大图">
+    <button type="button" class="lightbox-close" id="qr-close" aria-label="关闭大图">关闭</button>
+    <img id="qr-lightbox-img" src="./assets/wecom-card.jpg" alt="二维码大图" width="471" height="1024">
+    <p class="lightbox-note" id="qr-lightbox-note">长按或使用微信扫一扫</p>
+  </dialog>
+
+</body>
+</html>
