@@ -70,3 +70,4 @@ GitHub Pages 设置中已绑定 youngmakers.com.cn。腾讯云 DNSPod 为该域�
 
 2026-11-26 实验分支首屏衔接：已在design/site-flow-research合并当前main，手工保留双方HANDOFF及其他会话新增域名记录。真实浏览器打开Codrops SeamTransitions并滚动截图，查看Swup Reveal演示。参考其遮罩与章节衔接，未复制源码或素材。修复开场闪现原因：此前defer运行后才展示蓝层、1400ms直接hidden且首页入场已提前结束。现head首帧决定intro-pending，CSS暂停首页入场，等首屏图像decode/字体（最多等待1.6秒）及短驻留后，用700ms透明度过渡交接，结束才销毁WebGL。加入6秒启动失败回退、Esc/跳过、会话跳过与减少动态跳过。删除和CSS重复的GSAP首页入场。新增原生canvas品牌波浪线背景（随滚动缓动）、作品轻视差、理念文字逐行加深。首屏作品仍保留CardSwap。
 实际检查：1440截图查看首屏；启动时间样本76/578ms开场不透明且标题paused，1233ms开场透明度0.157且标题running，1941ms隐藏；390/768跳过、会话刷新、减少动态通过，无横向溢出。新页初始等待、缺图兜底及返回需公网分支再测，手机真机未验。本轮只在实验分支，正式页未发布这些改动。
+分支预览已上传：远端design/site-flow-research提交ae74e180799d1e83fc6583cb3ae9a48a9dceda15（index.html生成文件）。预览 https://raw.githack.com/swording-k/shaonian-makers-site/ae74e180799d1e83fc6583cb3ae9a48a9dceda15/index.html 。首次可能出现Open the page中转提示。正式域名不变。远端和本地历史仍不同，勿强推。 
