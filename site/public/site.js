@@ -124,7 +124,7 @@
     root.querySelector('.ao-voice').hidden = true;
     root.querySelector('canvas').setAttribute('aria-label', '字符鲨鱼与鱼群。移动指针或轻点水面可与鱼群互动，空格暂停。');
     const style = document.createElement('style');
-    style.textContent = '.ao-scene{--ao-bg:#f7faff}.ao-title{font-family:inherit;font-size:clamp(23px,3vw,32px);margin-bottom:14px}.ao-composer{top:65%;bottom:auto;transform:translateX(-50%);width:calc(100% - 40px);max-width:580px}.ao-history-wrap{display:none!important}@media(max-width:960px){.ao-composer{top:var(--composer-mobile-top,420px);bottom:auto}}.ao-form{background:#ffffffed}.ao-canvas{touch-action:pan-y}.ao-haze{inset:30% 0 0;pointer-events:none}';
+    style.textContent = '.ao-scene{--ao-bg:#f7faff}.ao-title{font-family:inherit;font-size:clamp(23px,3vw,32px);margin-bottom:14px}.ao-composer{top:65%;bottom:auto;transform:translateX(-50%);width:calc(100% - 40px);max-width:580px}.ao-history-wrap{display:none!important}@media(max-width:960px){.ao-composer{top:var(--composer-mobile-top,420px);bottom:auto}}.ao-form{background:#ffffffed}.ao-canvas{touch-action:pan-y}.ao-haze{display:none!important}';
     root.append(style);
     const updateOceanLayout = () => {
       const copy = document.querySelector('.hero-copy');
@@ -422,19 +422,33 @@
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-      const hero = el('top');
-      gsap.to({value: 0}, {
-        value: 1, ease: 'none',
-        onUpdate() {
-          const fold = this.targets()[0].value;
-          const points = ['0% 0%', '100% 0%'];
-          for (let step = 40; step >= 0; step--) {
-            const x = step / 40;
-            points.push((x * 100) + '% ' + (100 - fold * (2.5 + Math.sin(x * Math.PI * 2) * 2.5)) + '%');
-          }
-          hero.style.clipPath = 'polygon(' + points.join(',') + ')';
-        },
-        scrollTrigger: {trigger: hero, start: 'bottom bottom', end: 'bottom top', scrub: .5},
+      const seamState = {amplitude: 28};
+      const drawSeam = (amplitude) => {
+        const width = 1440;
+        const height = 180;
+        const mid = 96;
+        const steps = 36;
+        let line = '';
+        for (let step = 0; step <= steps; step += 1) {
+          const progress = step / steps;
+          const x = progress * width;
+          const wave = Math.sin(progress * Math.PI * 2) * amplitude + Math.sin(progress * Math.PI * 4 + 0.8) * amplitude * 0.33;
+          line += (step ? 'L' : 'M') + x.toFixed(1) + ' ' + (mid + wave).toFixed(1);
+        }
+        const fill = el('seam-fill');
+        const thread = el('seam-thread');
+        if (!fill || !thread) return;
+        fill.setAttribute('d', line + ' L' + width + ' ' + height + ' L0 ' + height + ' Z');
+        thread.setAttribute('d', line);
+      };
+      drawSeam(seamState.amplitude);
+      gsap.to(seamState, {
+        amplitude: 72, ease: 'none', onUpdate: () => drawSeam(seamState.amplitude),
+        scrollTrigger: {trigger: '#manifesto', start: 'top bottom', end: 'top 42%', scrub: .45},
+      });
+      gsap.fromTo('.manifesto-sheet', {y: 42}, {
+        y: 0, ease: 'none',
+        scrollTrigger: {trigger: '#manifesto', start: 'top 92%', end: 'top 48%', scrub: .45},
       });
       gsap.to('.hero-stage', {
         y: -32, rotation: -1, ease: 'none',
