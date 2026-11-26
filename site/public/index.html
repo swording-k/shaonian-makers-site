@@ -35,6 +35,7 @@
   <script defer src="./components/card-swap/card-swap.min.js"></script>
   <script defer src="./components/ascii-sharks/bundle.js"></script>
   <script defer src="./components/blue-glass/bundle.js"></script>
+  <script defer src="./components/deep-agent/bundle.js"></script>
   <script defer src="./site.js"></script>
 </head>
 <body>
@@ -63,7 +64,7 @@
   <main id="main">
     <!-- Hero: big type + live wall -->
     <section class="hero-chapter" id="top" aria-labelledby="hero-title">
-      <canvas id="hero-wave" aria-hidden="true"></canvas>
+      <div id="idea-ocean" aria-label="可互动的字符鲨鱼海洋"></div>
       <div class="hero-grid frame">
         <div class="hero-copy">
           <h1 id="hero-title" class="hero-title lines">
@@ -181,14 +182,26 @@
       </div>
     </section>
 
-    <section class="capability-chapter ocean-chapter" aria-labelledby="ocean-title">
-      <div class="frame">
-        <div class="ocean-heading">
-          <h2 id="ocean-title">提出真问题，指挥智能体<br>做出真作品。</h2>
-          <p>从一个好奇心开始，让想法动起来。<br>像这片由代码构成的海洋。</p>
+    <section class="capability-chapter" aria-label="从想法到作品的三个步骤">
+      <div class="frame capability-strip">
+        <div class="cap-item">
+          <div class="cap-visual"><div class="cap-mount" id="cap-composer"></div></div>
+          <h3>提出真问题</h3>
+          <p>从孩子自己的好奇心出发，学会把模糊念头拆成清晰目标。</p>
+          <p class="cap-feedback" id="cap-feedback" role="status">交互示例 · 试着写下你想做的小工具。</p>
         </div>
-        <div id="idea-ocean" aria-label="可互动的字符鲨鱼海洋"></div>
-        <div class="ocean-bottom"><p id="idea-feedback" role="status">写下你的作品想法，点击发送，添加企业微信与老师聊聊。</p></div>
+        <div class="cap-item">
+          <div class="cap-visual"><div class="cap-mount" id="cap-effort"></div></div>
+          <h3>指挥智能体</h3>
+          <p>把要求讲给 AI 智能体，观察结果、发现偏差并亲手修正。</p>
+          <p class="cap-feedback" id="effort-feedback" role="status">拖动滑块，体验不同的思考强度。</p>
+        </div>
+        <div class="cap-item">
+          <div class="cap-visual cap-play"><img src="./assets/work-word-cards.jpg" width="1024" height="560" alt="学员做出的拍照单词卡，包含例句和复习按钮" loading="lazy"></div>
+          <h3>做出真作品</h3>
+          <p>不止停留在对话里，而是做出能运行、能给同伴试玩的成品。</p>
+          <p class="cap-feedback">第一期学员作品 · 拍照单词卡</p>
+        </div>
       </div>
     </section>
 

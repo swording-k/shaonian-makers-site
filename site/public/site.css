@@ -1384,3 +1384,32 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 .intro-brand { animation:intro-brand-in 600ms cubic-bezier(.22,1,.36,1) both; }
 @keyframes intro-brand-in { from {opacity:0; transform:translateY(10px)} to {opacity:1;transform:none} }
 @media(prefers-reduced-motion:reduce) { .intro-brand {animation:none} }
+
+/* Full-screen ocean hero, with foreground reading and a lower central composer. */
+.hero-chapter { min-height:calc(100svh - 72px); padding:42px 0 260px; background:#f7faff; }
+#idea-ocean { position:absolute; inset:0; min-height:0; border-radius:0; overflow:hidden; z-index:-1; }
+.hero-grid { min-height:400px; align-items:center; pointer-events:none; }
+.hero-copy,.hero-stage { pointer-events:auto; }
+.hero-copy { padding-block:18px; background:radial-gradient(ellipse at left center,#f7faff 58%,#f7faff00 75%); }
+.hero-title { font-size:clamp(52px,6vw,86px); }
+.hero-lead { font-size:18px; max-width:33ch; }
+.hero-stage { background:radial-gradient(ellipse,#f7faffdc 20%,#f7faff00 70%); }
+.capability-chapter { padding-block:80px; }
+.cap-item { grid-template-rows:280px auto auto auto; }
+.cap-visual,.cap-mount { height:280px; }
+.cap-visual { overflow:visible; }
+.cap-feedback { font-size:13px!important; color:var(--muted); margin-top:12px; min-height:40px; }
+@media(max-width:960px) {
+  .hero-chapter { padding:24px 0 56px; }
+  .hero-grid { gap:230px; }
+  .hero-copy { max-width:550px; }
+  .hero-stage { max-width:550px; width:100%; margin-inline:auto; }
+}
+@media(max-width:620px) {
+  .hero-title { font-size:48px; }
+  .hero-lead { font-size:16px; }
+  .hero-english { font-size:24px; }
+  .hero-copy { padding-block:0; }
+  .hero-card-swap { min-height:290px; }
+  .capability-chapter { padding-block:48px; }
+}

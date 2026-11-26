@@ -102,11 +102,11 @@
     });
   }
 
-  function initCapabilityScenes() {
+  function initHeroOcean() {
     const host = el('idea-ocean');
     if (!host || !window.AsciiSharks) return;
     const ocean = window.AsciiSharks.mount(host, {
-      height: window.innerWidth < 620 ? 480 : 540, showComposer: true,
+      height: host.parentElement.clientHeight, showComposer: true,
       fishCount: 100, sharks: [{kind: 'hammerhead', size: 1}, {kind: 'classic', size: .8}],
       onSubmit: () => {
         document.dispatchEvent(new Event('open-wecom-consultation'));
@@ -124,9 +124,37 @@
     root.querySelector('.ao-voice').hidden = true;
     root.querySelector('canvas').setAttribute('aria-label', '字符鲨鱼与鱼群。移动指针或轻点水面可与鱼群互动，空格暂停。');
     const style = document.createElement('style');
-    style.textContent = '.ao-scene{--ao-bg:#f6f7fa}.ao-title{font-family:inherit;font-size:clamp(26px,4vw,42px)}.ao-composer{max-width:540px}.ao-form{background:#fffffff0}.ao-canvas{touch-action:pan-y}';
+    style.textContent = '.ao-scene{--ao-bg:#f7faff}.ao-title{font-family:inherit;font-size:clamp(23px,3vw,32px);margin-bottom:14px}.ao-composer{top:65%;bottom:auto;transform:translateX(-50%);width:calc(100% - 40px);max-width:580px}.ao-history-wrap{display:none!important}@media(max-width:960px){.ao-composer{top:var(--composer-mobile-top,420px);bottom:auto}}.ao-form{background:#ffffffed}.ao-canvas{touch-action:pan-y}.ao-haze{inset:30% 0 0;pointer-events:none}';
     root.append(style);
+    const updateOceanLayout = () => {
+      const copy = document.querySelector('.hero-copy');
+      ocean.element.style.setProperty('--composer-mobile-top', (document.querySelector('.hero-grid').offsetTop + copy.offsetTop + copy.offsetHeight + 30) + 'px');
+      ocean.update({height: host.parentElement.clientHeight});
+    };
+    new ResizeObserver(updateOceanLayout).observe(host.parentElement);
+    updateOceanLayout();
+  }
 
+  function initCapabilityScenes() {
+    if (!window.DeepAgentUI) return;
+    const composer = window.DeepAgentUI.mountComposer(el('cap-composer'), {
+      height: 280, models: ['创作练习'], selectedModel: '创作练习',
+      onSubmit: () => {
+        el('cap-feedback').textContent = '再想一想：谁会用它？怎样操作？做到什么就算成功？';
+      },
+    });
+    const slider = window.DeepAgentUI.mountSlider(el('cap-effort'), {
+      height: 280,
+      onValueChange: (value) => {
+        const labels = {simple: '简单 · 先试一个小步骤', medium: '中度 · 拆开问题，逐步检查', deep: '深度 · 多想几种方案，再比较'};
+        el('effort-feedback').textContent = labels[value];
+      },
+    });
+    for (const control of [composer, slider]) {
+      const style = document.createElement('style');
+      style.textContent = '.original-deep-agent-stage{padding:12px 8px;min-height:280px;background:transparent}.original-composer-container{max-width:100%}.original-deep-agent-stage button[aria-label="添加文件"],.original-deep-agent-stage button[aria-label^="Context"],.original-deep-agent-stage button[class~="max-w-full"][class~="whitespace-nowrap"]{display:none}';
+      control.root.append(style);
+    }
   }
 
   async function initBrandIntro() {
@@ -170,45 +198,6 @@
       if (!finished) timer = setTimeout(close, 900);
     } catch { close(); }
     setTimeout(() => document.removeEventListener('keydown', onEscape), 6000);
-  }
-
-  function initHeroWave() {
-    const canvas = el('hero-wave');
-    if (!canvas) return;
-    const context = canvas.getContext('2d');
-    if (!context) return;
-    let width = 0, height = 0, progress = 0;
-    const draw = () => {
-      context.clearRect(0, 0, width, height);
-      context.lineWidth = 1;
-      for (let line = 0; line < 16; line++) {
-        context.beginPath();
-        context.strokeStyle = 'rgba(36,69,166,' + (.045 + line * .002) + ')';
-        for (let x = 0; x <= width; x += 8) {
-          const y = height * .57 + Math.sin(x / (width * .25) + progress * 1.4 + line * .12) * height * .2 + line * 11;
-          if (x === 0) context.moveTo(x, y); else context.lineTo(x, y);
-        }
-        context.stroke();
-      }
-    };
-    const resize = () => {
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-      const density = Math.min(devicePixelRatio || 1, 2);
-      canvas.width = width * density;
-      canvas.height = height * density;
-      context.setTransform(density, 0, 0, density, 0, 0);
-      draw();
-    };
-    new ResizeObserver(resize).observe(canvas);
-    resize();
-    if (!reduceMotion.matches && window.gsap && window.ScrollTrigger) {
-      window.gsap.to({value: 0}, {
-        value: 1, ease: 'none',
-        onUpdate() { progress = this.targets()[0].value; draw(); },
-        scrollTrigger: {trigger: '.hero-chapter', start: 'top top', end: 'bottom top', scrub: .6},
-      });
-    }
   }
 
   /* Events: blog-style cards; the first camp links to its activity video. */
@@ -433,6 +422,20 @@
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
 
+      const hero = el('top');
+      gsap.to({value: 0}, {
+        value: 1, ease: 'none',
+        onUpdate() {
+          const fold = this.targets()[0].value;
+          const points = ['0% 0%', '100% 0%'];
+          for (let step = 40; step >= 0; step--) {
+            const x = step / 40;
+            points.push((x * 100) + '% ' + (100 - fold * (2.5 + Math.sin(x * Math.PI * 2) * 2.5)) + '%');
+          }
+          hero.style.clipPath = 'polygon(' + points.join(',') + ')';
+        },
+        scrollTrigger: {trigger: hero, start: 'bottom bottom', end: 'bottom top', scrub: .5},
+      });
       gsap.to('.hero-stage', {
         y: -32, rotation: -1, ease: 'none',
         scrollTrigger: {trigger: '.hero-chapter', start: 'top top', end: 'bottom top', scrub: .5},
@@ -464,7 +467,7 @@
   initPrograms();
   initCapabilityScenes();
   initBrandIntro();
-  initHeroWave();
+  initHeroOcean();
   initEventFilter();
   initQrLightbox();
   initCopyButton();
