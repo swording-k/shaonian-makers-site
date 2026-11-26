@@ -84,3 +84,10 @@ GitHub Pages 设置中已绑定 youngmakers.com.cn。腾讯云 DNSPod 为该域�
 - 随后修改：移除 hero-title/英文/lead 的白色 text-shadow 光晕（鲨鱼游到大字底下不再被遮没）；接缝加高到 clamp(150px,14vw,220px)、颜色改 #e7edfd 与理念段顶部渐变同色、SVG viewBox 改 1440x220；GSAP 驱动波浪振幅 46→92、理念段入场 y36、hero-grid 随覆盖淡出上移缩小（scrub .45）。动效库记录新建 docs/MOTION-LIBS.md。
 - 修改提交 aa52e0f 推送 origin/source，Pages 发布提交 67abd74。site-demo.html 与 preview/index.html 已重新生成，node --check 通过。本地无 playwright/puppeteer，本轮未做浏览器截图验证，390/768/1440 与真机待下次验证。
 - 待验证：Pages 构建结果与公网实际效果（衔接动效、鲨鱼可见性、横向溢出）。
+
+## 2026-11-26 深夜补：断层与刷新体验修复
+
+用户反馈：第二页底部与第三页衔接处露出一条鲨鱼海洋带（断层）、刷新时先渲染旧版样子、开场动效有时不出现。
+- 断层原因：桌面端 hero sticky 层盖在理念段 -72vh 区域内，理念段实际内容高度不足 72vh 时，sticky 的海洋画布露出并盖在「我们的课程」上方（positioned 元素盖过普通流背景）。修复：.manifesto-sheet 桌面端 min-height:72vh + flex 居中，保证完全覆盖；提交 763024f 推送 origin/source，Pages 发布 536e00c。
+- 刷新闪旧版：GitHub Pages CDN 对 index.html 有 10 分钟缓存，部署后短时间刷新可能命中旧缓存；连续两次发布叠加会出现新旧交替观感，10 分钟后自愈。已向用户说明，必要时强刷。
+- 开场动效：移除 sessionStorage「会话只播一次」限制，每次刷新（非前进/后退、非减少动态）都播放蓝色开场，加载期间由开场层盖住页面，避免裸渲染。min-height 修好的覆盖效果未做浏览器截图验证，待真机确认。
