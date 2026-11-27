@@ -6,7 +6,9 @@
 
 **官网**：`site/public/index.html` 课程列表第三项改标题/副行/状态为「AI少年创想家养成计划 · 全年 12 大类 · 线上为主 + 线下活动 · 半年卡 / 年卡 · 查看体系」；`data-detail="online-coaching"` 由 `.course-simple` 换成完整版式（intro ＋ 卡型块 ＋ 12 大类统计 ＋ 三层结构说明 ＋ 两个默认展开的折叠列出 01–06 / 07–12 ＋ 作品集与验收说明 ＋ 咨询按钮）。`site/public/site.css` 新增 `.plan-card/.plan-list/.plan-item/.plan-note`；卡型块刻意不用 `.course-price` 类——`course.js` 的 `initScratchCard` 会在该类的元素里取 `.scratch-foil`，缺元素直接抛错。课程板块引导句改为「线下项目课、线上社群与全年长期课」；`docs/PRD.md` 课程入口行同步改名。
 
-**验证**：`npm run build:static`、`node site/build-demo.mjs` 均通过，`dist/static/index.html` 与 `site-demo.html` 已含新文案；Chrome headless 截图 1440 与 500 宽检查面板顶部/折叠区/底部/竖排，500 宽下 `scrollWidth=500` 无横向溢出；截图用的临时页已删除。**未验证**：真机与微信内置浏览器、带完整动效的真实点击流程（截图页去掉了 gsap 与进场动画）。本次 HTML 与文档改动未提交、未发布，线上仍是旧版。注意：新增的 `.plan-card` 等样式已被并行提交 `f71fcb0`（飞书活动同步）一并带入，提交 `site/public/index.html` 时不要再重复改样式。
+**验证**：`npm run build:static`、`node site/build-demo.mjs` 均通过，`dist/static/index.html` 与 `site-demo.html` 已含新文案；Chrome headless 截图 1440 与 500 宽检查面板顶部/折叠区/底部/竖排，500 宽下 `scrollWidth=500` 无横向溢出；截图用的临时页已删除。**未验证**：真机与微信内置浏览器、带完整动效的真实点击流程（截图页去掉了 gsap 与进场动画）。**发布（用户确认「可以推上去了」后执行）**：源码 `e32261b` 推 `origin/source`；`dist/static/` 全量同步到 `main` 得 `7fa6cc8`（保留 `CNAME`/`README.md`/`event-demo.html`，排除未入库的 `course-community.html`/`course-growth.html`）。线上已验证 `https://youngmakers.com.cn/?v=7fa6cc8`：页面含「AI少年创想家养成计划」「陪孩子完成」「34 个独立小项目」，「长期线上营」为 0；`site.css?v=19dee3a5e422`、`data/events.json` 均 200。本次一并上线了并行提交 `f71fcb0` 的飞书活动同步与数据驱动活动列表，`data/events.json` 当前 `count: 0`，线上活动区为空状态文案由 JS 写入（「近期暂无公开场次…」，静态 HTML 里查不到属正常）。
+
+**注意**：新增的 `.plan-card` 等样式已随 `f71fcb0` 提交，改样式不必再动。真机与微信内置浏览器仍未验证。
 
 ## 2026-11-27 飞书活动同步立项（feat/feishu-events）
 
