@@ -20,12 +20,13 @@
       } catch {}
     })();
   </script>
-  <link rel="stylesheet" href="./site.css?v=1d01680c9876">
+  <link rel="stylesheet" href="./site.css?v=c58eeb1b2793">
   <script defer src="./assets/gsap.min.js?v=92bb9a96476f"></script>
   <script defer src="./assets/ScrollTrigger.min.js?v=b0b14d67b55b"></script>
   <script defer src="./components/card-swap/card-swap.min.js?v=7053cde228a8"></script>
   <script defer src="./components/ascii-sharks/bundle.js?v=b267d28a8fe9"></script>
-  <script defer src="./site.js?v=57d0cb6fe3e0"></script>
+  <script defer src="./site.js?v=f4a9fba4be98"></script>
+  <script defer src="./course.js?v=43bb4ec905b0"></script>
 </head>
 <body>
   <div id="brand-intro" hidden aria-label="少年创想家开场">
@@ -193,38 +194,26 @@
       <div class="frame">
         <div class="section-head">
           <h2 id="program-title">我们的课程</h2>
-          <p class="section-lead">从一次线下体验，到一个长期陪伴的社群。课程排期以各期招募为准。</p>
+          <p class="section-lead">线下项目课与线上亲子共学。课程排期以各期招募为准。</p>
         </div>
 
         <div class="program-list" id="program-list" data-ui>
-          <span class="list-indicator" aria-hidden="true"></span>
 
-          <button type="button" class="program-row is-active" data-program="day-camp">
-            <div class="row-main">
-              <strong class="row-title">线下一日营</strong>
-              <span class="row-desc">99 元体验课 · 用一天做出一个小作品</span>
-            </div>
-            <span class="row-side">
-              <span class="row-status">近期开营</span>
-              <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-
-          <button type="button" class="program-row" data-program="ai-course">
+          <button type="button" class="program-row" data-program="ai-course" aria-haspopup="dialog" aria-controls="course-dialog">
             <div class="row-main">
               <strong class="row-title">少年创想家·青少年AI实战成长营</strong>
-              <span class="row-desc">课程设计敬请期待</span>
+              <span class="row-desc">12 节线下小班 · 从 AI 入门到作品展示</span>
             </div>
             <span class="row-side">
-              <span class="row-status">筹备中</span>
+              <span class="row-status">查看课纲</span>
               <svg class="row-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
           </button>
 
-          <button type="button" class="program-row" data-program="community">
+          <button type="button" class="program-row" data-program="community" aria-haspopup="dialog" aria-controls="course-dialog">
             <div class="row-main">
               <strong class="row-title">AI 高效育儿俱乐部·线上社群</strong>
-              <span class="row-desc">添加企业微信，了解并加入社群</span>
+              <span class="row-desc">亲子共学 · 案例、教程与线上答疑</span>
             </div>
             <span class="row-side">
               <span class="row-status">持续招募</span>
@@ -232,7 +221,7 @@
             </span>
           </button>
 
-          <button type="button" class="program-row" data-program="online-coaching">
+          <button type="button" class="program-row" data-program="online-coaching" aria-haspopup="dialog" aria-controls="course-dialog">
             <div class="row-main">
               <strong class="row-title">长期线上营</strong>
               <span class="row-desc">长期项目 · 敬请期待</span>
@@ -244,11 +233,7 @@
           </button>
         </div>
 
-        <div class="program-stage" id="program-stage" data-ui>
-          <h3 class="stage-heading" id="stage-heading">99 元体验课，用一天做出一个小作品。</h3>
-          <p class="stage-copy" id="stage-copy">孩子从自己的点子出发，把要求讲给智能体，再亲手检验做出来的效果。</p>
-          <p class="stage-note" id="stage-note">具体排期与报名链接即将公布。</p>
-        </div>
+
       </div>
     </section>
 
@@ -377,6 +362,43 @@
       </a>
     </div>
   </footer>
+
+  <dialog id="course-dialog" aria-labelledby="course-dialog-title">
+    <div class="course-dialog-bar">
+      <h2 id="course-dialog-title"></h2>
+      <form method="dialog"><button type="submit" autofocus>关闭</button></form>
+    </div>
+    <div class="course-dialog-body" tabindex="0">
+<article class="course-panel" hidden data-detail="ai-course">
+            <div class="course-intro"><div><p class="course-kicker">OFFLINE · PROJECT-BASED</p><h3>从认识 AI，<br>到完成自己的作品。</h3><p>以项目为线索，让孩子把 AI 用在学习、创作和真实问题中，逐步积累属于自己的作品。</p><div class="course-facts"><span>8–18 岁</span><span>线下小班</span><span>12 节课</span><span>每节 2 小时</span></div></div><div class="course-price">
+    <span class="course-price-label">课程费用</span>
+    <div class="scratch-surface">
+      <div class="tuition-value" tabindex="-1"><strong>¥2,980</strong><span>12 节课总费用</span></div>
+      <canvas class="scratch-foil" aria-hidden="true" hidden></canvas>
+    </div>
+    <button class="scratch-skip" type="button" hidden>直接查看价格</button>
+    <span class="scratch-status" role="status"></span>
+  </div></div>
+            <div class="course-section-head"><div><p class="course-kicker">THE LEARNING JOURNEY</p><h4>12 节课，一步步做出来</h4></div><p>认识工具、应用学科、动手创作，最后向大家展示。</p></div>
+            <div class="course-folds"><details class="course-fold" open><summary><span class="fold-number">01—03</span><span class="fold-title"><strong>AI 入门与学科应用</strong><small>从认识工具到语文、数学学习</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="lesson-grid"><div><span>01</span><h5>认识 AI 与工具上手</h5><p>认识 AI、学习提问与协作，制作学习助手。</p></div><div><span>02</span><h5>AI 赋能语文学习</h5><p>阅读理解、写作与表达，制作 AI 作文助手。</p></div><div><span>03</span><h5>AI 赋能数学学习</h5><p>拆解解题思路、分析错题，搭建数学学习台。</p></div></div></details><details class="course-fold" ><summary><span class="fold-number">04—06</span><span class="fold-title"><strong>语言表达与创意制作</strong><small>英语学习、内容创作与第一款游戏</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="lesson-grid"><div><span>04</span><h5>AI 赋能英语学习</h5><p>练习口语、单词与阅读，定制英语口语助手。</p></div><div><span>05</span><h5>AI 创意内容制作</h5><p>用图片、视频或音乐表达创意，制作主题作品。</p></div><div><span>06</span><h5>互动小游戏开发 ①</h5><p>从零制作小游戏，探索游戏逻辑与交互设计。</p></div></div></details><details class="course-fold" ><summary><span class="fold-number">07—09</span><span class="fold-title"><strong>进阶开发与个人作品</strong><small>完善游戏、搭建学习台和作品集</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="lesson-grid"><div><span>07</span><h5>互动小游戏开发 ②</h5><p>加入关卡、积分等功能，迭代个性化游戏。</p></div><div><span>08</span><h5>AI 学习工作台搭建</h5><p>整合笔记、计划与资料，打造个人学习工作台。</p></div><div><span>09</span><h5>个人 AI 主页与作品集</h5><p>整理项目、搭建主页，展示自己的作品。</p></div></div></details><details class="course-fold" ><summary><span class="fold-number">10—12</span><span class="fold-title"><strong>产品思维与成果展示</strong><small>探索智能硬件，并完成项目路演</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="lesson-grid"><div><span>10</span><h5>AI 商业与产品思维</h5><p>从需求出发设计方案，完成一份 AI 产品方案书。</p></div><div><span>11</span><h5>青少年 AI 科创课</h5><p>结合传感器或单片机，动手制作智能硬件作品。</p></div><div><span>12</span><h5>项目路演与成果展示</h5><p>完善作品、上台介绍，收获反馈与成长证书。</p></div></div></details></div><div class="course-outcome"><p class="course-kicker">WHAT THEY MAKE</p><h4>把学习，留成看得见的作品。</h4><p>学习助手 · 小游戏 · 创意内容 · 智能硬件 · 个人主页与作品集 · 产品方案书</p><p class="course-small">线下授课地点：长沙智谷园区。具体开课时间与安排请咨询老师。</p><button type="button" class="course-consult" data-course-consult>咨询课程</button></div>
+          </article>
+<article class="course-panel" hidden data-detail="community">
+            <div class="course-intro"><div><p class="course-kicker">ONLINE · LEARN TOGETHER</p><h3>让 AI 成为<br>亲子学习的好帮手。</h3><p>面向 8–18 岁孩子与家长，从学科应用到项目创作，在社群里持续探索、交流和实践。</p><div class="course-facts"><span>线上社群</span><span>亲子共学</span><span>持续更新</span></div></div><div class="course-price">
+  <span class="course-price-label">社群费用</span>
+  <div class="scratch-surface">
+    <div class="tuition-value" tabindex="-1"><strong>¥365</strong><span>入群费用</span></div>
+    <canvas class="scratch-foil" aria-hidden="true" hidden></canvas>
+  </div>
+  <button class="scratch-skip" type="button" hidden>直接查看价格</button>
+  <span class="scratch-status" role="status"></span>
+</div></div>
+            <div class="community-highlight"><div><strong>60<span>+</span></strong><p>硬核高效育儿 AI 实战案例<br>入群即享，持续更新</p></div><div><p class="course-kicker">MEMBER BENEFITS</p><h4>不只看教程，更能跟着做。</h4><p>全套实操视频与文字教程、最新案例和操作步骤，配合社群在线答疑与不定期主题直播。AI 比赛和活动资讯也会同步分享。</p></div></div>
+            <div class="course-section-head"><div><p class="course-kicker">EXPLORE & CREATE</p><h4>七个方向，打开 AI 的可能。</h4></div><p>从日常学习到动手创作，逐步建立自己的方法。</p></div>
+            <div class="course-folds"><details class="course-fold" open><summary><span class="fold-number">01</span><span class="fold-title"><strong>AI 学习与学科应用</strong><small>3 个学习模块</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="module-grid"><div><span>01</span><h5>AI 学习方法与基础工具</h5><p>认识工具、学习提问，建立 AI 学习方法。</p></div><div><span>02</span><h5>语文学习应用</h5><p>阅读理解、写作构思和文字表达。</p></div><div><span>03</span><h5>数学与英语学习应用</h5><p>探索解题思路，练习英语口语与词汇。</p></div></div></details><details class="course-fold" ><summary><span class="fold-number">02</span><span class="fold-title"><strong>互动创作与作品表达</strong><small>2 个学习模块</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="module-grid"><div><span>04</span><h5>互动应用与智能产品开发</h5><p>尝试制作网页、小应用和互动游戏。</p></div><div><span>05</span><h5>学习资料与产品化设计</h5><p>整理资料，设计作品集与展示页面。</p></div></div></details><details class="course-fold" ><summary><span class="fold-number">03</span><span class="fold-title"><strong>部署应用与产品思维</strong><small>2 个学习模块</small></span><span class="fold-icon" aria-hidden="true">+</span></summary><div class="module-grid"><div><span>06</span><h5>部署排错与实战应用</h5><p>学习资料管理、作品部署与常见问题排查。</p></div><div><span>07</span><h5>商业化布局与变现</h5><p>了解内容产品化、推广与基础商业思路。</p></div></div></details></div><div class="course-outcome"><p class="course-kicker">MEMBER BONUS</p><h4>加入即赠，会员专属增值包。</h4><p>几十款成品网页应用，涵盖语数英学习、小升初 27 道应用题核心考点、数学提前学，以及通用办公和自媒体工具。无需调试，下载即用，持续更新。</p><button type="button" class="course-consult" data-course-consult>咨询并加入社群</button></div>
+          </article>
+<article class="course-panel" hidden data-detail="online-coaching"><div class="course-simple"><h3>长期线上营</h3><p>具体形式与安排敬请期待。</p></div></article>
+    </div>
+  </dialog>
 
   <dialog id="qr-dialog" aria-label="二维码大图">
     <button type="button" class="lightbox-close" id="qr-close" aria-label="关闭大图">关闭</button>
