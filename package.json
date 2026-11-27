@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node site/build.mjs",
-    "build:static": "node site/build-static.mjs"
+    "build:static": "node site/build-static.mjs",
+    "sync:events": "node site/tools/sync-feishu-events.mjs"
   }
 }

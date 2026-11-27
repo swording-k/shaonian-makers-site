@@ -1,3 +1,26 @@
+## 2026-11-27 飞书活动同步立项（feat/feishu-events）
+
+分支 `feat/feishu-events`（从 `39d18e1` 起），**未合并、未发布**，线上站点无变化。
+
+**飞书侧**：新建多维表「少年创想家官网内容」https://my.feishu.cn/base/LIe4bCQtqagOXRsse4ace1UQnCY ，`base_token=LIe4bCQtqagOXRsse4ace1UQnCY`，活动表 `tblVLvZqoOwoS6LT`。13 个字段（标题/简介/形式/开始/结束/地点/封面附件/公众号原文/视频号链接/报名状态/报名链接/活动状态/发布状态）。视图：封面墙（gallery）、按发布状态（kanban，已设分组）。表单「填写活动」已设必填与题序，组织内可填：https://my.feishu.cn/share/base/shrcn3Pw2rp94mhBNCquA07tb7f 。写了 5 条「【示例】」草稿做样例，未发布，可删。
+
+**代码**：
+- `site/tools/sync-feishu-events.mjs`：飞书 → 静态数据。两套数据源：`--source=lark-cli`（本机已登录身份，验收用）、默认 HTTP 应用凭据（CI 用）。输出 `site/public/data/events.json` 与 `site/public/assets/events/<record_id>-cover.jpg`；`--out` 可改输出根目录（发布分支传 `.`）。
+- `site/public/site.js`：活动区改为 `fetch('./data/events.json')`，内置第一期回顾仍固定留在往期；新增空态文案；卡片跳转优先级 公众号原文 → 视频号 → 报名链接，三者皆空则不可点。
+- `site/public/site.css`：卡片改 `160px | 1fr | auto` 三列（带封面为 `150px 150px 1fr auto`），修掉不同长度文案把版式推开、以及外链卡片文字变蓝的问题；新增 `.event-empty`、`.is-static`。
+- `site/build-static.mjs`：白名单外补拷 `data/` 与 `assets/events/`。
+- `.github/workflows/sync-feishu-events.yml`：30 分钟一次 + 手动触发，凭据走 Secrets，无变化不提交，提交回 `main` 由 Pages 重建。
+
+**本地验证**：临时把一条示例改成已发布并上传封面，`--source=lark-cli` 跑通（读到 5 条、输出 1 条、封面落盘 87KB），1440 与 390（iframe 包裹）截图确认卡片排版、封面、跳转箭头、空态与「更新于 …」文案。发现并修掉四处：`href`/`cover` 字段名对不上、lark-cli 超链接字段返回 `[文案](链接)` 需再解析、附件下载受 lark-cli 输出目录白名单限制（改为仓库内暂存再拷贝）、`event-item` 有两套冲突的 grid 定义。验证后已把该记录改回草稿、删掉临时封面，仓库内 `events.json` 为空态。
+
+**阻碍**：定时任务需要飞书自建应用的 `FEISHU_APP_ID` / `FEISHU_APP_SECRET`，只能在开放平台网页建应用并授权多维表后才有；当前未配置，workflow 会打印提示并跳过。配置步骤写在 `docs/FEISHU.md`。未验证：真机、微信内置浏览器、Actions 实跑、CI 模式的附件下载（`/drive/v1/medias` 接口需应用有云空间下载权限）。
+
+**下一步**：拿到应用凭据 → 配 Secrets → 手动跑一次 workflow → 按 `docs/FEISHU.md` 的七条验收 → 合并并发布（发布时记得把 `site/tools/` 与 `.github/workflows/` 一并放进 `main`）。
+
+## 2026-11-27 发布小许老师新头衔
+
+源码 `39d18e1`（推 `origin/source`），发布 `main` 为 `8ee578b`（`dist/static/` 全量）。线上已验证：`https://youngmakers.com.cn/` 的 `mentor-02` alt 为「小许老师，少年创想家 CEO、青少年 AI 讲师，自媒体内容创作者、个人开发者」，`assets/mentor-02.jpg` 与本地 md5 一致（185,981 字节）。Pages 构建耗时约 1.5 分钟，构建完成前 CDN 仍返回旧图，需等 `gh api .../pages/builds/latest` 显示 built 后再验。真机与微信内未验。
+
 ## 2026-11-27 小许老师头衔更新
 
 用户指定：横线以上两行「少年创想家 CEO」在上、「青少年 AI 讲师」在下，横线下「自媒体内容创作者 / 个人开发者」（原为「少年创想家 CEO」+「湖南工商大学」）。改 `concepts/teachers/index.html` 的 02 卡文案，标签拆两行以免压到头发；Chrome headless 重出 `讲师海报_v3/单人卡片/02_小许老师_海报.png`（1200×1800）、`_3600.png`、三联 `三联讲师人物视觉稿_v7.png`（v6 保留），官网 `site/public/assets/mentor-02.jpg` 重出为 900×1349，`index.html` 的 alt 同步改。`npm run build:static` 与 `node site/build-demo.mjs` 已重跑。
@@ -114,27 +137,24 @@
 
 # 少年创想家官网交接
 
-更新时间：2026-11-26
+更新时间：2026-11-27
 
 ## 当前状态
 
-- 公开静态预览：https://swording-k.github.io/shaonian-makers-site/
-- 公开仓库：https://github.com/swording-k/shaonian-makers-site ，main 分支根目录发布 GitHub Pages。此前只上传生成的独立 index.html，仓库不是完整开发源码。
-- 项目目录为本文件的上两级。唯一前端源码是 site/public/index.html、site.css、site.js。site-demo.html 与 preview/index.html 是同一源码生成的独立预览，修改后运行 node site/build-demo.mjs 同时更新。npm run build 生成 Worker 部署产物。
-- 上一次发布已验证未登录可访问，首页、课程、活动与作品、联系与合作均可访问。预览采用单页连续滚动，禁止未经用户同意改成互相隐藏的页面。首页使用用户提供的波浪标，品牌名为主标题。卡丁车独立演示已撤，首屏保留工作台图。
-- 本地变更不会自动更新 GitHub Pages。先重新生成 preview/index.html，再将该文件更新到公开仓库根目录的 index.html，等待 Pages 构建并检查公开地址。此前通过浏览器上传，终端 gh 的凭据曾失效，终端网络曾无法解析 GitHub。更新时先检查当前权限和网络。
-- 线上静态 HTML 启用 data-standalone-demo，活动固定为空态，不读取飞书。课程目前只有简介，无详情页。联系信息待用户提供。音频和文章对话框代码存在，但没有真实数据来源。GitHub Pages 目前无后端。
-- site/src/worker.mjs 已实现只读飞书活动接口与筛选，仅源码和模拟验证，未配置真实应用、未在公开站部署和联调。请勿把代码存在误述为飞书已接通。
-- docs/ARCHITECTURE.md、DEVELOPMENT.md 含旧的 Astro 计划和目标数据契约，属于备选方案，不能当作已有功能或强制重构要求。
+- 正式网址：https://youngmakers.com.cn/ （CNAME 指向 GitHub Pages）。公开仓库：https://github.com/swording-k/shaonian-makers-site ，main 分支根目录发布 `dist/static/` 全量 + `CNAME` / `README.md` / `.nojekyll` / `event-demo.html`。当前线上版本 `8ee578b`（2026-11-27）。
+- 项目目录为本文件的上两级。前端源码在 `site/public/`（index.html、site.css、site.js、course.js、event.js、event.html、assets/）。`site-demo.html` 与 `preview/index.html` 是同一源码生成的离线单文件，改完运行 `node site/build-demo.mjs`。`npm run build` 生成 Worker 产物。
+- 首页已上线的内容：首屏、课程（12 节线下课 + 线上社群，含详情弹卡与刮卡价格）、团队成员 `#mentors`（西西/小许/宝剑三张卡）、活动与作品、联系与合作（长沙地址 + 企微/视频号二维码）。预览仍是单页连续滚动，禁止改成互相隐藏的页面。
+- 发布流程：源码改在 `feat/course-content`（与 `origin/source` 同步）→ `git push origin HEAD:source` → 用 `origin/main` 建 worktree，把 `dist/static/` 覆盖进去（排除未被引用的 `course-community.html`、`course-growth.html`，保留 CNAME/README/.nojekyll/event-demo.html）→ commit 并 push main → 等 Pages 构建（约 1–2 分钟）→ 用 md5 比对线上资源确认生效。CDN 有缓存，验证时加 `?v=` 或强刷。
+- 活动区仍是静态空态：`site/public/site.js` 里写死 `REAL_PAST`（第一期一日营视频号回顾）和 `SAMPLE_EVENTS` 占位。线上 `data-standalone-demo` 分支不读取任何接口。GitHub Pages 无后端。
+- `site/src/worker.mjs` 已实现只读飞书活动接口（`GET /api/events`，含筛选、缓存、stale 兜底），仅源码和模拟验证，未配置真实应用、未部署联调。请勿把"代码存在"说成"飞书已接通"。
+- 联系方式、二维码、讲师肖像已上线；三位讲师头衔与肖像仍待本人最终确认。
 
 ## 后续产品和内容
 
-1. 补充一日营、三日营、线上陪跑详情，可设计可分享的独立 URL，内容使用团队确认的真实资料。待补具体课纲、年龄、时间、价格及报名方式。
-2. 活动卡片进入独立详情，提供正文、时间地点、状态、公众号原文和报名链接，区分近期与往期。同一活动可关联预告和回顾。当前仅有对话框，非独立网址。
-3. 优先评估飞书多维表作为运营内容源。运营填写标题、时间、正文、原文链接、报名链接和发布状态，不需改源码。一个公众号链接只够建立跳转，不能据此声称已自动获得正文和排期。
-4. 两种可行接法：部署 Worker 等服务端实时读取飞书；或通过受保护的定时构建读取飞书并生成静态数据、提交部署。前者需后端运行环境，后者不需常驻后端但有构建延迟，需实现调度和失败处理。两者均需飞书应用授权、服务端/构建端密钥；不得放入公开前端或仓库。
-5. 公众号自动导入需确认公众号类型、权限、实际发文方式，用一篇真实文章做端到端测试。未验证前让运营粘贴原文链接。NotionNext 可作为另一内容管理方案，当前没有接入，不应与飞书并行引入而增加维护负担。
-6. 完成后用运营账号验证新增、更新、撤下、报名关闭及往期显示；检查移动端和微信内跳转。联系方式和学员资料只发布团队确认的信息。
+1. 活动由运营自助维护（飞书多维表 → 定时构建生成静态数据），见 `docs/FEISHU.md`；当前未接通，流程见交接《2026-11-27 飞书活动同步立项》。
+2. 活动卡片进入独立详情，提供正文、时间地点、状态、公众号原文和报名链接，区分近期与往期。同一活动可关联预告和回顾。当前列表卡片为外链直跳，无独立详情网址。
+3. 公众号全文自动导入需确认账号类型、权限与发文路径，未验证前由运营粘贴原文链接，官网只做跳转，不得声称已自动获得正文。
+4. 完成后用运营账号验证新增、改期、关闭报名、补回顾、撤下；检查移动端与微信内打开。
 
 ## 本次交接
 

@@ -1,0 +1,55 @@
+name: 同步飞书活动表
+
+on:
+  schedule:
+    # 每 30 分钟拉一次；活动不是秒级信息，够用且不烧额度
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: sync-feishu-events
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 检查飞书凭据是否已配置
+        id: guard
+        env:
+          APP_ID: ${{ secrets.FEISHU_APP_ID }}
+        run: |
+          if [ -z "$APP_ID" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::未配置 FEISHU_APP_ID，跳过同步。配置方法见 docs/FEISHU.md。"
+          fi
+
+      - name: 拉取活动数据与封面
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_BASE_TOKEN: ${{ secrets.FEISHU_BASE_TOKEN }}
+          FEISHU_TABLE_ID: ${{ secrets.FEISHU_TABLE_ID }}
+        run: node tools/sync-feishu-events.mjs --out=.
+
+      - name: 有变化才提交
+        if: steps.guard.outputs.skip != 'true'
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "无变化，跳过提交"
+            exit 0
+          fi
+          git config user.name "feishu-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data assets/events
+          git commit -m "Sync events from Feishu ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push

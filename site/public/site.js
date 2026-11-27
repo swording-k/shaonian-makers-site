@@ -113,8 +113,9 @@
     observer.observe(section);
   }
 
-  /* Events: blog-style cards; the first camp links to its activity video. */
-  const REAL_PAST = {
+  /* 活动卡片读取 ./data/events.json，由飞书活动表同步生成（site/tools/sync-feishu-events.mjs）。
+     第一期一日营回顾是真实素材，固定留在往期，不依赖活动表。 */
+  const BUILTIN_PAST = {
     real: true,
     title: '第一期 · 11 月青少年 AI 线下一日营',
     date: '2026 年 11 月 22 日',
@@ -123,41 +124,45 @@
     href: 'https://weixin.qq.com/sph/AwtVM1OP01',
   };
 
-  const SAMPLE_EVENTS = [
-    {
-      sample: 'recruit',
-      group: 'upcoming',
-      title: '活动招募标题待发布',
-      excerpt: '活动流程、适龄与报名入口将在这里呈现。',
-      label: '招募页示例',
-    },
-  ];
+  function timeLabel(value) {
+    if (!value) return '';
+    return new Intl.DateTimeFormat('zh-CN', {
+      timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric',
+    }).format(new Date(value));
+  }
+
+  function metadata(event) {
+    const flag = event.cancelled ? '已取消 · ' : event.postponed ? '时间待定 · ' : '';
+    const start = timeLabel(event.start);
+    const end = timeLabel(event.end ? event.end - 1 : null);
+    const range = end && start !== end ? `${start} 至 ${end}` : start;
+    return flag + range;
+  }
 
   function eventCard(event) {
-    const item = document.createElement('a');
-    item.className = 'event-item' + (event.image ? ' has-cover' : '');
-    if (event.real) {
-      item.href = event.href;
+    const href = event.href || event.articleUrl || event.channelsUrl || event.signupUrl || '';
+    const image = event.image || event.cover || '';
+    const item = document.createElement(href ? 'a' : 'div');
+    item.className = 'event-item' + (image ? ' has-cover' : '') + (href ? '' : ' is-static');
+    if (href) {
+      item.href = href;
       item.target = '_blank';
       item.rel = 'noopener noreferrer';
-    } else {
-      item.href = event.sample
-        ? (standalone ? `./event-demo.html?sample=${event.sample}` : `./event.html?sample=${event.sample}`)
-        : `/events/${encodeURIComponent(event.id)}/`;
     }
 
-    if (event.image) {
+    if (image) {
       const cover = document.createElement('img');
       cover.className = 'event-cover';
-      cover.src = event.image;
+      cover.src = image;
       cover.alt = `${event.title}封面`;
       cover.loading = 'lazy';
+      cover.decoding = 'async';
       item.append(cover);
     }
 
     const meta = document.createElement('span');
     meta.className = 'event-date';
-    meta.textContent = event.real ? event.date : event.sample ? event.label : metadata(event);
+    meta.textContent = event.real ? event.date : metadata(event);
 
     const content = document.createElement('span');
     content.className = 'event-content';
@@ -166,9 +171,7 @@
     const excerpt = document.createElement('small');
     excerpt.textContent = event.real
       ? event.excerpt
-      : event.sample
-        ? event.excerpt
-        : (event.body || '查看活动介绍、报名入口与公众号原文。').slice(0, 100);
+      : [event.summary || '查看活动介绍与报名入口。', event.location].filter(Boolean).join(' · ');
     content.append(title, excerpt);
 
     const arrow = document.createElement('span');
@@ -180,20 +183,11 @@
     return item;
   }
 
-  function timeLabel(value) {
-    if (!value) return '';
-    return new Intl.DateTimeFormat('zh-CN', {
-      timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric',
-    }).format(new Date(value));
-  }
-
-  function metadata(event) {
-    const now = Date.now();
-    const state = event.cancelled ? '已取消' : event.postponed ? '待定' : now < event.start ? '即将开始' : now < event.end ? '进行中' : '已结束';
-    const start = timeLabel(event.start);
-    const end = timeLabel(event.end ? event.end - 1 : null);
-    const range = end && start !== end ? `${start} 至 ${end}` : start;
-    return [state, range].filter(Boolean).join(' · ');
+  function emptyNotice(text) {
+    const note = document.createElement('p');
+    note.className = 'event-empty';
+    note.textContent = text;
+    return note;
   }
 
   function renderEvents(events) {
@@ -206,29 +200,30 @@
     near.sort((a, b) => (a.start || Infinity) - (b.start || Infinity));
     past.sort((a, b) => (b.end || 0) - (a.end || 0));
 
-    const upcoming = near.length ? near : SAMPLE_EVENTS;
-    const previous = [REAL_PAST, ...past];
-    el('upcoming').replaceChildren(...upcoming.map(eventCard));
-    el('past').replaceChildren(...previous.map(eventCard));
-    if (!events.length) el('event-source').textContent = '近期安排以正式发布为准；往期回顾已接入第一期一日营实录。';
+    el('upcoming').replaceChildren(...(near.length
+      ? near.map(eventCard)
+      : [emptyNotice('近期暂无公开场次，新一期排期会在这里和公众号同步。')]));
+    el('past').replaceChildren(...[BUILTIN_PAST, ...past].map(eventCard));
   }
 
-  async function loadLiveEvents() {
-    if (standalone || staticHosting) {
+  async function loadEvents() {
+    if (standalone) {
+      el('event-source').textContent = '离线预览：活动数据需联网读取，当前仅显示往期回顾。';
       renderEvents([]);
       return;
     }
     try {
-      const response = await fetch('./api/events', { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('活动读取失败');
+      const response = await fetch('./data/events.json', { cache: 'no-store', headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('活动数据读取失败');
       const result = await response.json();
-      if (!Array.isArray(result.events)) throw new Error('活动格式异常');
-      el('event-source').textContent = result.source === 'feishu'
-        ? (result.stale ? '飞书暂不可用，以下是上次同步的活动。' : '官网活动来自团队活动表。')
-        : '近期安排以正式发布为准；往期回顾已接入第一期一日营实录。';
+      if (!Array.isArray(result.events)) throw new Error('活动数据格式异常');
+      const stamp = result.generatedAt ? new Date(result.generatedAt) : null;
+      el('event-source').textContent = result.events.length
+        ? '活动信息来自团队活动表' + (stamp ? `，更新于 ${timeLabel(stamp)}` : '') + '。'
+        : '近期暂无公开场次，新一期排期会在这里和公众号同步。';
       renderEvents(result.events);
     } catch {
-      el('event-source').textContent = '近期安排以正式发布为准；往期回顾已接入第一期一日营实录。';
+      el('event-source').textContent = '活动数据暂未加载，近期安排以公众号发布为准。';
       renderEvents([]);
     }
   }
@@ -380,5 +375,5 @@
   initNavigation();
   initScrollMotion();
   window.dispatchEvent(new Event('makers-hero-ready'));
-  loadLiveEvents();
+  loadEvents();
 })();

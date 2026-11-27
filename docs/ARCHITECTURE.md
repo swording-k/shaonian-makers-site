@@ -20,3 +20,18 @@
 Worker 将 `/events/<slug>/` 映射为详情 HTML，前端按活动 ID 从 `/api/events` 找记录。静态详情演示使用 `event.html?sample=recap` 等相对地址。首期公开回顾直接链接真实视频号。
 
 活动要使用稳定 ID，运营在飞书发布、改期、补内容或移除记录。已发布的日期、状态和有效链接共同决定报名入口。微信公众号原文保持独立链接，自动读取公众号是后续议题，需由团队实际验证账号权限与内容流程。
+
+## 活动数据流（2026-11-27 起）
+
+官网活动不再写死在 `site.js`，改为读取静态数据文件：
+
+```
+飞书多维表「活动」 → site/tools/sync-feishu-events.mjs → site/public/data/events.json + site/public/assets/events/
+→ npm run build:static（data/ 与 assets/events/ 一起进 dist）
+→ 发布分支 main → Pages
+```
+
+- 前端只做 `fetch('./data/events.json')`，不持有任何飞书凭据，也不需要后端。
+- 同步脚本两套数据源：本机 `lark-cli`（已登录的用户身份，用于验收），CI 用自建应用凭据（`FEISHU_APP_ID` / `FEISHU_APP_SECRET` / `FEISHU_BASE_TOKEN` / `FEISHU_TABLE_ID`）。
+- 定时任务在 `.github/workflows/sync-feishu-events.yml`，30 分钟一次，也可手动 `gh workflow run`。首次需把脚本和 workflow 一并放进 `main`。
+- `site/src/worker.mjs` 的实时接口保留为备选方案，但线上 Pages 没有后端，不再作为主路径。

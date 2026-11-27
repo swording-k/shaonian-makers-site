@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 
 const source = new URL('./public/', import.meta.url);
 const output = new URL('../dist/static/', import.meta.url);
@@ -26,6 +26,23 @@ for (const path of files) {
   if (/\.(css|js)$/.test(path)) {
     const version = createHash('sha256').update(await readFile(from)).digest('hex').slice(0, 12);
     scriptVersions.set(path, version);
+  }
+}
+
+/* 活动数据与封面由 site/tools/sync-feishu-events.mjs 生成，存在就随站点一起发布。 */
+for (const dir of ['data', 'assets/events']) {
+  let entries = [];
+  try {
+    entries = await readdir(new URL(dir, source));
+  } catch {
+    continue;
+  }
+  for (const name of entries) {
+    if (name.startsWith('.')) continue;
+    const from = new URL(dir + '/' + name, source);
+    const to = new URL(dir + '/' + name, output);
+    await mkdir(new URL('.', to), { recursive: true });
+    await copyFile(from, to);
   }
 }
 
