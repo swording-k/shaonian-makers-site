@@ -354,6 +354,7 @@
 
       const reveals = [
         ['.program-list .program-row', '.program-list', 0.06],
+        ['.mentor-card', '.mentor-grid', 0.08],
         ['.cap-item', '.capability-strip', 0.09],
         ['.event-column', '.event-groups', 0.1],
         ['.contact-card, .qr-card', '.contact-options', 0.08],

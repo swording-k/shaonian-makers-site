@@ -11,6 +11,7 @@ const files = [
   'assets/work-racer.jpg', 'assets/work-solar-system.jpg',
   'assets/work-word-cards.jpg', 'assets/work-soon.svg',
   'assets/wecom-card.jpg', 'assets/shipinhao-card.jpg',
+  'assets/mentor-01.jpg', 'assets/mentor-02.jpg', 'assets/mentor-03.jpg',
   'components/card-swap/card-swap.min.js',
   'components/ascii-sharks/bundle.js', 'components/deep-agent/bundle.js',
   'components/blue-glass/bundle.js',

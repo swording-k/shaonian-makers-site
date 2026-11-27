@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>讲师团队 · 少年创想家 | 设计预览</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:#171a21;background:#f4f4f1;font-synthesis:none}*{box-sizing:border-box}body{margin:0}a{color:inherit}
+header{max-width:1520px;margin:auto;padding:30px 6vw;display:flex;align-items:center;justify-content:space-between;font-size:14px}.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none}.brand img{width:29px}.header-note{color:#74777e;font-size:12px;letter-spacing:.06em;font-family:ui-monospace,SFMono-Regular,monospace}
+.wrap{max-width:1520px;padding:70px 6vw 100px;margin:auto}
+.eyebrow,.mono{font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:.13em}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:30px;border-bottom:1px solid #cfd0cd;padding-bottom:30px;margin-bottom:38px}.eyebrow{font-size:11px;color:#3453ad;margin:0 0 20px}.intro h1{font-family:Songti SC,STSong,serif;font-size:clamp(42px,5vw,72px);letter-spacing:.02em;font-weight:600;line-height:1.12;margin:0}.intro p.desc{color:#646a72;font-size:14px;line-height:1.9;max-width:350px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.person{min-width:0}
+
+/* 海报卡：按人物海报参考的信息层级 —— 姓名最大、在右上角；下面一行身份 + 细线 + 标签；底部不加任何文字 */
+.poster{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:2/3;background:#16202c;color:#fff;cursor:pointer;container-type:inline-size}
+.poster>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 1100ms cubic-bezier(.2,.7,.2,1);transform-origin:50% 30%}
+.poster:before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(70% 48% at 100% 0%,rgba(6,10,16,.5),rgba(6,10,16,.12) 55%,rgba(6,10,16,0) 100%);pointer-events:none}
+.poster:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 86%,rgba(8,13,20,.28) 100%);pointer-events:none}
+.poster:focus-visible{outline:3px solid #315ee8;outline-offset:5px}
+
+.card-top{position:absolute;z-index:2;left:6.5%;right:6.5%;top:5.5%;display:flex;justify-content:space-between;align-items:center;color:#ffffffe8}
+.card-top img{width:5.2cqw;min-width:28px;height:auto;object-fit:contain}
+.symbol{display:flex;align-items:center;gap:.55em}
+.symbol span{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;font-size:max(13px,2.9cqw);letter-spacing:.12em;font-weight:600}
+
+/* 姓名与身份在右上角；字号按卡片宽度等比缩放，导出多大图都是同一套比例 */
+.ident{position:absolute;z-index:2;top:6.5%;right:6.5%;width:56%;text-align:right;text-shadow:0 1px 22px rgba(6,10,16,.55)}
+.ident h2{font-family:Songti SC,STSong,"Noto Serif SC",serif;font-weight:700;font-size:max(20px,8.6cqw);line-height:1.05;letter-spacing:.015em;margin:0}
+.ident .role{font-size:max(10px,3cqw);line-height:1.5;letter-spacing:.02em;color:#ffffffeb;margin:.55em 0 0}
+.ident .rule{display:block;width:3.4em;height:1px;background:#ffffff78;margin:.85em 0 .7em auto}
+.ident .tag{font-size:max(9px,2.65cqw);line-height:1.62;color:#ffffffdd;margin:0;letter-spacing:.05em}
+.card-index{position:absolute;z-index:2;right:6.5%;bottom:5.5%;font-family:ui-monospace,SFMono-Regular,monospace;font-size:max(9px,1.5cqw);letter-spacing:.14em;color:#ffffff96}
+
+.details{margin-top:16px}.details .mono{font-size:10px;color:#8a8d91;white-space:nowrap}
+.note{display:flex;justify-content:space-between;gap:30px;border-top:1px solid #d0d1cf;margin-top:80px;padding-top:25px;color:#6d7178;font-size:13px;line-height:1.8}.note p{margin:0;max-width:660px}.note a{text-decoration-color:#b8bbc0;text-underline-offset:3px}
+.back{display:inline-block;margin-top:40px;font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:5px}
+@media(hover:hover){.poster:hover>img,.poster:focus-visible>img{transform:scale(1.035)}}
+@media(max-width:760px){.header-note{display:none}header{padding:23px 6vw}.wrap{padding-top:54px}.intro{display:block}.intro p.desc{margin-top:18px}.grid{grid-template-columns:1fr;gap:38px}.note{display:block;margin-top:60px}}
+@media(prefers-reduced-motion:reduce){.poster>img{transition:none!important;transform:none!important}}
+/* 导出模式：?poster=1|2|3 单卡铺满视口；?triple=1 三联无缝铺满视口（用于 Chrome 截图导出） */
+body.poster,body.triple{background:#000}body.poster header,body.poster .intro,body.poster .details,body.poster .note,body.poster .back,body.triple header,body.triple .intro,body.triple .details,body.triple .note,body.triple .back{display:none!important}
+body.poster .wrap,body.triple .wrap{max-width:none;padding:0;margin:0}body.poster .grid,body.triple .grid{display:flex;gap:0}body.poster .person,body.triple .person{display:none}body.triple .person{display:block;flex:1}body.poster .person.on{display:block;width:100vw;height:100vh}body.poster .poster,body.triple .poster{aspect-ratio:auto;width:100%;height:100vh}
+</style>
+</head>
+<body>
+<header><a class="brand" href="../../site/public/index.html"><img src="./assets/brand-wave.png" alt="">少年创想家</a><span class="header-note">TEACHER SERIES / DESIGN STUDY · V4</span></header>
+<main class="wrap">
+<div class="intro"><div><p class="eyebrow">PEOPLE BEHIND THE IDEAS / 01—03</p><h1>与孩子一起，<br>把想法做出来。</h1></div><p class="desc">每一次好奇，都值得被认真对待。<br>认识陪伴孩子探索与创造的老师们。</p></div>
+<div class="grid">
+
+<!-- 01 西西老师 -->
+<article class="person" data-n="1">
+ <div class="poster" tabindex="0" aria-label="西西老师，讲师海报"><img src="./assets/card-01.jpg" alt="西西老师人物照">
+  <div class="card-top"><div class="symbol"><img src="./assets/brand-wave.png" alt=""><span>少年创想家</span></div></div>
+  <div class="ident">
+   <h2>西西老师</h2>
+   <p class="role">少年创想家创始人<br>心智愈信息科技有限公司 CEO</p>
+   <span class="rule"></span>
+   <p class="tag">心理咨询师<br>高净值家庭咨询私人顾问</p>
+  </div>
+  <div class="card-index">01</div>
+ </div>
+</article>
+
+<!-- 02 小许老师 -->
+<article class="person" data-n="2">
+ <div class="poster" tabindex="0" aria-label="小许老师，讲师海报"><img src="./assets/card-02.jpg" alt="小许老师人物照">
+  <div class="card-top"><div class="symbol"><img src="./assets/brand-wave.png" alt=""><span>少年创想家</span></div></div>
+  <div class="ident">
+   <h2>小许老师</h2>
+   <p class="role">少年创想家 CEO</p>
+   <span class="rule"></span>
+   <p class="tag">湖南工商大学</p>
+  </div>
+  <div class="card-index">02</div>
+ </div>
+</article>
+
+<!-- 03 宝剑老师 -->
+<article class="person" data-n="3">
+ <div class="poster" tabindex="0" aria-label="宝剑老师，讲师海报"><img src="./assets/card-03.jpg" alt="宝剑老师人物照">
+  <div class="card-top"><div class="symbol"><img src="./assets/brand-wave.png" alt=""><span>少年创想家</span></div></div>
+  <div class="ident">
+   <h2>宝剑老师</h2>
+   <p class="role">少年创想家核心成员<br>美团 AI 产品 Builder</p>
+   <span class="rule"></span>
+   <p class="tag">中南大学 · 个人开发者</p>
+  </div>
+  <div class="card-index">03</div>
+ </div>
+</article>
+
+</div>
+
+<div class="note"><p>设计预览 V4 · 人物卡只换背景，脸和姿态保持原照（小许老师为原照抠像合成，未重绘人脸）。信息层级按人物海报参考：姓名最大、姓名与身份在右上角、标签在下方，底部不放文字。未接入正式官网，未上线。接手先读 <a href="./README.md">concepts/teachers/README.md</a>。</p><span class="mono" style="color:#3153ae">PORTRAITS / PEOPLE / POSSIBILITY</span></div>
+<a class="back" href="../../site/public/index.html">← 返回官网首页</a>
+</main>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var p=q.get('poster'),t=q.get('triple');
+  if(p){document.body.classList.add('poster');var el=document.querySelector('.person[data-n="'+p+'"]');if(el)el.classList.add('on');}
+  if(t){document.body.classList.add('triple');}
+})();
+</script>
+</body></html>

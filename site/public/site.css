@@ -1585,3 +1585,48 @@ html.course-dialog-open { overflow: hidden; }
   #course-dialog[open] { animation: none; }
   .scratch-foil, .fold-icon { transition: none; }
 }
+
+/* ============ Mentors ============ */
+.mentors-chapter {
+  padding-block: clamp(44px, 6vw, 96px) clamp(52px, 7vw, 112px);
+}
+
+.mentor-grid {
+  margin-top: clamp(28px, 4vw, 52px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 24px);
+}
+
+.mentor-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #16202c;
+  box-shadow: 0 12px 34px -18px rgba(11, 13, 18, .45);
+  transition: transform var(--t-ui) var(--ease-out), box-shadow var(--t-ui) var(--ease-out);
+}
+
+.mentor-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: scale(1.001);
+  transform-origin: 50% 32%;
+  transition: transform 1400ms var(--ease-out);
+  will-change: transform;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mentor-card:hover { transform: translateY(-3px); box-shadow: 0 26px 48px -22px rgba(11, 13, 18, .5); }
+  .mentor-card:hover img { transform: scale(1.045); }
+}
+
+@media (max-width: 640px) {
+  .mentor-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mentor-card,
+  .mentor-card img { transition: none; }
+}
