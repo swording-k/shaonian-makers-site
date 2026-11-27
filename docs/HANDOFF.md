@@ -9,6 +9,7 @@
 **验证**：`npm run build:static`、`node site/build-demo.mjs` 均通过，`dist/static/index.html` 与 `site-demo.html` 已含新文案；Chrome headless 截图 1440 与 500 宽检查面板顶部/折叠区/底部/竖排，500 宽下 `scrollWidth=500` 无横向溢出；截图用的临时页已删除。**未验证**：真机与微信内置浏览器、带完整动效的真实点击流程（截图页去掉了 gsap 与进场动画）。**发布（用户确认「可以推上去了」后执行）**：源码 `e32261b` 推 `origin/source`；`dist/static/` 全量同步到 `main` 得 `7fa6cc8`（保留 `CNAME`/`README.md`/`event-demo.html`，排除未入库的 `course-community.html`/`course-growth.html`）。线上已验证 `https://youngmakers.com.cn/?v=7fa6cc8`：页面含「AI少年创想家养成计划」「陪孩子完成」「34 个独立小项目」，「长期线上营」为 0；`site.css?v=19dee3a5e422`、`data/events.json` 均 200。本次一并上线了并行提交 `f71fcb0` 的飞书活动同步与数据驱动活动列表，`data/events.json` 当前 `count: 0`，线上活动区为空状态文案由 JS 写入（「近期暂无公开场次…」，静态 HTML 里查不到属正常）。
 
 **注意**：新增的 `.plan-card` 等样式已随 `f71fcb0` 提交，改样式不必再动。真机与微信内置浏览器仍未验证。
+**文案改写（同日，用户反馈「AI 味」）**：用户要求标语从「有一本作品集」改为「养成 AI 领域的体系知识 / 变成真正的 AI Native」。面板标题改「一年时间 / 陪孩子长成 / AI Native。」，intro 用「不是会用几个工具，而是碰到新问题知道怎么和 AI 一起拆开、做完、验一遍」定义 AI Native；统计块右侧改「先给方法，再让孩子自己用」；板块标题改「12 大类，一条路径」；结尾改「一年下来，孩子长出自己的 AI 体系」，作品集降级为「这套体系的证据」，验收口径改成「不看 AI 生成得多漂亮，看能不能自己讲清、换个题目再用一次」。源码 `9007bac` 推 `origin/source`，`main` 发布 `2b6474d`，线上已验证 `?v=2b6474d` 含新文案、旧标题「陪孩子完成」为 0。
 
 ## 2026-11-27 飞书活动同步立项（feat/feishu-events）
 
