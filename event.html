@@ -45,24 +45,22 @@
 
       <section class="camp-step" aria-labelledby="camp-submit-title">
         <h2 id="camp-submit-title">交作品</h2>
-        <p>填写学员编号或课堂昵称，再填作品名，上传作品文件。单个网页可交 HTML，带图片或多个文件的网页请打包成 ZIP。看到「提交成功」就完成了。</p>
+        <p>填写学员姓名和作品名，再上传作品文件。单个网页可交 HTML，带图片或多个文件的网页请打包成 ZIP。看到「提交成功」就完成了。</p>
         <a class="ghost" id="camp-submit" href="https://fcnulw7a3y1f.feishu.cn/share/base/form/shrcnrr7eevZ8Vaabem7a3UzWnf" target="_blank" rel="noopener noreferrer" hidden>打开飞书表单交作品</a>
         <p class="camp-note" id="camp-submit-pending">提交入口待更新。可以先用下方的提示词整理作品。</p>
       </section>
 
       <section class="camp-step" aria-labelledby="camp-agent-title">
-        <h2 id="camp-agent-title">让智能体帮你整理</h2>
-        <p>把提示词或这个活动页发给智能体，让它帮你检查作品、准备要上传的文件。</p>
+        <h2 id="camp-agent-title">让 WorkBuddy 帮你打包</h2>
+        <p>作品还没打包？把这段话发给 WorkBuddy。文件准备好后，回到上方飞书表单上传并提交。</p>
         <div class="camp-actions">
           <button class="ghost" id="camp-copy-prompt" type="button">复制提示词</button>
           <button class="ghost" id="camp-copy-link" type="button">复制活动页链接</button>
         </div>
-        <label for="camp-prompt">提交作品提示词</label>
-        <textarea id="camp-prompt" rows="8" readonly>请帮我整理「少年创想家 11 月 28 日 AI 线下一日营」的作品。只处理我指定的作品文件或文件夹，保留原文件。
+        <label for="camp-prompt">发给 WorkBuddy 的提示词</label>
+        <textarea id="camp-prompt" rows="8" readonly>请帮我把今天做的作品准备成一个可以提交的文件。我会告诉你作品在哪个文件夹。单文件网页直接用 HTML。网页如果有图片、样式或其他文件，请把整个作品文件夹打包成 ZIP，保留原来的目录结构。其他作品请保留可打开的成品文件。
 
-如果是网页，先找出首页并在浏览器里检查能否正常打开。单文件网页保留 HTML。多文件网页打包成 ZIP，保留首页和所需的图片、样式、脚本及原有目录结构。其他类型的作品保留可打开的成品格式。压缩包只放作品所需文件，去掉密码、密钥和个人信息。
-
-整理好后，告诉我作品名、成品文件名和保存位置。打开活动页找到「交作品」入口，把表单链接给我。我会填写学员编号或课堂昵称、上传成品并点击提交。如果你无法访问页面，提醒我回到活动页手动打开表单。
+请保留原文件，把打包好的文件名和位置告诉我。我会自己打开活动页的飞书表单，填写姓名和作品名，再上传文件。
 
 活动页：https://youngmakers.com.cn/event.html?slug=camp-2026-11-28</textarea>
         <input id="camp-link-fallback" type="url" aria-label="活动页链接" readonly hidden>
