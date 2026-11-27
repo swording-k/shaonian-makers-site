@@ -1304,6 +1304,39 @@ h2,
 
 .event-detail-actions .ghost:hover { background: #252a35; }
 
+.camp-step {
+  margin-top: 32px;
+  padding: clamp(20px, 4vw, 32px);
+  border: 1px solid var(--surface-2);
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.camp-step h2 { font-size: 1.5rem; }
+.camp-step p { margin-block: 8px 16px; }
+.camp-step .camp-note { margin-bottom: 0; color: var(--muted); }
+
+.camp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.camp-step label { display: block; margin-bottom: 8px; }
+.camp-step textarea,
+.camp-step input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--surface-2);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+.camp-step textarea { resize: vertical; }
+
 @media (max-width: 640px) {
   .hero-english { margin-top: 12px; }
   .event-item { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }

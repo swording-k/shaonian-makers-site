@@ -74,6 +74,42 @@
     if (audio) player.src = audio;
   }
 
+  function initCamp() {
+    el('general-event').hidden = true;
+    el('camp-2026-11-28').hidden = false;
+    document.title = '11 月 28 日青少年 AI 线下一日营｜少年创想家';
+
+    for (const id of ['camp-materials', 'camp-submit']) {
+      const link = el(id);
+      if (httpsUrl(link.getAttribute('href'))) {
+        link.hidden = false;
+        el(`${id}-pending`).hidden = true;
+      }
+    }
+
+    const status = el('camp-copy-status');
+    const prompt = el('camp-prompt');
+    const url = el('camp-link-fallback');
+    url.value = prompt.value.trim().split('\n').at(-1).replace('活动页：', '');
+
+    function bindCopy(id, field, success) {
+      el(id).addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(field.value.trim());
+          status.textContent = success;
+        } catch {
+          field.hidden = false;
+          field.focus();
+          field.select();
+          status.textContent = '文字已选中，按 Ctrl+C 或 ⌘+C 复制。';
+        }
+      });
+    }
+
+    bindCopy('camp-copy-prompt', prompt, '提示词已复制，可以粘贴给智能体。');
+    bindCopy('camp-copy-link', url, '活动页链接已复制。');
+  }
+
   async function load() {
     const params = new URLSearchParams(location.search);
     const sample = params.get('sample');
@@ -83,6 +119,10 @@
     }
     const pathMatch = location.pathname.match(/\/events\/([^/]+)\/?$/);
     const slug = params.get('slug') || (pathMatch ? decodeURIComponent(pathMatch[1]) : '');
+    if (slug === 'camp-2026-11-28') {
+      initCamp();
+      return;
+    }
     if (!slug || standalone || staticHosting) {
       render(samples.recruit);
       return;

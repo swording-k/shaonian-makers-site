@@ -114,7 +114,7 @@
   }
 
   /* 活动卡片读取 ./data/events.json，由飞书活动表同步生成（site/tools/sync-feishu-events.mjs）。
-     第一期一日营回顾是真实素材，固定留在往期，不依赖活动表。 */
+     两期一日营使用内置记录，现场入口不依赖活动表同步。 */
   const BUILTIN_PAST = {
     real: true,
     title: '第一期 · 11 月青少年 AI 线下一日营',
@@ -122,6 +122,17 @@
     excerpt: '一天时间，孩子们把自己的点子做成了能运行的作品。点开看这次活动的现场视频。',
     image: './assets/event-2026-11-22.jpg',
     href: 'https://weixin.qq.com/sph/AwtVM1OP01',
+  };
+
+  const CAMP_DAY = {
+    id: 'camp-2026-11-28',
+    title: '11 月 28 日 · 青少年 AI 线下一日营',
+    start: Date.parse('2026-11-28T00:00:00+08:00'),
+    end: Date.parse('2026-11-29T00:00:00+08:00'),
+    summary: '用一天时间，把自己的点子做成一件能运行的 AI 作品。',
+    image: BUILTIN_PAST.image,
+    href: standalone ? './event-demo.html?slug=camp-2026-11-28' : './event.html?slug=camp-2026-11-28',
+    sameTab: true,
   };
 
   function timeLabel(value) {
@@ -146,8 +157,10 @@
     item.className = 'event-item' + (image ? ' has-cover' : '') + (href ? '' : ' is-static');
     if (href) {
       item.href = href;
-      item.target = '_blank';
-      item.rel = 'noopener noreferrer';
+      if (!event.sameTab) {
+        item.target = '_blank';
+        item.rel = 'noopener noreferrer';
+      }
     }
 
     if (image) {
@@ -194,7 +207,7 @@
     const near = [];
     const past = [];
     const now = Date.now();
-    for (const event of events) {
+    for (const event of [CAMP_DAY, ...events.filter((item) => item.id !== CAMP_DAY.id)]) {
       (event.cancelled || (event.end && now >= event.end) ? past : near).push(event);
     }
     near.sort((a, b) => (a.start || Infinity) - (b.start || Infinity));
@@ -203,12 +216,12 @@
     el('upcoming').replaceChildren(...(near.length
       ? near.map(eventCard)
       : [emptyNotice('近期暂无公开场次，新一期排期会在这里和公众号同步。')]));
-    el('past').replaceChildren(...[BUILTIN_PAST, ...past].map(eventCard));
+    el('past').replaceChildren(...[...past, BUILTIN_PAST].map(eventCard));
   }
 
   async function loadEvents() {
     if (standalone) {
-      el('event-source').textContent = '离线预览：活动数据需联网读取，当前仅显示往期回顾。';
+      el('event-source').textContent = '';
       renderEvents([]);
       return;
     }
@@ -220,10 +233,10 @@
       const stamp = result.generatedAt ? new Date(result.generatedAt) : null;
       el('event-source').textContent = result.events.length
         ? '活动信息来自团队活动表' + (stamp ? `，更新于 ${timeLabel(stamp)}` : '') + '。'
-        : '近期暂无公开场次，新一期排期会在这里和公众号同步。';
+        : '';
       renderEvents(result.events);
     } catch {
-      el('event-source').textContent = '活动数据暂未加载，近期安排以公众号发布为准。';
+      el('event-source').textContent = '';
       renderEvents([]);
     }
   }

@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f7f8fa">
   <title>活动介绍｜少年创想家</title>
   <link rel="icon" href="./assets/brand-wave.png">
-  <link rel="stylesheet" href="./site.css?v=19dee3a5e422">
-  <script defer src="./event.js?v=42aa8f94d952"></script>
+  <link rel="stylesheet" href="./site.css?v=1986dc81ca50">
+  <script defer src="./event.js?v=8014a2dc47e5"></script>
 </head>
 <body>
   <header class="site-header">
@@ -19,15 +19,56 @@
   </header>
 
   <main class="frame event-detail">
-    <h1 class="event-detail-title" id="event-detail-title">活动招募 · 页面示例</h1>
-    <p class="event-detail-meta" id="event-detail-meta">页面示例 · 非真实活动</p>
-    <p class="event-detail-summary" id="event-detail-summary">这里将展示活动主题、流程、适龄范围与参与方式。</p>
-    <div class="event-detail-body" id="event-detail-body">这是活动介绍页面的版式示例，并非真实活动。正式内容发布后，这里会显示对应活动的完整介绍。</div>
-    <audio id="event-detail-audio" controls preload="none" hidden></audio>
-    <div class="event-detail-actions" id="event-detail-actions">
-      <a class="ghost" id="event-article" hidden>阅读公众号原文</a>
-      <a class="ghost" id="event-signup" hidden>前往报名</a>
+    <div id="general-event">
+      <h1 class="event-detail-title" id="event-detail-title">活动招募 · 页面示例</h1>
+      <p class="event-detail-meta" id="event-detail-meta">页面示例 · 非真实活动</p>
+      <p class="event-detail-summary" id="event-detail-summary">这里将展示活动主题、流程、适龄范围与参与方式。</p>
+      <div class="event-detail-body" id="event-detail-body">这是活动介绍页面的版式示例，并非真实活动。正式内容发布后，这里会显示对应活动的完整介绍。</div>
+      <audio id="event-detail-audio" controls preload="none" hidden></audio>
+      <div class="event-detail-actions" id="event-detail-actions">
+        <a class="ghost" id="event-article" hidden>阅读公众号原文</a>
+        <a class="ghost" id="event-signup" hidden>前往报名</a>
+      </div>
     </div>
+
+    <article id="camp-2026-11-28" hidden>
+      <p class="event-detail-meta">2026 年 11 月 28 日</p>
+      <h1 class="event-detail-title">青少年 AI 线下一日营</h1>
+      <p class="event-detail-summary">用一天时间，把自己的点子做成一件能运行的 AI 作品。</p>
+
+      <section class="camp-step" aria-labelledby="camp-materials-title">
+        <h2 id="camp-materials-title">领课程资料</h2>
+        <p>打开飞书文档，跟着今天的课程资料做作品。</p>
+        <a class="ghost" id="camp-materials" target="_blank" rel="noopener noreferrer" hidden>打开飞书课程资料</a>
+        <p class="camp-note" id="camp-materials-pending">课程资料链接待更新，请稍后刷新。</p>
+      </section>
+
+      <section class="camp-step" aria-labelledby="camp-submit-title">
+        <h2 id="camp-submit-title">交作品</h2>
+        <p>填写学员编号或课堂昵称，再填作品名，上传作品文件。单个网页可交 HTML，带图片或多个文件的网页请打包成 ZIP。</p>
+        <a class="ghost" id="camp-submit" target="_blank" rel="noopener noreferrer" hidden>打开飞书表单交作品</a>
+        <p class="camp-note" id="camp-submit-pending">提交入口待更新。可以先用下方的提示词整理作品。</p>
+      </section>
+
+      <section class="camp-step" aria-labelledby="camp-agent-title">
+        <h2 id="camp-agent-title">让智能体帮你整理</h2>
+        <p>把提示词或这个活动页发给智能体，让它帮你检查作品、准备要上传的文件。</p>
+        <div class="camp-actions">
+          <button class="ghost" id="camp-copy-prompt" type="button">复制提示词</button>
+          <button class="ghost" id="camp-copy-link" type="button">复制活动页链接</button>
+        </div>
+        <label for="camp-prompt">提交作品提示词</label>
+        <textarea id="camp-prompt" rows="8" readonly>请帮我整理「少年创想家 11 月 28 日 AI 线下一日营」的作品。只处理我指定的作品文件或文件夹，保留原文件。
+
+如果是网页，先找出首页并在浏览器里检查能否正常打开。单文件网页保留 HTML。多文件网页打包成 ZIP，保留首页和所需的图片、样式、脚本及原有目录结构。其他类型的作品保留可打开的成品格式。压缩包只放作品所需文件，去掉密码、密钥和个人信息。
+
+整理好后，告诉我作品名、成品文件名和保存位置。打开活动页找到「交作品」入口，把表单链接给我。我会填写学员编号或课堂昵称、上传成品并点击提交。如果你无法访问页面，提醒我回到活动页手动打开表单。
+
+活动页：https://youngmakers.com.cn/event.html?slug=camp-2026-11-28</textarea>
+        <input id="camp-link-fallback" type="url" aria-label="活动页链接" readonly hidden>
+        <p class="camp-note" id="camp-copy-status" role="status"></p>
+      </section>
+    </article>
   </main>
 
   <footer class="site-footer">
