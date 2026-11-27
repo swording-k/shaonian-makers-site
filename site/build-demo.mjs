@@ -32,6 +32,8 @@ async function buildPage(sourceName, scriptPaths, outputs) {
   }
 
   if (sourceName === 'index.html') {
+    const intro = inlineScript(await text('components/blue-glass/bundle.js'));
+    html = html.replace('<body>', () => '<body>\n' + intro);
     const bundle = (await text('components/deep-agent/bundle.js')).replace(/<\/script/gi, '<\\/script');
     html = html.replace('</body>', () => '<script type="text/plain" id="offline-deep-agent">\n' + bundle + '\n</script>\n</body>');
   }

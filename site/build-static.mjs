@@ -13,6 +13,7 @@ const files = [
   'assets/wecom-card.jpg', 'assets/shipinhao-card.jpg',
   'components/card-swap/card-swap.min.js',
   'components/ascii-sharks/bundle.js', 'components/deep-agent/bundle.js',
+  'components/blue-glass/bundle.js',
 ];
 
 const scriptVersions = new Map();

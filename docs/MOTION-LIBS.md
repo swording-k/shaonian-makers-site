@@ -6,7 +6,8 @@
 
 | 技术 | 场景 | 入口与来源 |
 | --- | --- | --- |
-| CSS 动画和 Web Animations API | 蓝色棱纹开场、跳过和淡出，首页文字入场，按压与焦点反馈 | `site.css`、`index.html` |
+| CSS 动画和 Web Animations API | 开场交接、跳过和淡出，首页文字入场，按压与焦点反馈 | `site.css`、`index.html` |
+| LeiBox BlueFlutedGlass（WebGL） | 蓝色棱纹开场，播放时加载，退场后销毁 | `site/components/blue-glass/`、`site/public/components/blue-glass/`。原始设计许可未核实。 |
 | GSAP 3.15.0 与 ScrollTrigger 3.15.0 | 首屏退场、首屏到理念段的滚动覆盖、理念文字变化、列表入场 | `site/public/assets/`、`site.js`。源码头部声明 GreenSock Standard License。[GSAP](https://gsap.com/) |
 | SVG 与 CSS sticky | 第二屏浅蓝波浪接缝，短屏按自然滚动展示 | 接缝为项目自绘，参考 Codrops 的滚动覆盖方式。[Seam Transitions](https://tympanus.net/Demos/SeamTransitions/) |
 | LeiBox CardSwap | 首屏右侧作品堆的点击、拖动、键盘切换 | `site/components-src/card-swap/`、`site/public/components/card-swap/`。[LeiBox](https://leibox.pantoria.cn/components) |
@@ -16,7 +17,7 @@
 
 ## 用过或保存过的试验
 
-- **BlueFlutedGlass（LeiBox，WebGL）** 曾用于已发布版本的蓝色开场。新分支改为 CSS 棱纹背景。源码和旧产物保留在 `site/components/blue-glass/` 与 `site/public/components/blue-glass/`。原始设计许可未核实。
+- **CSS 蓝色棱纹仿制** 曾用于性能实验版的开场，现已由原组件替换。
 - **ThinkingParticles、ThinkingOrb、ThinkingOrbs（LeiBox）** 在旧三栏里试验过的粒子系列。当前改用输入框和思考强度滑块，留档在 `site/components-src/`。ThinkingOrb 的视觉来源涉及 Dissolve，具体以该包内声明为准。
 - **作品册替代交互，以及浅蓝滚动线纹** 是早期分支实验。现版作品使用 CardSwap，背景使用 AsciiSharks。
 

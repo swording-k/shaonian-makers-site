@@ -111,3 +111,7 @@ GitHub Pages 设置中已绑定 youngmakers.com.cn。腾讯云 DNSPod 为该域�
 
 - 按用户要求发布当前版本。保留远端 main 的既有历史和 CNAME，将 dist/static 的目录结构发布到根目录。远端 main 为 fe4e6273b414683819578f53b377c46d23074371，更新前为 536e00c。源码及更新后的文档从 5b780d3 推到远端 source。两个分支均为快进推送。
 - GitHub Pages 运行 https://github.com/swording-k/shaonian-makers-site/actions/runs/45949945834 。在 https://youngmakers.com.cn/?v=fe4e627-verify 实测静态标记、鲨鱼输入框和跳过开场入口，首页 HTML 为 17728 字节，首屏没有请求学习区组件。
+
+## 2026-11-27 恢复 LeiBox 开场
+
+按用户反馈恢复原有 LeiBox BlueFlutedGlass WebGL 组件，移除 CSS 棱纹仿制。组件仅在播放开场时请求，保留少年创想家标志及跳过按钮。背景淡入 240ms，正常自动退出在首页就绪及原动效已有可见播放窗口后开始，680ms 交叠淡出后释放组件。减少动态及直达章节仍跳过开场。桌面 1440 与手机 390 宽度实测 WebGL 时钟推进，分别检查自动和手动退出，退出后组件释放。减少动态无组件请求。实际桌面截图已核对。静态、离线和 Worker 构建通过。
