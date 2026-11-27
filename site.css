@@ -1231,10 +1231,27 @@ h2,
   font-variant-numeric: tabular-nums;
 }
 
+.event-item, .event-item strong, .event-item small { color: var(--ink); }
 .event-content { display: grid; gap: 6px; }
 .event-content strong { font-size: 1.25rem; font-weight: 700; }
 .event-content small { font-size: 1rem; line-height: 1.55; color: var(--muted); }
+.event-item .event-date { color: var(--muted); }
 .event-read { color: var(--ink); }
+
+/* 无外链的活动卡片：不可点，不显示箭头 */
+.event-item.is-static { cursor: default; }
+.event-item.is-static:hover { transform: none; background: var(--surface); }
+.event-item.is-static .event-read { display: none; }
+
+.event-empty {
+  margin: 0;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
 
 /* Standalone event introduction page. */
 .event-detail {
@@ -1295,8 +1312,12 @@ h2,
   .contact-options { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* 活动卡片：日期列固定宽度，正文列占满剩余，避免不同长度的文案把版式推开 */
+.event-item { grid-template-columns: 160px minmax(0, 1fr) auto; align-items: center; }
+.event-item .event-content { text-align: left; }
+
 /* Event covers for the real camp recap. */
-.event-item.has-cover { grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; }
+.event-item.has-cover { grid-template-columns: 150px 150px minmax(0, 1fr) auto; align-items: center; }
 .event-cover { grid-row: 1; width: 100%; height: 96px; object-fit: cover; border-radius: 12px; background: var(--surface-2); }
 
 @media (max-width: 640px) {
@@ -1548,6 +1569,22 @@ html.course-dialog-open { overflow: hidden; }
   box-shadow: 0 15px 35px #315b9c16;
 }
 .course-price-label { display: block; margin-bottom: 10px; color: #4b6081; font-size: .9rem; }
+/* The year-round plan has cards instead of a price. */
+.plan-card {
+  min-width: 0;
+  align-self: start;
+  padding: 16px;
+  border: 1px solid #cddcf6;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 15px 35px #315b9c16;
+}
+.plan-card .course-price-label { margin-bottom: 10px; }
+.plan-list { display: grid; gap: 10px; }
+.plan-item { display: grid; gap: 4px; padding: 18px; border: 1px solid #b9cbea; border-radius: 14px; background: #f9fbff; }
+.plan-item strong { font-family: var(--font-display, serif); font-size: 1.6rem; line-height: 1.1; letter-spacing: -.02em; color: #254c99; }
+.plan-item span { color: #4b6081; font-size: .9rem; }
+.plan-note { display: block; margin-top: 12px; color: #6b7a90; font-size: .86rem; line-height: 1.5; }
 .scratch-surface { position: relative; perspective: 750px; }
 .tuition-value {
   display: grid;
