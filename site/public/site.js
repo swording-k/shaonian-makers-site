@@ -27,85 +27,6 @@
     }
   }
 
-  /* Programs: show only confirmed facts; pending products stay pending. */
-  const PROGRAMS = {
-    'day-camp': {
-      heading: '99 元体验课，用一天做出一个小作品。',
-      copy: '孩子从自己的点子出发，把要求讲给智能体，再亲手检验做出来的效果。',
-      note: '具体排期与报名链接即将公布。',
-    },
-    'ai-course': {
-      heading: '少年创想家·青少年AI实战成长营',
-      copy: '课程设计正在推进。',
-      note: '课程内容与报名安排敬请期待。',
-    },
-    community: {
-      heading: 'AI 高效育儿俱乐部·线上社群',
-      copy: '社群内将持续分享知识文档与课程。',
-      note: '更多介绍敬请期待。',
-    },
-    'online-coaching': {
-      heading: '长期线上营',
-      copy: '长期项目正在推进。',
-      note: '具体形式与安排敬请期待。',
-    },
-  };
-
-  function initPrograms() {
-    const rows = [...document.querySelectorAll('.program-row')];
-    const indicator = document.querySelector('.list-indicator');
-    const stage = el('program-stage');
-    const heading = el('stage-heading');
-    const copy = el('stage-copy');
-    const note = el('stage-note');
-    let active = 'day-camp';
-
-    const positionIndicator = (row) => {
-      if (!indicator || !row) return;
-      indicator.style.height = `${row.offsetHeight}px`;
-      indicator.style.transform = `translateY(${row.offsetTop}px)`;
-    };
-
-    const apply = (id) => {
-      const data = PROGRAMS[id];
-      heading.textContent = data.heading;
-      copy.textContent = data.copy;
-      note.textContent = data.note;
-    };
-
-    const initial = rows.find((row) => row.classList.contains('is-active'));
-    if (initial) positionIndicator(initial);
-    window.addEventListener('resize', () => positionIndicator(rows.find((row) => row.classList.contains('is-active'))));
-
-    rows.forEach((row) => {
-      const select = () => {
-        const id = row.dataset.program;
-        if (id === active) return;
-        active = id;
-        rows.forEach((item) => item.classList.toggle('is-active', item === row));
-        positionIndicator(row);
-        if (reduceMotion.matches || !window.gsap) {
-          apply(id);
-          return;
-        }
-        window.gsap.killTweensOf(stage);
-        window.gsap.to(stage, {
-          opacity: 0,
-          y: 4,
-          duration: 0.12,
-          ease: 'power1.in',
-          onComplete: () => {
-            apply(id);
-            window.gsap.to(stage, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' });
-          },
-        });
-      };
-      row.addEventListener('pointerenter', select);
-      row.addEventListener('focus', select);
-      row.addEventListener('click', select);
-    });
-  }
-
   function initHeroOcean() {
     const host = el('idea-ocean');
     if (!host || !window.AsciiSharks) return;
@@ -358,7 +279,7 @@
     document.querySelectorAll('.qr-thumb').forEach((button) => {
       button.addEventListener('click', () => open(button.dataset.lightbox));
     });
-    document.querySelector('[data-program="community"]')?.addEventListener('click', () => open('wecom', true));
+    document.querySelectorAll('[data-course-consult]').forEach(button => button.addEventListener('click', () => open('wecom', !!button.closest('[data-detail="community"]'))));
     document.addEventListener('open-wecom-consultation', () => {
       open('wecom');
       el('qr-lightbox-title').textContent = '添加企业微信，聊聊你的作品想法';
@@ -450,7 +371,6 @@
 
 
   initHeroCardSwap();
-  initPrograms();
   initHeroOcean();
   loadCapabilityScenes();
   initEventFilter();
