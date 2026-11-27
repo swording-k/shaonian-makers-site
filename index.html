@@ -20,12 +20,12 @@
       } catch {}
     })();
   </script>
-  <link rel="stylesheet" href="./site.css?v=c58eeb1b2793">
+  <link rel="stylesheet" href="./site.css?v=b20af8c0388c">
   <script defer src="./assets/gsap.min.js?v=92bb9a96476f"></script>
   <script defer src="./assets/ScrollTrigger.min.js?v=b0b14d67b55b"></script>
   <script defer src="./components/card-swap/card-swap.min.js?v=7053cde228a8"></script>
   <script defer src="./components/ascii-sharks/bundle.js?v=b267d28a8fe9"></script>
-  <script defer src="./site.js?v=f4a9fba4be98"></script>
+  <script defer src="./site.js?v=d3891e2af325"></script>
   <script defer src="./course.js?v=43bb4ec905b0"></script>
 </head>
 <body>
@@ -115,6 +115,7 @@
       <nav class="main-nav" aria-label="主导航">
         <a href="#top" aria-current="location">首页</a>
         <a href="#programs">课程</a>
+        <a href="#mentors">讲师团队</a>
         <a href="#events">活动与作品</a>
         <a href="#contact">联系与合作</a>
       </nav>
@@ -234,6 +235,28 @@
         </div>
 
 
+      </div>
+    </section>
+
+    <!-- Mentors: 讲师团队。三张人物卡，桌面三列、窄屏竖排；交互沿用品牌海报卡片：图片轻缓放大、文字固定。
+         老师变多时，把 .mentor-grid 换成横向轮播（旋转卡片）即可，CSS 与卡片结构不用改。 -->
+    <section class="mentors-chapter" id="mentors" aria-labelledby="mentors-title">
+      <div class="frame">
+        <div class="section-head">
+          <h2 id="mentors-title">团队成员</h2>
+        </div>
+
+        <div class="mentor-grid" data-ui>
+          <figure class="mentor-card">
+            <img src="./assets/mentor-01.jpg" width="900" height="1349" alt="西西老师，少年创想家创始人、心智愈信息科技有限公司 CEO" loading="lazy" decoding="async">
+          </figure>
+          <figure class="mentor-card">
+            <img src="./assets/mentor-02.jpg" width="900" height="1349" alt="小许老师，少年创想家 CEO，湖南工商大学" loading="lazy" decoding="async">
+          </figure>
+          <figure class="mentor-card">
+            <img src="./assets/mentor-03.jpg" width="900" height="1349" alt="宝剑老师，少年创想家核心成员，中南大学、美团 AI 产品 Builder" loading="lazy" decoding="async">
+          </figure>
+        </div>
       </div>
     </section>
 
