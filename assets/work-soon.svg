@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="640" viewBox="0 0 1024 640">
+  <rect width="1024" height="640" fill="#edeef2"/>
+  <circle cx="512" cy="252" r="86" fill="none" stroke="#0b0d12" stroke-width="7"/>
+  <circle cx="512" cy="180" r="9" fill="#0b0d12"/>
+  <text x="512" y="420" text-anchor="middle" font-family="Songti SC, STSong, serif" font-size="72" font-weight="700" fill="#0b0d12">敬请期待</text>
+  <text x="512" y="486" text-anchor="middle" font-family="PingFang SC, sans-serif" font-size="30" fill="#4b5464">下一件作品，正在路上</text>
+</svg>
