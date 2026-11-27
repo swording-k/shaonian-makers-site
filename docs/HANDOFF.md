@@ -1,3 +1,7 @@
+## 2026-11-27 正式发布讲师团队板块
+
+源码提交 `76c3787`（`origin/source`，分支 `feat/course-content` 已 rebase 到 origin/source 后推送）；发布分支 `main` 为 `edacc66`，内容为 `dist/static/` 全量 + 保留 `CNAME` / `README.md` / `event-demo.html`。`site/public/course-growth.html`、`course-community.html` 未被任何页面引用且未入库，发布时已排除，仍留在本地。线上验证：https://youngmakers.com.cn/?v=edacc66 已含 `#mentors`，标题「团队成员」，三张 `assets/mentor-0X.jpg` 返回 200（900×1349）。真机与微信内置浏览器未验证；三位讲师肖像公开待本人确认。
+
 ## 2026-11-27 讲师卡左上品牌标放大
 
 用户反馈左上「少年创想家」+ 图标太小：`.card-top img` 3.2cqw→5.2cqw，`.symbol span` 1.75cqw→2.9cqw 加粗，颜色 c4→e8。三张成片、3600 版、三联、桌面 PNG、官网 JPG 全部重出。
