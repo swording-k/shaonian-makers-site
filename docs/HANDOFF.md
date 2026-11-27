@@ -1,3 +1,7 @@
+## 2026-11-27 小许老师头衔更新
+
+用户指定：横线以上两行「少年创想家 CEO」在上、「青少年 AI 讲师」在下，横线下「自媒体内容创作者 / 个人开发者」（原为「少年创想家 CEO」+「湖南工商大学」）。改 `concepts/teachers/index.html` 的 02 卡文案，标签拆两行以免压到头发；Chrome headless 重出 `讲师海报_v3/单人卡片/02_小许老师_海报.png`（1200×1800）、`_3600.png`、三联 `三联讲师人物视觉稿_v7.png`（v6 保留），官网 `site/public/assets/mentor-02.jpg` 重出为 900×1349，`index.html` 的 alt 同步改。`npm run build:static` 与 `node site/build-demo.mjs` 已重跑。
+
 ## 2026-11-27 正式发布讲师团队板块
 
 源码提交 `76c3787`（`origin/source`，分支 `feat/course-content` 已 rebase 到 origin/source 后推送）；发布分支 `main` 为 `edacc66`，内容为 `dist/static/` 全量 + 保留 `CNAME` / `README.md` / `event-demo.html`。`site/public/course-growth.html`、`course-community.html` 未被任何页面引用且未入库，发布时已排除，仍留在本地。线上验证：https://youngmakers.com.cn/?v=edacc66 已含 `#mentors`，标题「团队成员」，三张 `assets/mentor-0X.jpg` 返回 200（900×1349）。真机与微信内置浏览器未验证；三位讲师肖像公开待本人确认。
