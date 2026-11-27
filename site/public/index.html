@@ -14,32 +14,65 @@
       try {
         const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const returning = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
-        if (!reduced && !returning) {
+        if (!reduced && !returning && (!location.hash || location.hash === '#top')) {
           document.documentElement.classList.add('intro-pending');
-          window.makersIntroFallback = setTimeout(() => {
-            document.documentElement.classList.remove('intro-pending');
-            const intro = document.getElementById('brand-intro');
-            if (intro) intro.hidden = true;
-          }, 6000);
         }
       } catch {}
     })();
   </script>
-  <style>
-    .intro-pending #brand-intro[hidden] { display:block; position:fixed; inset:0; z-index:1000; background:#123da6; }
-    .intro-pending .intro-brand { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; gap:16px; color:#fff; font:700 clamp(30px,6vw,64px) system-ui; }
-  </style>
   <link rel="stylesheet" href="./site.css">
   <script defer src="./assets/gsap.min.js"></script>
   <script defer src="./assets/ScrollTrigger.min.js"></script>
   <script defer src="./components/card-swap/card-swap.min.js"></script>
   <script defer src="./components/ascii-sharks/bundle.js"></script>
-  <script defer src="./components/blue-glass/bundle.js"></script>
-  <script defer src="./components/deep-agent/bundle.js"></script>
   <script defer src="./site.js"></script>
 </head>
 <body>
-  <div id="brand-intro" hidden aria-hidden="true"><div id="brand-intro-scene"></div><div class="intro-brand"><img src="./assets/brand-wave.png" alt="" width="45" height="44"><span>少年创想家</span></div><button type="button" id="intro-skip">进入官网</button></div>
+  <div id="brand-intro" hidden aria-label="少年创想家开场">
+    <div class="intro-brand"><img src="./assets/brand-wave.png" alt="" width="45" height="44"><span>少年创想家</span></div>
+    <button type="button" id="intro-skip">跳过开场</button>
+  </div>
+  <script>
+    (() => {
+      const page = document.documentElement;
+      if (!page.classList.contains('intro-pending')) return;
+      const intro = document.getElementById('brand-intro');
+      const skip = document.getElementById('intro-skip');
+      intro.hidden = false;
+      const started = performance.now();
+      let closing = false;
+      let scheduled;
+      const close = () => {
+        if (closing) return;
+        closing = true;
+        clearTimeout(scheduled);
+        clearTimeout(fallback);
+        const restoreFocus = document.activeElement === skip;
+        intro.classList.add('intro-exit');
+        skip.disabled = true;
+        page.classList.remove('intro-pending');
+        document.removeEventListener('keydown', onKey);
+        const hide = () => {
+          intro.hidden = true;
+          if (restoreFocus) document.getElementById('main')?.focus({preventScroll:true});
+        };
+        if (!intro.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          hide();
+          return;
+        }
+        intro.animate([{opacity:1}, {opacity:0}], {
+          duration:560, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'
+        }).finished.then(hide, hide);
+      };
+      const onKey = (event) => { if (event.key === 'Escape') close(); };
+      const fallback = setTimeout(close, 4000);
+      skip.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+      window.addEventListener('makers-hero-ready', () => {
+        if (!closing) scheduled = setTimeout(close, Math.max(0, 1600 - (performance.now() - started)));
+      }, {once:true});
+    })();
+  </script>
   <a class="skip" href="#main">跳到内容</a>
 
   <header class="site-header" id="site-header">
@@ -61,7 +94,7 @@
     <div class="scroll-progress" aria-hidden="true"><span id="scroll-bar"></span></div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <!-- Hero: big type + live wall -->
     <section class="hero-chapter" id="top" aria-labelledby="hero-title">
       <div class="hero-sticky">
@@ -74,7 +107,7 @@
           </h1>
           <p class="hero-english" lang="en" data-load style="--d:180ms">Make something real.</p>
           <p class="hero-lead" data-load style="--d:260ms">
-            少年创想家 · 面向青少年的 AI 智能体实践课。孩子自己提出想法，指挥智能体协作，亲手做出能运行、能演示的数字作品。
+            青少年 AI 实践课。从自己的点子出发，用智能体做出能运行的作品。
           </p>
           <div class="hero-actions" data-load style="--d:420ms">
             <a class="btn-primary" href="#programs">
@@ -83,19 +116,13 @@
                 <path d="M8 3V13M8 13L4 9M8 13L12 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
-            <a class="btn-link" href="#events">
-              <span>查看活动安排</span>
-              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
           </div>
         </div>
 
         <div class="hero-stage" data-load style="--d:340ms" data-ui>
           <div class="hero-card-swap" id="hero-card-swap" aria-label="学员作品示意，可点击或拖动切换">
             <figure class="hero-photo">
-              <img src="./assets/kart-hero.jpg" width="1280" height="853" alt="像素迷宫数字作品示意图" fetchpriority="high">
+              <img src="./assets/work-racer.jpg" width="1024" height="560" alt="第一期学员作品 · 卡丁车小游戏" fetchpriority="high">
             </figure>
           </div>
         </div>
@@ -107,8 +134,8 @@
     <section class="manifesto-chapter" id="manifesto" aria-label="课程理念">
       <div class="chapter-seam" aria-hidden="true">
         <svg viewBox="0 0 1440 220" preserveAspectRatio="none">
-          <path id="seam-fill" d="M0.0 110.0L40.0 118.8L80.0 125.4L120.0 129.3L160.0 130.4L200.0 129.0L240.0 125.7L280.0 121.0L320.0 115.8L360.0 110.6L400.0 106.0L440.0 102.5L480.0 100.4L520.0 99.7L560.0 100.5L600.0 102.7L640.0 106.0L680.0 110.0L720.0 110.0L760.0 106.4L800.0 101.9L840.0 96.8L880.0 91.5L920.0 86.5L960.0 82.3L1000.0 79.3L1040.0 77.8L1080.0 78.0L1120.0 79.9L1160.0 83.2L1200.0 87.6L1240.0 92.8L1280.0 98.5L1320.0 104.3L1360.0 110.0L1400.0 110.0L1440.0 110.0 L1440 220 L0 220 Z"></path>
-          <path id="seam-thread" fill="none" d="M0.0 110.0L40.0 118.8L80.0 125.4L120.0 129.3L160.0 130.4L200.0 129.0L240.0 125.7L280.0 121.0L320.0 115.8L360.0 110.6L400.0 106.0L440.0 102.5L480.0 100.4L520.0 99.7L560.0 100.5L600.0 102.7L640.0 106.0L680.0 110.0L720.0 110.0L760.0 106.4L800.0 101.9L840.0 96.8L880.0 91.5L920.0 86.5L960.0 82.3L1000.0 79.3L1040.0 77.8L1080.0 78.0L1120.0 79.9L1160.0 83.2L1200.0 87.6L1240.0 92.8L1280.0 98.5L1320.0 104.3L1360.0 110.0L1400.0 110.0L1440.0 110.0"></path>
+          <path class="seam-wash" d="M0 140 C340 156 535 47 849 54 S1190 118 1440 20 V220 H0 Z"></path>
+          <path id="seam-fill" d="M0 166 C306 174 540 76 837 78 S1192 128 1440 54 V220 H0 Z"></path>
         </svg>
       </div>
       <div class="manifesto-sheet">
@@ -195,7 +222,7 @@
     <section class="capability-chapter" aria-label="从想法到作品的三个步骤">
       <div class="frame capability-strip">
         <div class="cap-item">
-          <div class="cap-visual"><div class="cap-mount" id="cap-composer"></div></div>
+          <div class="cap-visual"><div class="cap-mount" id="cap-composer" data-agent-src="./components/deep-agent/bundle.js"></div></div>
           <h3>提出真问题</h3>
           <p>从孩子自己的好奇心出发，学会把模糊念头拆成清晰目标。</p>
           <p class="cap-feedback" id="cap-feedback" role="status">交互示例 · 试着写下你想做的小工具。</p>

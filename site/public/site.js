@@ -1,13 +1,14 @@
 (() => {
   const el = (id) => document.getElementById(id);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const staticHosting = document.documentElement.hasAttribute('data-static-hosting');
   const standalone = window.location.protocol === 'file:' || document.documentElement.hasAttribute('data-standalone-demo');
 
   /* LeiBox CardSwap: four real project images, no outer demo frame. */
   function initHeroCardSwap() {
     const host = el('hero-card-swap');
     if (!host || !window.CardSwap?.mount) return;
-    host.replaceChildren();
+    const poster = host.querySelector('.hero-photo');
     window.CardSwap.mount(host, {
       auto: false,
       height: 350,
@@ -20,7 +21,10 @@
     });
     const surface = host.querySelector('[data-motion-surface]');
     const scene = surface?.shadowRoot?.querySelector('.csw-scene');
-    if (scene) scene.style.background = 'transparent';
+    if (scene) {
+      scene.style.background = 'transparent';
+      poster?.remove();
+    }
   }
 
   /* Programs: show only confirmed facts; pending products stay pending. */
@@ -157,47 +161,35 @@
     }
   }
 
-  async function initBrandIntro() {
-    const intro = el('brand-intro');
-    const page = document.documentElement;
-    if (!intro || !page.classList.contains('intro-pending')) return;
-    let scene;
-    let finished = false;
-    let timer;
-    const close = async () => {
-      if (finished) return;
-      finished = true;
-      clearTimeout(timer);
-      clearTimeout(window.makersIntroFallback);
-      // Release the headline as the blue surface fades away.
-      page.classList.remove('intro-pending');
-      if (!reduceMotion.matches) {
-        await intro.animate([{opacity: 1}, {opacity: 0}], {
-          duration: 700, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards',
-        }).finished;
+  function loadCapabilityScenes() {
+    const host = el('cap-composer');
+    const section = host?.closest('.capability-chapter');
+    if (!section) return;
+
+    const load = () => {
+      const script = document.createElement('script');
+      const offlineBundle = el('offline-deep-agent');
+      if (offlineBundle) {
+        script.textContent = offlineBundle.textContent;
+        document.head.append(script);
+        initCapabilityScenes();
+        return;
       }
-      intro.hidden = true;
-      scene?.destroy();
-      try { sessionStorage.setItem('makers-intro', 'seen'); } catch {}
+      script.src = host.dataset.agentSrc;
+      script.onload = initCapabilityScenes;
+      script.onerror = () => {
+        el('cap-feedback').textContent = '互动暂时无法加载，请刷新后再试。';
+        el('effort-feedback').textContent = '互动暂时无法加载。';
+      };
+      document.head.append(script);
     };
-    intro.hidden = false;
-    el('intro-skip').addEventListener('click', close, {once: true});
-    const onEscape = (event) => { if (event.key === 'Escape') close(); };
-    document.addEventListener('keydown', onEscape);
-    try {
-      if (window.BlueFlutedGlass) {
-        scene = window.BlueFlutedGlass.mount(el('brand-intro-scene'), {height: innerHeight});
-        scene.root.querySelector('.bfg-logo')?.remove();
-      }
-      const assets = [...document.querySelectorAll('.hero-stage img, .intro-brand img')];
-      const ready = Promise.allSettled([
-        document.fonts.ready, ...assets.map((img) => img.decode()),
-      ]);
-      // The timeout bounds waiting for unavailable images; it is not a loading claim.
-      await Promise.race([ready, new Promise(resolve => setTimeout(resolve, 1600))]);
-      if (!finished) timer = setTimeout(close, 900);
-    } catch { close(); }
-    setTimeout(() => document.removeEventListener('keydown', onEscape), 6000);
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      load();
+    }, {rootMargin: '480px 0px'});
+    observer.observe(section);
   }
 
   /* Events: blog-style cards; the first camp links to its activity video. */
@@ -301,7 +293,7 @@
   }
 
   async function loadLiveEvents() {
-    if (standalone) {
+    if (standalone || staticHosting) {
       renderEvents([]);
       return;
     }
@@ -422,33 +414,9 @@
       gsap.fromTo('.split-left', { x: 18 }, { x: -18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.split-right', { x: -18 }, { x: 18, ease: 'none', scrollTrigger: { trigger: '.manifesto-chapter', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-      const seamState = {amplitude: 46};
-      const drawSeam = (amplitude) => {
-        const width = 1440;
-        const height = 220;
-        const mid = 110;
-        const steps = 36;
-        let line = '';
-        for (let step = 0; step <= steps; step += 1) {
-          const progress = step / steps;
-          const x = progress * width;
-          const wave = Math.sin(progress * Math.PI * 2) * amplitude + Math.sin(progress * Math.PI * 4 + 0.8) * amplitude * 0.33;
-          line += (step ? 'L' : 'M') + x.toFixed(1) + ' ' + (mid + wave).toFixed(1);
-        }
-        const fill = el('seam-fill');
-        const thread = el('seam-thread');
-        if (!fill || !thread) return;
-        fill.setAttribute('d', line + ' L' + width + ' ' + height + ' L0 ' + height + ' Z');
-        thread.setAttribute('d', line);
-      };
-      drawSeam(seamState.amplitude);
-      gsap.to(seamState, {
-        amplitude: 92, ease: 'none', onUpdate: () => drawSeam(seamState.amplitude),
-        scrollTrigger: {trigger: '#manifesto', start: 'top bottom', end: 'top 42%', scrub: .45},
-      });
-      gsap.fromTo('.manifesto-sheet', {y: 36}, {
+      gsap.fromTo('.manifesto-inner', {y: 26}, {
         y: 0, ease: 'none',
-        scrollTrigger: {trigger: '#manifesto', start: 'top 96%', end: 'top 40%', scrub: .45},
+        scrollTrigger: {trigger: '#manifesto', start: 'top bottom', end: 'top 40%', scrub: true},
       });
       gsap.to('.hero-grid', {
         opacity: 0, y: -46, scale: .97, ease: 'none',
@@ -483,13 +451,13 @@
 
   initHeroCardSwap();
   initPrograms();
-  initCapabilityScenes();
-  initBrandIntro();
   initHeroOcean();
+  loadCapabilityScenes();
   initEventFilter();
   initQrLightbox();
   initCopyButton();
   initNavigation();
   initScrollMotion();
+  window.dispatchEvent(new Event('makers-hero-ready'));
   loadLiveEvents();
 })();

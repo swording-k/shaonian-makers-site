@@ -31,6 +31,10 @@ async function buildPage(sourceName, scriptPaths, outputs) {
     html = html.replace(`<script defer src="./${path}"></script>`, '');
   }
 
+  if (sourceName === 'index.html') {
+    const bundle = (await text('components/deep-agent/bundle.js')).replace(/<\/script/gi, '<\\/script');
+    html = html.replace('</body>', () => '<script type="text/plain" id="offline-deep-agent">\n' + bundle + '\n</script>\n</body>');
+  }
   html = await inlineAssets(html);
   if (sourceName === 'index.html') html = html.replaceAll('href="./event.html', 'href="./event-demo.html');
 
@@ -39,7 +43,7 @@ async function buildPage(sourceName, scriptPaths, outputs) {
 
 await buildPage(
   'index.html',
-  ['assets/gsap.min.js', 'assets/ScrollTrigger.min.js', 'components/card-swap/card-swap.min.js', 'components/ascii-sharks/bundle.js', 'components/blue-glass/bundle.js', 'components/deep-agent/bundle.js', 'site.js'],
+  ['assets/gsap.min.js', 'assets/ScrollTrigger.min.js', 'components/card-swap/card-swap.min.js', 'components/ascii-sharks/bundle.js', 'site.js'],
   ['../../preview/index.html', '../../site-demo.html'],
 );
 await buildPage(

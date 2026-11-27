@@ -2,5 +2,8 @@
   "name": "shaonian-makers-site",
   "private": true,
   "type": "module",
-  "scripts": { "build": "node site/build.mjs" }
+  "scripts": {
+    "build": "node site/build.mjs",
+    "build:static": "node site/build-static.mjs"
+  }
 }

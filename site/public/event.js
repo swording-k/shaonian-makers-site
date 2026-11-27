@@ -1,5 +1,6 @@
 (() => {
   const el = (id) => document.getElementById(id);
+  const staticHosting = document.documentElement.hasAttribute('data-static-hosting');
   const standalone = location.protocol === 'file:' || document.documentElement.hasAttribute('data-standalone-demo');
   const samples = {
     recruit: {
@@ -16,12 +17,12 @@
     },
   };
 
-  if (standalone) {
+  if (standalone && !staticHosting) {
     const inPreview = location.pathname.split('/').includes('preview');
     document.querySelectorAll('[data-back-home]').forEach((link) => {
       link.href = inPreview ? './index.html#events' : './site-demo.html#events';
     });
-  } else {
+  } else if (!staticHosting) {
     document.querySelectorAll('[data-back-home]').forEach((link) => { link.href = '/index.html#events'; });
   }
 
@@ -82,7 +83,7 @@
     }
     const pathMatch = location.pathname.match(/\/events\/([^/]+)\/?$/);
     const slug = params.get('slug') || (pathMatch ? decodeURIComponent(pathMatch[1]) : '');
-    if (!slug || standalone) {
+    if (!slug || standalone || staticHosting) {
       render(samples.recruit);
       return;
     }

@@ -1366,11 +1366,19 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 .ocean-heading p { color:var(--muted); font-size:17px; line-height:1.8; }
 #idea-ocean { min-height:480px; overflow:hidden; border-radius:12px; }
 .ocean-bottom { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-top:16px; font-size:14px; color:var(--muted); }
-#brand-intro { position:fixed; inset:0; z-index:1000; background:#123da6; }
+#brand-intro { position:fixed; inset:0; z-index:1000; isolation:isolate; overflow:hidden; background:#123da6; }
 #brand-intro[hidden] { display:none; }
-#brand-intro-scene { position:absolute; inset:0; }
+#brand-intro::before {
+  content:""; position:absolute; inset:-30%; z-index:-1;
+  background:repeating-linear-gradient(90deg,#ffffff19 0,transparent 11px,#061e5329 19px,transparent 27px),
+    radial-gradient(ellipse at 30% 68%,#75bcff 0,transparent 45%),
+    radial-gradient(ellipse at 75% 28%,#3979ed 0,transparent 52%),#10317f;
+  animation:intro-light-drift 4s ease-out both;
+}
+@keyframes intro-light-drift { from {transform:translate3d(-3%,3%,0)} to {transform:translate3d(3%,-3%,0)} }
+.intro-exit { pointer-events:none; }
 .intro-brand { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; gap:16px; color:white; font-size:clamp(30px,6vw,64px); font-weight:750; pointer-events:none; }
-#intro-skip { position:absolute; right:24px; bottom:24px; background:#ffffffdd; padding:12px 24px; border:0; border-radius:30px; color:#12346a; cursor:pointer; }
+#intro-skip { position:absolute; right:24px; bottom:max(24px,env(safe-area-inset-bottom)); background:#ffffffdd; padding:12px 24px; border:0; border-radius:30px; color:#12346a; cursor:pointer; }
 @media(max-width:620px) { .ocean-heading{display:block}.ocean-heading p{margin-top:16px}.ocean-chapter{padding-block:48px}.ocean-bottom{align-items:start} }
 
 /* Branch experiment: the brand lines connect the hero to the reading section. */
@@ -1387,8 +1395,8 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 
 /* Full-screen ocean hero, with foreground reading and a lower central composer. */
 .hero-chapter { min-height:calc(100svh - 72px); padding:42px 0 260px; background:#f7faff; }
-#idea-ocean { position:absolute; inset:0; min-height:0; border-radius:0; overflow:hidden; z-index:-1; }
-.hero-grid { min-height:400px; align-items:center; pointer-events:none; }
+#idea-ocean { position:absolute; inset:0; min-height:0; border-radius:0; overflow:hidden; z-index:0; }
+.hero-grid { z-index:1; min-height:400px; align-items:center; pointer-events:none; }
 .hero-copy,.hero-stage { pointer-events:auto; }
 .hero-copy { padding-block:18px; background:none; }
 .hero-title { font-size:clamp(52px,6vw,86px); }
@@ -1414,16 +1422,40 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
   .capability-chapter { padding-block:48px; }
 }
 
-.hero-sticky { position:relative; }
-.chapter-seam { height:clamp(150px,14vw,220px); margin-bottom:-1px; color:#e7edfd; pointer-events:none; filter:drop-shadow(0 -18px 26px rgba(37,99,235,.24)); }
+.hero-sticky { position:relative; isolation:isolate; }
+.chapter-seam { height:clamp(150px,14vw,220px); margin-bottom:-1px; color:#e7edfd; pointer-events:none; }
 .chapter-seam svg { display:block; width:100%; height:100%; }
 #seam-fill { fill:currentColor; }
-#seam-thread { fill:none; stroke:#1d4ed8; stroke-width:3; }
+.seam-wash { fill:#d5e4ff; opacity:.6; }
 .manifesto-chapter { background:transparent; padding:0; position:relative; z-index:2; }
 .manifesto-sheet { background:linear-gradient(180deg,#e7edfd 0,#f7f8fa 92px); padding:4px 0 clamp(56px,8vw,120px); }
-@media (min-width:961px) and (prefers-reduced-motion:no-preference) {
+@media (min-width:961px) and (min-height:740px) and (prefers-reduced-motion:no-preference) {
   .hero-chapter { height:calc(100svh - 72px + 72vh); min-height:0; padding:0; overflow:visible; }
   .hero-sticky { position:sticky; top:72px; height:calc(100svh - 72px); overflow:hidden; padding:42px 0 24px; }
   .manifesto-chapter { margin-top:-72vh; }
   .manifesto-sheet { min-height:72vh; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; }
+}
+
+
+/* Match the first rendered artwork to the card that takes over after hydration. */
+.hero-card-swap { position:relative; }
+.hero-card-swap > .hero-photo {
+  position:absolute; top:50%; left:50%; width:min(46%,210px); margin:0;
+  transform:translate(-60%,-48%) rotate(5deg); border:5px solid white;
+  border-radius:14px; box-shadow:0 12px 26px #17295529;
+}
+.hero-card-swap > .hero-photo img { aspect-ratio:4/5; object-fit:cover; display:block; }
+#idea-ocean {
+  background-color:#f7faff;
+  background-image:linear-gradient(#2136560a 1px,transparent 1px),linear-gradient(90deg,#2136560a 1px,transparent 1px);
+  background-size:14px 14px;
+}
+.cap-mount:empty::before {
+  content:""; display:block; width:70%; height:54px; margin:113px auto 0;
+  background:#e8edf5; border-radius:14px;
+}
+
+@media (min-width:961px) and (max-height:739px), (min-width:961px) and (prefers-reduced-motion:reduce) {
+  .hero-chapter { padding-bottom:24px; }
+  .hero-sticky { padding-bottom:220px; }
 }
