@@ -1,28 +1,39 @@
-# 首页动效与组件库记录
+# 动效、页面流转与组件台账
 
-记录官网已接入和调研过的动效/组件库，后续更新时按需复用或替换。每次接入新库请补一行。
+本表以当前实验分支 `design/fast-first-paint` 的实际入口为准。线上发布基线见 [交接](HANDOFF.md)，跨项目选用顺序见 [前端工作流](FRONTEND-WORKFLOW.md)。
 
-## 已接入（正在页面运行）
+## 当前页面会加载
 
-| 库 | 位置 | 用途 | 来源与授权 |
-| --- | --- | --- | --- |
-| GSAP 3 + ScrollTrigger 3.15.0 | `site/public/assets/gsap.min.js`、`ScrollTrigger.min.js` | 全站滚动动效：章节渐显、理念文字逐行加深、波浪接缝驱动、首屏退场 | gsap.com，标准 GreenSock 许可，文件已本地化，无 CDN 依赖 |
-| CardSwap（LeiBox） | `site/public/components/card-swap/card-swap.min.js`，源码 `site/components-src/card-swap/` | 首屏右侧学员作品卡切换（点击/拖动） | LeiBox 实时组件包，声明保留在源码内 |
-| AsciiSharks（LeiBox） | `site/public/components/ascii-sharks/bundle.js`，源码 `site/components/ascii-sharks/` | 首屏字符鲨鱼海洋背景 + 「你想做出什么」输入框 | 上游 https://github.com/stackedlol/ascii-sharks ，MIT |
-| BlueFlutedGlass（LeiBox） | `site/public/components/blue-glass/bundle.js`，源码 `site/components/blue-glass/` | 开场蓝色棱纹玻璃层（首次进站） | LeiBox 独立 WebGL 重建，原始设计授权未核实，参考 https://x.com/sashabirukoff/status/2113002960892649916/video/1 |
-| DeepAgentUI composer/slider（LeiBox） | `site/public/components/deep-agent/bundle.js`，原始依赖 `site/components/deep-agent/original-standalone.html` | 「提出真问题」「指挥智能体」两栏交互示例 | LeiBox 实时组件包，原包依赖 React，已导出为独立 mount 入口 |
+| 技术 | 场景 | 入口与来源 |
+| --- | --- | --- |
+| CSS 动画和 Web Animations API | 蓝色棱纹开场、跳过和淡出，首页文字入场，按压与焦点反馈 | `site.css`、`index.html` |
+| GSAP 3.15.0 与 ScrollTrigger 3.15.0 | 首屏退场、首屏到理念段的滚动覆盖、理念文字变化、列表入场 | `site/public/assets/`、`site.js`。源码头部声明 GreenSock Standard License。[GSAP](https://gsap.com/) |
+| SVG 与 CSS sticky | 第二屏浅蓝波浪接缝，短屏按自然滚动展示 | 接缝为项目自绘，参考 Codrops 的滚动覆盖方式。[Seam Transitions](https://tympanus.net/Demos/SeamTransitions/) |
+| LeiBox CardSwap | 首屏右侧作品堆的点击、拖动、键盘切换 | `site/components-src/card-swap/`、`site/public/components/card-swap/`。[LeiBox](https://leibox.pantoria.cn/components) |
+| LeiBox AsciiSharks | 首屏全幅字符海洋和想法输入框，发送后打开企微二维码 | `site/components/ascii-sharks/`。上游 MIT，保留源码声明。[Ascii Sharks](https://github.com/stackedlol/ascii-sharks) |
+| LeiBox Deep Agent composer 与 reasoning effort slider | 「提出真问题」和「指挥智能体」交互演示，滚动接近时加载 | `site/components/deep-agent/original-standalone.html` 和生成的 `bundle.js`。上游内嵌 React 等依赖，官网主体为原生 HTML/CSS/JS，保留包内声明 |
+| HTML 锚点、dialog 和普通链接 | 章节导航、详情路径、企微与视频号二维码弹窗、外链 | `index.html`、`event.html`、`site.js`；页面间当前走原生链接 |
 
-## 已下载未挂载（备用）
+## 用过或保存过的试验
 
-- ThinkingOrb / ThinkingOrbs / ThinkingParticles（LeiBox，`site/components-src/`）：粒子思考动效，曾在「指挥智能体」栏使用，后被 GSAP 顺序动效替代，未删除可复用。
+- **BlueFlutedGlass（LeiBox，WebGL）** 曾用于已发布版本的蓝色开场。新分支改为 CSS 棱纹背景。源码和旧产物保留在 `site/components/blue-glass/` 与 `site/public/components/blue-glass/`。原始设计许可未核实。
+- **ThinkingParticles、ThinkingOrb、ThinkingOrbs（LeiBox）** 在旧三栏里试验过的粒子系列。当前改用输入框和思考强度滑块，留档在 `site/components-src/`。ThinkingOrb 的视觉来源涉及 Dissolve，具体以该包内声明为准。
+- **作品册替代交互，以及浅蓝滚动线纹** 是早期分支实验。现版作品使用 CardSwap，背景使用 AsciiSharks。
 
-## 调研参考（未复制源码）
+## 参考过的整站和页面切换资源
 
-- Codrops SeamTransitions：https://tympanus.net/Demos/SeamTransitions/ —— 首屏→理念段的波浪幕布衔接参考此方向（滚动驱动的曲线接缝 + 下层页面提前入场）。
-- recent.design（Eaton）：https://recent.design/ —— 滚动叙事与组件演示站，风格参考。
-- Swup / Barba.js / View Transitions API：多页过渡备选方案，记录于 `docs/SITE-FLOW-RESEARCH.md` 与 `design/site-flow-research` 分支。
+| 资源 | 研究所得 |
+| --- | --- |
+| [Codrops Seam Transitions](https://tympanus.net/Demos/SeamTransitions/) | 连续滚动时用边缘覆盖连接两个章节，借鉴构图和节奏 |
+| [Swup Demos](https://swup.js.org/getting-started/demos/) | 查看过遮罩揭示，也研究了列表和详情返回涉及的历史与滚动恢复 |
+| [Barba.js](https://barba.js.org/docs/advanced/hooks/) 与 [原生 View Transitions](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document) | 研究过跨页动画、元素连续性与组件挂载时机，留待真实详情链路使用 |
+| [Dissolve](https://dissolve.rselmi.com/) | 对照 SweepTransition 的扫光、Accordion 的展开，以及 Card expand、Lightbox 等参考；后两者在调研时列为 Pro |
+| [Recent](https://recent.design/) 与 [Hoverstat.es](https://www.hoverstat.es/) | 找完整站点的排版和滚动参考，近期参考包括 Eaton |
+| [Rare UI](https://www.rareui.com/) | Folder 组件启发过早期作品册的索引和动效 |
+| Looseleaf、Sketchbook UI、goopUI、ExpoKit、beUI | 对话中收集的候选。纸感、手作与形变有参考价值，逐项集成与许可待核实 |
 
-## 构建方式
+当前运行时没有引入 Swup、Barba.js、Dissolve 或 View Transitions。详情和返回交互的研究在 [整站流转方案](SITE-FLOW-RESEARCH.md)。
 
-- LeiBox 类组件用 `node site/build-motion.mjs` 重建（需支持 `node:module.stripTypeScriptTypes` 的 Node），产物在 `site/public/components/`。
-- 独立预览用 `node site/build-demo.mjs` 生成 `site-demo.html` 与 `preview/index.html`；发布时把 `preview/index.html` 更新到公开仓库 main 根目录的 `index.html`。
+## 工程说明
+
+`node site/build-motion.mjs` 用于重建 AsciiSharks、BlueFlutedGlass 与 Deep Agent 的生成包，需要 Node 支持 `stripTypeScriptTypes`。CardSwap 已有独立源码与生成产物。生成、预览与发布命令见 [仓库 README](../README.md)。

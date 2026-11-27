@@ -1,39 +1,23 @@
 # 少年创想家官网
 
-面向青少年的 AI 实践课程官网，包含首页、课程、活动与作品、联系与合作。
+面向青少年的 AI 实践课程官网。正式网址 [youngmakers.com.cn](https://youngmakers.com.cn/)。
 
-## 公开预览
+| 需求 | 命令或位置 |
+| --- | --- |
+| 修改官网 | `site/public/index.html`、`site.css`、`site.js`，活动详情为 `event.html`、`event.js` |
+| 本地静态预览 | `npm run build:static`，再运行 `python3 -m http.server 8767 --bind 127.0.0.1 -d dist/static`，Chrome 打开 [127.0.0.1:8767](http://127.0.0.1:8767/) |
+| 离线 HTML | `node site/build-demo.mjs` 生成 `site-demo.html` 和 `event-demo.html`，另有 `preview/` 副本 |
+| 国内静态服务器 | `npm run build:static` 后，把 `dist/static/` 的全部内容部署到站点根目录 |
+| 飞书接口 | `npm run build` 生成 Worker 的 `dist/server/index.js`，服务端配置见 [飞书接入](docs/FEISHU.md) |
 
-https://swording-k.github.io/shaonian-makers-site/
+静态构建将样式、图片和脚本拆开传输。HTML 可使用 `Cache-Control: no-cache`，CSS 和 JS 带内容版本参数，发布时保持资源目录结构，并为文本资源开启 gzip 或 Brotli。离线单文件包含完整资源，适合本地分享。静态官网展示内置活动内容，团队活动表需要 Worker 部署和真实授权。
 
-这是此公司官网的项目地址。账号根地址 https://swording-k.github.io/ 可同时用于个人网站。
+## 发布与域名
 
-## 自定义域名
+既有 GitHub Pages 由远端 `main` 根目录发布，默认地址是 [GitHub Pages 项目页](https://swording-k.github.io/shaonian-makers-site/)。自定义域名通过仓库 Pages 配置关联，发布时保留 `CNAME`。本地源码与远端发布分支曾使用不同历史，先核对目标分支和站点产物再更新。最新验证记录见 [交接](docs/HANDOFF.md)。
 
-先在本仓库 Settings → Pages → Custom domain 填入实际公司域名并保存，再到域名 DNS 管理配置。
+切换国内托管前，先用新服务的预览地址检查首屏、企微二维码和活动返回，再根据新托管方要求变更 DNS 和 HTTPS。
 
-| 主机记录 | 类型 | 记录值 |
-| --- | --- | --- |
-| @ | A | 185.199.108.153 |
-| @ | A | 185.199.109.153 |
-| @ | A | 185.199.110.153 |
-| @ | A | 185.199.111.153 |
-| www | CNAME | swording-k.github.io |
+## 开发入口
 
-GitHub 依据访问的域名及仓库的 Custom domain 设置选择站点。CNAME 值填账号的 github.io 主机名，项目路径只出现在默认预览地址中。解析生效、证书签发完成后开启 Enforce HTTPS。已有同名解析冲突时先核对用途再修改。
-
-## 当前发布方式
-
-main 分支根目录由 GitHub Pages 发布。开发源码在本地项目 site/public/。运行 node site/build-demo.mjs 后，使用 preview/index.html 更新本仓库的 index.html，并同步 event-demo.html 等所需页面。保留域名配置文件 CNAME。
-
-本次核对时线上仍是最初静态版，最新版三栏对齐、产品更名和动效尚待成功发布。GitHub 连接器写入曾返回 403，需要有仓库写入权限的授权或浏览器登录完成上传。
-
-正式活动数据与飞书的自动连接尚待部署和联调。
-
-## 静态服务器部署
-
-运行 `npm run build:static` 后，将 `dist/static/` 内的全部文件和目录发布到站点根目录。首页、样例活动页、样式、图片和脚本分别传输，兼容子目录部署。静态包展示网站内置的活动内容。
-
-服务器或 CDN 可对 HTML 使用 `Cache-Control: no-cache`，并为 HTML、CSS、JavaScript 开启 gzip 或 Brotli。构建会给 HTML 引用的脚本和样式加上内容版本，以便发布后更新缓存。部署后先验证根地址、活动详情返回链接和咨询二维码。
-
-`site-demo.html` 是便于离线发送的单文件预览。它包含所有素材和互动组件，体积比静态部署版的入口大。
+先读 [AGENTS.md](AGENTS.md)。网页视觉以 [设计基线](docs/DESIGN.md) 为准，技术选择查 [动效组件台账](docs/MOTION-LIBS.md) 和 [前端工作流](docs/FRONTEND-WORKFLOW.md)，部署形态见 [技术架构](docs/ARCHITECTURE.md)。
