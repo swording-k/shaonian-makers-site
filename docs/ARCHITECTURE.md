@@ -9,7 +9,7 @@
 | 静态服务器 | `npm run build:static` → `dist/static/` | 内置真实回顾及明确标注的示例。相对路径支持子目录 |
 | 本地离线预览 | `node site/build-demo.mjs` → `site-demo.html`、`event-demo.html` 及 `preview/` | 同一套静态内容，资源内联 |
 | Cloudflare Worker | `npm run build` → `dist/server/index.js` | `GET /api/events` 读取飞书，依赖已部署服务与已授权活动表 |
-| 既有线上站 | GitHub Pages 发布生成的 HTML，绑定公司域名 | 截至 2026-11-27 本轮实测仍为上一轮内联版本 |
+| 既有线上站 | GitHub Pages 从远端 main 根目录发布静态构建，绑定公司域名 | 使用分离资源与内置活动 |
 
 开发和验证方式见 [开发交接](DEVELOPMENT.md)。早期 Astro 方案见 Git 历史。
 

@@ -106,3 +106,8 @@ GitHub Pages 设置中已绑定 youngmakers.com.cn。腾讯云 DNSPod 为该域�
 - 在 Google Chrome 新标签页打开本地静态构建，确认开场退出后显示新版首屏与输入框。本地地址 http://127.0.0.1:8767/?preview=4d58759 。
 - 同轮复核正式域名返回 HTTP 200，仍是带 sticky 海洋的旧内联入口，没有本地新版的开场就绪标识。本轮交付为本地文档提交与预览。
 - 更新 README、AGENTS、视觉、架构、开发、PRD 与飞书说明，早期重设计提案标为历史。MOTION-LIBS.md 记录当前加载组件、历史实验和流转参考。FRONTEND-WORKFLOW.md 提供后续可复用的 skill 选用顺序与验收流程。
+
+## 2026-11-27 正式发布静态新版
+
+- 按用户要求发布当前版本。保留远端 main 的既有历史和 CNAME，将 dist/static 的目录结构发布到根目录。远端 main 为 fe4e6273b414683819578f53b377c46d23074371，更新前为 536e00c。源码及更新后的文档从 5b780d3 推到远端 source。两个分支均为快进推送。
+- GitHub Pages 运行 https://github.com/swording-k/shaonian-makers-site/actions/runs/45949945834 。在 https://youngmakers.com.cn/?v=fe4e627-verify 实测静态标记、鲨鱼输入框和跳过开场入口，首页 HTML 为 17728 字节，首屏没有请求学习区组件。
