@@ -20,7 +20,7 @@
       } catch {}
     })();
   </script>
-  <link rel="stylesheet" href="./site.css?v=3462089f3059">
+  <link rel="stylesheet" href="./site.css?v=1d01680c9876">
   <script defer src="./assets/gsap.min.js?v=92bb9a96476f"></script>
   <script defer src="./assets/ScrollTrigger.min.js?v=b0b14d67b55b"></script>
   <script defer src="./components/card-swap/card-swap.min.js?v=7053cde228a8"></script>
@@ -29,6 +29,7 @@
 </head>
 <body>
   <div id="brand-intro" hidden aria-label="少年创想家开场">
+    <div id="brand-intro-scene" data-src="./components/blue-glass/bundle.js?v=57467b1e3e20" inert aria-hidden="true"></div>
     <div class="intro-brand"><img src="./assets/brand-wave.png" alt="" width="45" height="44"><span>少年创想家</span></div>
     <button type="button" id="intro-skip">跳过开场</button>
   </div>
@@ -40,6 +41,8 @@
       const skip = document.getElementById('intro-skip');
       intro.hidden = false;
       const started = performance.now();
+      const sceneHost = document.getElementById('brand-intro-scene');
+      let scene;
       let closing = false;
       let scheduled;
       const close = () => {
@@ -54,6 +57,7 @@
         document.removeEventListener('keydown', onKey);
         const hide = () => {
           intro.hidden = true;
+          scene?.destroy();
           if (restoreFocus) document.getElementById('main')?.focus({preventScroll:true});
         };
         if (!intro.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -61,16 +65,45 @@
           return;
         }
         intro.animate([{opacity:1}, {opacity:0}], {
-          duration:560, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'
+          duration:680, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'
         }).finished.then(hide, hide);
       };
       const onKey = (event) => { if (event.key === 'Escape') close(); };
       const fallback = setTimeout(close, 4000);
       skip.addEventListener('click', close);
       document.addEventListener('keydown', onKey);
-      window.addEventListener('makers-hero-ready', () => {
-        if (!closing) scheduled = setTimeout(close, Math.max(0, 1600 - (performance.now() - started)));
-      }, {once:true});
+      const heroReady = new Promise(resolve => {
+        window.addEventListener('makers-hero-ready', resolve, {once:true});
+      });
+      const animationReady = new Promise(resolve => {
+        const mount = () => {
+          if (closing) { resolve(0); return; }
+          try {
+            scene = window.BlueFlutedGlass?.mount(sceneHost, {height:intro.clientHeight});
+            scene?.root.querySelector('.bfg-logo')?.remove();
+            const stage = scene?.root.querySelector('.bfg-stage');
+            if (stage) {
+              stage.tabIndex = -1;
+              resolve(stage.dataset.renderer === 'webgl' ? performance.now() : 0);
+              return;
+            }
+          } catch {}
+          resolve(0);
+        };
+        if (window.BlueFlutedGlass) {
+          requestAnimationFrame(mount);
+        } else {
+          const script = document.createElement('script');
+          script.src = sceneHost.dataset.src;
+          script.onload = mount;
+          script.onerror = () => resolve(0);
+          document.head.append(script);
+        }
+      });
+      Promise.all([heroReady, animationReady]).then(([, renderedAt]) => {
+        const earliest = renderedAt ? Math.max(started + 1400, renderedAt + 1050) : started + 360;
+        if (!closing) scheduled = setTimeout(close, Math.max(0, earliest - performance.now()));
+      });
     })();
   </script>
   <a class="skip" href="#main">跳到内容</a>

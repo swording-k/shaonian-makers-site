@@ -1368,16 +1368,11 @@ button.program-row:hover, button.program-row.is-active { background:var(--surfac
 .ocean-bottom { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-top:16px; font-size:14px; color:var(--muted); }
 #brand-intro { position:fixed; inset:0; z-index:1000; isolation:isolate; overflow:hidden; background:#123da6; }
 #brand-intro[hidden] { display:none; }
-#brand-intro::before {
-  content:""; position:absolute; inset:-30%; z-index:-1;
-  background:repeating-linear-gradient(90deg,#ffffff19 0,transparent 11px,#061e5329 19px,transparent 27px),
-    radial-gradient(ellipse at 30% 68%,#75bcff 0,transparent 45%),
-    radial-gradient(ellipse at 75% 28%,#3979ed 0,transparent 52%),#10317f;
-  animation:intro-light-drift 4s ease-out both;
-}
-@keyframes intro-light-drift { from {transform:translate3d(-3%,3%,0)} to {transform:translate3d(3%,-3%,0)} }
+#brand-intro-scene { position:absolute; inset:0; pointer-events:none; }
+#brand-intro-scene > [data-motion-surface] { animation:intro-scene-in 240ms ease-out both; }
+@keyframes intro-scene-in { from { opacity:0; } }
 .intro-exit { pointer-events:none; }
-.intro-brand { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; gap:16px; color:white; font-size:clamp(30px,6vw,64px); font-weight:750; pointer-events:none; }
+.intro-brand { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; gap:16px; color:white; font-size:clamp(30px,6vw,64px); font-weight:750; text-shadow:0 2px 16px #00244988; pointer-events:none; }
 #intro-skip { position:absolute; right:24px; bottom:max(24px,env(safe-area-inset-bottom)); background:#ffffffdd; padding:12px 24px; border:0; border-radius:30px; color:#12346a; cursor:pointer; }
 @media(max-width:620px) { .ocean-heading{display:block}.ocean-heading p{margin-top:16px}.ocean-chapter{padding-block:48px}.ocean-bottom{align-items:start} }
 
