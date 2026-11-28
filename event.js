@@ -77,7 +77,7 @@
   function initCamp() {
     el('general-event').hidden = true;
     el('camp-2026-11-28').hidden = false;
-    document.title = '11 月 28 日青少年 AI 线下一日营｜少年创想家';
+    document.title = '11 月 28–29 日青少年 AI 线下一日营（两场）｜少年创想家';
 
     for (const id of ['camp-materials', 'camp-submit']) {
       const link = el(id);

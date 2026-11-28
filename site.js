@@ -60,6 +60,44 @@
     updateOceanLayout();
   }
 
+  /* 首屏中央的品牌标：粒子（默认）或玻璃，?hero=glass 切换。只在桌面布局挂载，
+     页面 load 之后再取 three.js 包，不抢首屏。 */
+  function initHeroObject() {
+    const host = el('hero-object');
+    if (!host) return;
+    const desktop = window.matchMedia('(min-width: 961px)');
+    const variant = new URLSearchParams(location.search).get('hero') === 'glass' ? 'glass' : 'particle';
+    let loaded = false;
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      const mount = () => window.HeroObject?.mount(host, { variant, src: './assets/brand-wave-512.png' });
+      const offlineBundle = el('offline-hero-object');
+      if (offlineBundle) {
+        const script = document.createElement('script');
+        script.textContent = offlineBundle.textContent;
+        document.head.append(script);
+        mount();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = host.dataset.src;
+      script.onload = mount;
+      script.onerror = () => { host.dataset.state = 'error'; };
+      document.head.append(script);
+    };
+    const schedule = () => {
+      if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 2500 });
+      else setTimeout(load, 800);
+    };
+    if (!desktop.matches) {
+      desktop.addEventListener('change', (event) => { if (event.matches) schedule(); }, { once: true });
+      return;
+    }
+    if (document.readyState === 'complete') schedule();
+    else addEventListener('load', schedule, { once: true });
+  }
+
   function initCapabilityScenes() {
     if (!window.DeepAgentUI) return;
     const composer = window.DeepAgentUI.mountComposer(el('cap-composer'), {
@@ -126,10 +164,10 @@
 
   const CAMP_DAY = {
     id: 'camp-2026-11-28',
-    title: '11 月 28 日 · 青少年 AI 线下一日营',
+    title: '11 月 28–29 日 · 青少年 AI 线下一日营（两场）',
     start: Date.parse('2026-11-28T00:00:00+08:00'),
-    end: Date.parse('2026-11-29T00:00:00+08:00'),
-    summary: '用一天时间，把自己的点子做成一件能运行的 AI 作品。',
+    end: Date.parse('2026-11-30T00:00:00+08:00'),
+    summary: '两天各一场，任选一天来。用一天时间，把自己的点子做成一件能运行的 AI 作品。',
     image: BUILTIN_PAST.image,
     href: standalone ? './event-demo.html?slug=camp-2026-11-28' : './event.html?slug=camp-2026-11-28',
     sameTab: true,
@@ -351,6 +389,11 @@
         opacity: 0, y: -46, scale: .97, ease: 'none',
         scrollTrigger: {trigger: '#manifesto', start: 'top 88%', end: 'top 42%', scrub: .45},
       });
+      /* The object mounts after this runs, so its CSS opacity is still 0 here; pin the start values explicitly. */
+      gsap.fromTo('.hero-object', {opacity: 1, y: 0, scale: 1}, {
+        opacity: 0, y: -46, scale: .97, ease: 'none', immediateRender: false,
+        scrollTrigger: {trigger: '#manifesto', start: 'top 88%', end: 'top 42%', scrub: .45},
+      });
       gsap.to('.hero-stage', {
         y: -32, rotation: -1, ease: 'none',
         scrollTrigger: {trigger: '.hero-chapter', start: 'top top', end: 'bottom top', scrub: .5},
@@ -381,6 +424,7 @@
 
   initHeroCardSwap();
   initHeroOcean();
+  initHeroObject();
   loadCapabilityScenes();
   initEventFilter();
   initQrLightbox();
